@@ -20,6 +20,7 @@
 -D FLX_NO_HEALTH
 -D MAC_USE_CURRENT_SDK=1
 -D lime-threads
+-D FLX_NO_FOCUS_LOST_SCREEN
 -D tools=8.2.2
 -D lime-canvas
 -D FLX_NO_DEBUG

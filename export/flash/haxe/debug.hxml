@@ -14,6 +14,7 @@
 -cp /usr/local/lib/haxe/lib/openfl/9,4,1/lib/flash-externs/src
 -D MAC_USE_CURRENT_SDK=1
 -D native-trace
+-D FLX_NO_FOCUS_LOST_SCREEN
 -D tools=8.2.2
 -D FLX_NO_DEBUG
 -D message.reporting=pretty
