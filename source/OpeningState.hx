@@ -25,6 +25,7 @@ class OpeningState extends FlxState {
         super.create();
         FlxG.mouse.useSystemCursor = true;
 
+		// click to start image
         clickToStartImage = new FlxSprite(0, 0);
 		clickToStartImage.loadGraphic("assets/images/clickToStartImage.png", false, 16, 16);
         clickToStartImage.origin.set(clickToStartImage.width / 2, clickToStartImage.height / 2);
@@ -33,10 +34,14 @@ class OpeningState extends FlxState {
         clickToStartImage.screenCenter();
         add(clickToStartImage);
 
+		// opening movie
 		openingMovie = new FlxSprite(0, 0);
 		openingMovie.loadGraphic("assets/images/openingMovie/opening0001.png", false);
+		openingMovie.scale.set(0.8, 0.8);
+		openingMovie.origin.set(openingMovie.width / 2, openingMovie.height / 2);
+		openingMovie.updateHitbox();
 		openingMovie.screenCenter();
-		openingMovie.visible = false; // hide until needed
+		openingMovie.visible = false;
 		add(openingMovie);
     }
     
@@ -46,11 +51,10 @@ class OpeningState extends FlxState {
 
 		if (playingOpening)
 		{
-			// Play frames only after start was clicked
-			if (currentFrame < 84)
+			if (currentFrame < 43)
 			{
 				frameTimer += elapsed;
-				if (frameTimer >= 1.0 / 18.0) // <- you're running at 18 fps here, not 24
+				if (frameTimer >= 1.0 / 18.0) 
 				{
 					frameTimer -= 1.0 / 18.0;
 					currentFrame++;
@@ -60,12 +64,12 @@ class OpeningState extends FlxState {
 					openingMovie.screenCenter();
 				}
 			}
-			else if (!openingFinished) // only run once
+			else if (!openingFinished)
 			{
 				openingFinished = true;
 				new FlxTimer().start(2, SwitchScene);
 			}
-			return; // skip click handling once movie starts
+			return; 
 		}
 
         var mousePoint = FlxPoint.get(FlxG.mouse.x, FlxG.mouse.y);
@@ -93,11 +97,23 @@ class OpeningState extends FlxState {
 		}
 		else
 		{
-			clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * baseScale), Std.int(clickToStartImage.frameHeight * baseScale));
+			if (startClicked)
+			{
+				// Keep it a little bigger after being clicked
+				clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * (baseScale + 0.05)),
+					Std.int(clickToStartImage.frameHeight * (baseScale + 0.05)));
+			}
+			else
+			{
+				// Normal smaller size before clicking
+				clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * baseScale), Std.int(clickToStartImage.frameHeight * baseScale));
+			}
+
 			clickToStartImage.updateHitbox();
 			clickToStartImage.screenCenter();
 			clickToStartImage.alpha = 0.5;
 		}
+
 
         mousePoint.put();
 	}
