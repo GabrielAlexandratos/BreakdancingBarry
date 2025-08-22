@@ -33,6 +33,50 @@
 	<source path="source" />
 	<assets path="assets">
 		<image path="images/clickToStartImage.png" />
+		<image path="images/openingMovie/opening0001.png" />
+		<image path="images/openingMovie/opening0002.png" />
+		<image path="images/openingMovie/opening0003.png" />
+		<image path="images/openingMovie/opening0004.png" />
+		<image path="images/openingMovie/opening0005.png" />
+		<image path="images/openingMovie/opening0006.png" />
+		<image path="images/openingMovie/opening0007.png" />
+		<image path="images/openingMovie/opening0008.png" />
+		<image path="images/openingMovie/opening0009.png" />
+		<image path="images/openingMovie/opening0010.png" />
+		<image path="images/openingMovie/opening0011.png" />
+		<image path="images/openingMovie/opening0012.png" />
+		<image path="images/openingMovie/opening0013.png" />
+		<image path="images/openingMovie/opening0014.png" />
+		<image path="images/openingMovie/opening0015.png" />
+		<image path="images/openingMovie/opening0016.png" />
+		<image path="images/openingMovie/opening0017.png" />
+		<image path="images/openingMovie/opening0018.png" />
+		<image path="images/openingMovie/opening0019.png" />
+		<image path="images/openingMovie/opening0020.png" />
+		<image path="images/openingMovie/opening0021.png" />
+		<image path="images/openingMovie/opening0022.png" />
+		<image path="images/openingMovie/opening0023.png" />
+		<image path="images/openingMovie/opening0024.png" />
+		<image path="images/openingMovie/opening0025.png" />
+		<image path="images/openingMovie/opening0026.png" />
+		<image path="images/openingMovie/opening0027.png" />
+		<image path="images/openingMovie/opening0028.png" />
+		<image path="images/openingMovie/opening0029.png" />
+		<image path="images/openingMovie/opening0030.png" />
+		<image path="images/openingMovie/opening0031.png" />
+		<image path="images/openingMovie/opening0032.png" />
+		<image path="images/openingMovie/opening0033.png" />
+		<image path="images/openingMovie/opening0034.png" />
+		<image path="images/openingMovie/opening0035.png" />
+		<image path="images/openingMovie/opening0036.png" />
+		<image path="images/openingMovie/opening0037.png" />
+		<image path="images/openingMovie/opening0038.png" />
+		<image path="images/openingMovie/opening0039.png" />
+		<image path="images/openingMovie/opening0040.png" />
+		<image path="images/openingMovie/opening0041.png" />
+		<image path="images/openingMovie/opening0042.png" />
+		<image path="images/openingMovie/opening0043.png" />
+
 	</assets>
 
 	<!-- _______________________________ Libraries ______________________________ -->

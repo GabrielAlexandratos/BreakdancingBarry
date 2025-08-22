@@ -13,12 +13,15 @@ class OpeningState extends FlxState {
     private var clickToStartImage:FlxSprite;
 	private var openingMovie:FlxSprite;
     private var baseScale:Float = 0.5;
-	private var hasClickedStart = false;
+	private var startClicked:Bool = false;
+	private var openingFinished:Bool = false;
+
 	private var currentFrame:Int = 0;
 	private var frameTimer:Float = 0;
+	private var playingOpening:Bool = false;
 
-    override public function create() {
-
+	override public function create()
+	{
         super.create();
         FlxG.mouse.useSystemCursor = true;
 
@@ -29,38 +32,54 @@ class OpeningState extends FlxState {
         clickToStartImage.alpha = 0.5;
         clickToStartImage.screenCenter();
         add(clickToStartImage);
+
 		openingMovie = new FlxSprite(0, 0);
 		openingMovie.loadGraphic("assets/images/openingMovie/opening0001.png", false);
 		openingMovie.screenCenter();
+		openingMovie.visible = false; // hide until needed
 		add(openingMovie);
     }
     
-    override public function update(elapsed:Float) {
-
+	override public function update(elapsed:Float)
+	{
         super.update(elapsed);
 
-		// Update frame timer and switch frames at 24 fps
-		if (currentFrame < 84)
+		if (playingOpening)
 		{
-			frameTimer += elapsed;
-			if (frameTimer >= 1.0 / 24.0)
+			// Play frames only after start was clicked
+			if (currentFrame < 84)
 			{
-				frameTimer -= 1.0 / 24.0;
-				currentFrame++;
-				var frameNumber = currentFrame + 1;
-				var frameString = frameNumber < 10 ? "000" + frameNumber : (frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber);
-				openingMovie.loadGraphic("assets/images/openingMovie/opening" + frameString + ".png", false);
-				openingMovie.screenCenter();
+				frameTimer += elapsed;
+				if (frameTimer >= 1.0 / 18.0) // <- you're running at 18 fps here, not 24
+				{
+					frameTimer -= 1.0 / 18.0;
+					currentFrame++;
+					var frameNumber = currentFrame + 1;
+					var frameString = frameNumber < 10 ? "000" + frameNumber : (frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber);
+					openingMovie.loadGraphic("assets/images/openingMovie/opening" + frameString + ".png", false);
+					openingMovie.screenCenter();
+				}
 			}
+			else if (!openingFinished) // only run once
+			{
+				openingFinished = true;
+				new FlxTimer().start(2, SwitchScene);
+			}
+			return; // skip click handling once movie starts
 		}
 
         var mousePoint = FlxPoint.get(FlxG.mouse.x, FlxG.mouse.y);
 
         if (clickToStartImage.overlapsPoint(mousePoint)) {
-
-			if (FlxG.mouse.pressed)
+			if (FlxG.mouse.justPressed && !startClicked)
 			{
-				new FlxTimer().start(1, SwitchScene);
+				startClicked = true;
+				new FlxTimer().start(1, function(_)
+				{
+					clickToStartImage.visible = false;
+					openingMovie.visible = true;
+					playingOpening = true;
+				});
 			}
 
             clickToStartImage.setGraphicSize(
@@ -68,30 +87,16 @@ class OpeningState extends FlxState {
                 Std.int(clickToStartImage.frameHeight * (baseScale + 0.05))
             );
 
-            Application.current.window.cursor = MouseCursor.POINTER;
-
-            clickToStartImage.updateHitbox();
-            clickToStartImage.screenCenter();
-        } 
-        else {
-
-			if (hasClickedStart)
-			{
-				clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * (baseScale + 0.07)),
-					Std.int(clickToStartImage.frameHeight * (baseScale + 0.07)));
-
-				clickToStartImage.updateHitbox();
-				clickToStartImage.screenCenter();
-			}
-			else
-			{
-				clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * baseScale), Std.int(clickToStartImage.frameHeight * baseScale));
-
-				clickToStartImage.updateHitbox();
-				clickToStartImage.screenCenter();
-				clickToStartImage.alpha = 0.5;
-			}
-
+			Application.current.window.cursor = MouseCursor.POINTER;
+			clickToStartImage.updateHitbox();
+			clickToStartImage.screenCenter();
+		}
+		else
+		{
+			clickToStartImage.setGraphicSize(Std.int(clickToStartImage.frameWidth * baseScale), Std.int(clickToStartImage.frameHeight * baseScale));
+			clickToStartImage.updateHitbox();
+			clickToStartImage.screenCenter();
+			clickToStartImage.alpha = 0.5;
 		}
 
         mousePoint.put();
@@ -99,6 +104,6 @@ class OpeningState extends FlxState {
 
 	private function SwitchScene(timer:FlxTimer):Void
 	{
-		FlxG.switchState(PlayState.new);
+		FlxG.switchState(new PlayState());
     }
 }
