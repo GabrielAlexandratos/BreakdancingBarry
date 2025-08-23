@@ -77,6 +77,11 @@
 		<image path="images/openingMovie/opening0042.png" />
 		<image path="images/openingMovie/opening0043.png" />
 		<image path="images/BarryLogo.png" />
+		<image path="images/backgrounds/titlebackground.png" />
+		<image path="images/backgrounds/trackselectbackground.png" />
+		<image path="images/backgrounds/mainmenubackground.png" />
+		<image path="images/createdForNewgrounds.png" />
+		<image path="images/createdForNewgrounds2.png" />
 
 	</assets>
 
