@@ -26,6 +26,7 @@ class OpeningState extends FlxState {
 	private var frameTimer:Float = 0;
 	private var playingOpening:Bool = false;
 
+
 	override public function create()
 	{
         super.create();
@@ -94,7 +95,7 @@ class OpeningState extends FlxState {
 						onComplete: function(_)
 						{
 							// Wait 0.5s after fade before showing createdForNewgrounds
-							new FlxTimer().start(0.5, function(_)
+							new FlxTimer().start(1.25, function(_)
 							{
 								openingMovie.visible = false;
 								createdForNewgrounds.visible = true;
@@ -107,7 +108,7 @@ class OpeningState extends FlxState {
 									createdForNewgrounds2.visible = showingAltNG;
 								}, 0); // repeat indefinitely
 								// Show for 3 seconds
-								new FlxTimer().start(3, function(_)
+								new FlxTimer().start(5.1, function(_)
 								{
 									createdForNewgrounds.visible = false;
 									createdForNewgrounds2.visible = false;
@@ -132,6 +133,12 @@ class OpeningState extends FlxState {
 				startClicked = true;
 				new FlxTimer().start(0.5, function(_)
 				{
+					FlxG.sound.playMusic(AssetPaths.titleIntro__mp3, 0.8, false);
+					FlxG.sound.music.onComplete = function()
+					{
+						FlxG.sound.playMusic(AssetPaths.titleLoop__mp3, 0.8, true);
+					};
+
 					clickToStartImage.visible = false;
 					openingMovie.visible = true;
 					playingOpening = true;

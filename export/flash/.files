@@ -48,6 +48,8 @@ export/flash/bin/assets/images/backgrounds/trackselectbackground.png
 export/flash/bin/assets/images/backgrounds/mainmenubackground.png
 export/flash/bin/assets/images/createdForNewgrounds.png
 export/flash/bin/assets/images/createdForNewgrounds2.png
+export/flash/bin/assets/music/titleIntro.mp3
+export/flash/bin/assets/music/titleLoop.mp3
 export/flash/bin/flixel/sounds/flixel.mp3
 export/flash/bin/flixel/sounds/beep.mp3
 export/flash/bin/flixel/fonts/nokiafc22.ttf
