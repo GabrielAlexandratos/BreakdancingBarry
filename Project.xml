@@ -32,6 +32,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets">
+		<!-- Opening Movie -->
 		<image path="images/clickToStartImage.png" />
 		<image path="images/openingMovie/opening0001.png" />
 		<image path="images/openingMovie/opening0002.png" />
@@ -76,12 +77,19 @@
 		<image path="images/openingMovie/opening0041.png" />
 		<image path="images/openingMovie/opening0042.png" />
 		<image path="images/openingMovie/opening0043.png" />
+
+		<!-- UI Images -->
 		<image path="images/BarryLogo.png" />
 		<image path="images/backgrounds/titlebackground.png" />
 		<image path="images/backgrounds/trackselectbackground.png" />
 		<image path="images/backgrounds/mainmenubackground.png" />
 		<image path="images/createdForNewgrounds.png" />
 		<image path="images/createdForNewgrounds2.png" />
+		<image path="images/barryIsBreakdancing.png" />
+		<image path="images/madeByCredits1.png" />
+		<image path="images/madeByCredits2.png" />
+
+		<!-- Music -->
 		<music path="music/titleIntro.mp3" />
 		<music path="music/titleLoop.mp3" />
 		
