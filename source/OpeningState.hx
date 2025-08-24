@@ -17,7 +17,7 @@ class OpeningState extends FlxState {
 	private var createdForNewgrounds:FlxSprite;
 	private var createdForNewgrounds2:FlxSprite;
 	private var barryIsBreakdancing:FlxSprite;
-	private var madeByCredits:FlxSprite;
+	private var madeByCredits1:FlxSprite;
 	private var madeByCredits2:FlxSprite;
 	private var ngToggleTimer:FlxTimer;
 	private var showingAltNG:Bool = false;
@@ -80,17 +80,17 @@ class OpeningState extends FlxState {
 		add(barryIsBreakdancing);
 
 		// made by credits
-		var madeByCredits1 = new FlxSprite();
+		madeByCredits1 = new FlxSprite();
 		madeByCredits1.loadGraphic("assets/images/madeByCredits1.png", false);
 		madeByCredits1.scale.set(0.72, 0.72);
-		madeByCredits1.origin.set(madeByCredits1.width / 2, madeByCredits1.height / 2);
+		madeByCredits1.origin.set(madeByCredits1.width / 2, madeByCredits1.height / 2 - 50);
 		madeByCredits1.screenCenter();
 		madeByCredits1.visible = false;
 		add(madeByCredits1);
-		var madeByCredits2 = new FlxSprite();
+		madeByCredits2 = new FlxSprite();
 		madeByCredits2.loadGraphic("assets/images/madeByCredits2.png", false);
 		madeByCredits2.scale.set(0.72, 0.72);
-		madeByCredits2.origin.set(madeByCredits2.width / 2, madeByCredits2.height / 2);
+		madeByCredits2.origin.set(madeByCredits2.width / 2, madeByCredits2.height / 2 - 50);
 		madeByCredits2.screenCenter();
 		madeByCredits2.visible = false;
 		add(madeByCredits2);
@@ -137,17 +137,16 @@ class OpeningState extends FlxState {
 									createdForNewgrounds2.visible = showingAltNG;
 								}, 0); // repeat indefinitely
 
-								new FlxTimer().start(5.1, function(_)
+								new FlxTimer().start(5, function(_)
 								{
 									createdForNewgrounds.visible = false;
 									createdForNewgrounds2.visible = false;
 
 									if (ngToggleTimer != null)
 										ngToggleTimer.cancel();
-									// Wait 0.5 seconds then switch scene
-									new FlxTimer().start(0.4, function(timer:FlxTimer)
+									new FlxTimer().start(0.5, function(timer:FlxTimer)
 									{
-										madeByCredits.visible = true;
+										madeByCredits1.visible = true;
 										madeByCredits2.visible = false;
 										showingAltCredits = false;
 
@@ -155,14 +154,13 @@ class OpeningState extends FlxState {
 										creditsToggleTimer = new FlxTimer().start(0.5, function(timer:FlxTimer)
 										{
 											showingAltCredits = !showingAltCredits;
-											madeByCredits.visible = !showingAltCredits;
+											madeByCredits1.visible = !showingAltCredits;
 											madeByCredits2.visible = showingAltCredits;
-										}, 0); // repeat indefinitely
+										}, 0); 
 
-										// After 5.25s, stop and switch scene
-										new FlxTimer().start(5.25, function(_)
+										new FlxTimer().start(5.35, function(_)
 										{
-											madeByCredits.visible = false;
+											madeByCredits1.visible = false;
 											madeByCredits2.visible = false;
 
 											if (creditsToggleTimer != null)

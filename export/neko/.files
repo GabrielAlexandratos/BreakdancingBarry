@@ -48,6 +48,9 @@ export/neko/bin/assets/images/backgrounds/trackselectbackground.png
 export/neko/bin/assets/images/backgrounds/mainmenubackground.png
 export/neko/bin/assets/images/createdForNewgrounds.png
 export/neko/bin/assets/images/createdForNewgrounds2.png
+export/neko/bin/assets/images/barryIsBreakdancing.png
+export/neko/bin/assets/images/madeByCredits1.png
+export/neko/bin/assets/images/madeByCredits2.png
 export/neko/bin/assets/music/titleIntro.mp3
 export/neko/bin/assets/music/titleLoop.mp3
 export/neko/bin/flixel/sounds/beep.ogg
