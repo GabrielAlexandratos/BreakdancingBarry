@@ -89,6 +89,11 @@
 		<image path="images/madeByCredits1.png" />
 		<image path="images/madeByCredits2.png" />
 
+		<!-- Main Menu Images -->
+		<image path="images/mainmenu/play.png" />
+		<image path="images/mainmenu/options.png" />
+		<image path="images/mainmenu/exit.png" />
+
 		<!-- Music -->
 		<music path="music/titleIntro.mp3" />
 		<music path="music/titleLoop.mp3" />
