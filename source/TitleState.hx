@@ -1,5 +1,6 @@
 package;
 
+import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -14,6 +15,7 @@ class TitleState extends FlxState {
     private var BackgroundColor:FlxSprite;
 	private var menuOptions:Array<FlxSprite>;
 	private var selectedIndex:Int;
+	private var isSelecting:Bool = false;
 
 	override public function create() {
 
@@ -36,25 +38,30 @@ class TitleState extends FlxState {
 		TitleLogo.origin.set(TitleLogo.width / 2 - 30, TitleLogo.height / 2 - 270);
         TitleLogo.scale.set(0.3, 0.3);
 		TitleLogo.screenCenter();
-		add(TitleLogo);
+		// add(TitleLogo);
 		menuOptions = [];
 		selectedIndex = 0;
 
+		var menuOptionsScaleFactor = 0.85;
+
 		var startOption = new FlxSprite(0, 0);
-		startOption.loadGraphic("assets/images/mainmenu/play.png", false);
-		startOption.scale.set(0.5, 0.5);
+		startOption.loadGraphic("assets/images/mainmenu/storymode.png", false);
+		startOption.origin.set(0, startOption.height / 2);
+		startOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(startOption);
 		menuOptions.push(startOption);
 
 		var optionsOption = new FlxSprite(0, 0);
-		optionsOption.loadGraphic("assets/images/mainmenu/options.png", false);
-		optionsOption.scale.set(0.5, 0.5);
+		optionsOption.loadGraphic("assets/images/mainmenu/trackselect.png", false);
+		optionsOption.origin.set(0, optionsOption.height / 2);
+		optionsOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(optionsOption);
 		menuOptions.push(optionsOption);
 
 		var exitOption = new FlxSprite(0, 0);
-		exitOption.loadGraphic("assets/images/mainmenu/exit.png", false);
-		exitOption.scale.set(0.5, 0.5);
+		exitOption.loadGraphic("assets/images/mainmenu/exitoption.png", false);
+		exitOption.origin.set(0, exitOption.height / 2);
+		exitOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(exitOption);
 		menuOptions.push(exitOption);
 
@@ -64,37 +71,43 @@ class TitleState extends FlxState {
 	override public function update(elapsed:Float) {
 
 		super.update(elapsed);
-		if (FlxG.keys.justPressed.W)
+		if (!isSelecting)
 		{
-			selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
-			positionMenu();
-		}
-		else if (FlxG.keys.justPressed.S)
-		{
-			selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
-			positionMenu();
+			if (FlxG.keys.justPressed.W)
+			{
+				selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
+				positionMenu();
+			}
+			else if (FlxG.keys.justPressed.S)
+			{
+				selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
+				positionMenu();
+			}
+			if (FlxG.keys.justPressed.ENTER)
+			{
+				onSelect();
+			}
 		}
 	}
 
 	private function positionMenu():Void
 	{
-		var spacing = 100;
+		var spacing = 120;
+		var middleIndex = Std.int(menuOptions.length / 2);
 		for (i in 0...menuOptions.length)
 		{
 			var option = menuOptions[i];
-			var targetY = FlxG.height / 2 + (i - selectedIndex) * spacing;
-			FlxTween.tween(option, {y: targetY}, 0.3, {ease: FlxEase.quadOut});
+			option.y = (FlxG.height / 2 - option.height / 2) + (i - middleIndex) * spacing;
+			var targetX = (i == selectedIndex) ? 100 : 25;
+			FlxTween.tween(option, {x: targetX}, 0.1, {ease: FlxEase.quadOut});
 
+			// Swap sprite based on selection
 			if (i == selectedIndex)
-			{
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + "_selected.png", false);
-			}
 			else
-			{
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + ".png", false);
-			}
-			option.origin.set(option.width / 2, option.height / 2);
-			option.x = FlxG.width / 2;
+			// re set the origin for the new graphic
+			option.origin.set(0, option.height / 2);
 		}
 	}
 
@@ -113,8 +126,37 @@ class TitleState extends FlxState {
 		}
 	}
 
-	private function SwitchScene(timer:FlxTimer):Void {
+	private function onSelect():Void
+	{
+		isSelecting = true;
+		var option = menuOptions[selectedIndex];
+		var blinkTimer = new FlxTimer();
+		var blinkCount = 0;
+		blinkTimer.start(0.1, function(tmr:FlxTimer)
+		{
+			option.visible = !option.visible;
+			blinkCount++;
+			if (blinkCount >= 20)
+			{
+				option.visible = true;
+				executeOption(selectedIndex);
+				isSelecting = false;
+			}
+		}, 20);
+	}
 
-		FlxG.switchState(MainMenuState.new);
+	private function executeOption(index:Int):Void
+	{
+		switch (index)
+		{
+			case 0: // story mode
+				FlxG.switchState(StoryModeState.new);
+			case 1: // track select
+				FlxG.switchState(TrackSelectState.new);
+			case 2: // exit
+				System.exit(0);
+			default:
+				trace("Unknown option");
+		}
 	}
 }

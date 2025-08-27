@@ -82,7 +82,7 @@
 		<image path="images/BarryLogo.png" />
 		<image path="images/backgrounds/titlebackground.png" />
 		<image path="images/backgrounds/trackselectbackground.png" />
-		<image path="images/backgrounds/mainmenubackground.png" />
+		<image path="images/backgrounds/optionsbackground.png" />
 		<image path="images/createdForNewgrounds.png" />
 		<image path="images/createdForNewgrounds2.png" />
 		<image path="images/barryIsBreakdancing.png" />
@@ -90,9 +90,10 @@
 		<image path="images/madeByCredits2.png" />
 
 		<!-- Main Menu Images -->
-		<image path="images/mainmenu/play.png" />
-		<image path="images/mainmenu/options.png" />
-		<image path="images/mainmenu/exit.png" />
+		<image path="images/mainmenu/storymode.png" />
+		<image path="images/mainmenu/trackselect.png" />
+		<image path="images/mainmenu/exitoption.png" />
+
 
 		<!-- Music -->
 		<music path="music/titleIntro.mp3" />

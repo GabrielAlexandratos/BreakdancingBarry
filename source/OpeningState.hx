@@ -50,7 +50,7 @@ class OpeningState extends FlxState {
 		// opening movie
 		openingMovie = new FlxSprite();
 		openingMovie.loadGraphic("assets/images/openingMovie/opening0001.png", false);
-		openingMovie.scale.set(0.72, 0.72);
+		openingMovie.scale.set(0.75, 0.75);
 		openingMovie.origin.set(openingMovie.width / 2, openingMovie.height / 2);
 		openingMovie.screenCenter();
 		openingMovie.visible = false;
