@@ -98,6 +98,13 @@
 		<!-- Music -->
 		<music path="music/titleIntro.mp3" />
 		<music path="music/titleLoop.mp3" />
+		<music path="music/trackSelectLoop.mp3" />
+
+		<!-- Sound Effects -->
+		<sound path="sounds/fightSFX.mp3" />
+		<sound path="sounds/optionChangeSFX.mp3" />
+		<sound path="sounds/stateBackSFX.mp3" />
+		<sound path="sounds/dialogueBlipSFX.mp3" />
 		
 
 	</assets>

@@ -56,6 +56,11 @@ export/html5/bin/assets/images/mainmenu/trackselect.png
 export/html5/bin/assets/images/mainmenu/exitoption.png
 export/html5/bin/assets/music/titleIntro.mp3
 export/html5/bin/assets/music/titleLoop.mp3
+export/html5/bin/assets/music/trackSelectLoop.mp3
+export/html5/bin/assets/sounds/fightSFX.mp3
+export/html5/bin/assets/sounds/optionChangeSFX.mp3
+export/html5/bin/assets/sounds/stateBackSFX.mp3
+export/html5/bin/assets/sounds/dialogueBlipSFX.mp3
 export/html5/bin/flixel/sounds/flixel.mp3
 export/html5/bin/flixel/sounds/beep.mp3
 export/html5/bin/flixel/sounds/beep.ogg

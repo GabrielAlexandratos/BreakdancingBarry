@@ -1,10 +1,13 @@
 package;
 
+import TrackRegistry;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import lime.system.WorkOutput.State;
 
 class TrackSelectState extends FlxState {
 
@@ -29,6 +32,8 @@ class TrackSelectState extends FlxState {
         Background.screenCenter();
         add(Background);
 
+		FlxG.sound.playMusic("assets/music/trackSelectLoop.mp3", 0.65, true);
+
         // Options
         menuOptions = [];
 
@@ -42,6 +47,10 @@ class TrackSelectState extends FlxState {
             menuOptions.push(opt);
         }
 
+		StateTransitioner.init(this);
+
+		StateTransitioner.slideFromBlackTransition();
+
         positionMenu();
     }
 
@@ -50,13 +59,19 @@ class TrackSelectState extends FlxState {
 
         if (!isSelecting) {
             if (FlxG.keys.justPressed.W) {
+				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
                 selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
                 positionMenu();
             } else if (FlxG.keys.justPressed.S) {
+				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
                 selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
                 positionMenu();
             }
         }
+		if (FlxG.keys.justPressed.ESCAPE)
+		{
+			returnToTitle();
+		}
     }
 
     private function positionMenu():Void {
@@ -71,7 +86,25 @@ class TrackSelectState extends FlxState {
             // X position -> selected option is further to the right
             var targetX = (offset == 0) ? 300 : 200 - Math.abs(offset) * 100;
 
-            FlxTween.tween(option, {x: targetX, y: targetY}, 0.2, {ease: FlxEase.quadOut});
-        }
+			var scaleFactor = 1 - 0.3 * Math.abs(offset); // selected = 1, others smaller
+			FlxTween.tween(option, {x: targetX, y: targetY}, 0.3, {ease: FlxEase.expoOut});
+			FlxTween.tween(option.scale, {x: scaleFactor, y: scaleFactor}, 0.3, {ease: FlxEase.expoOut});
+		}
+	}
+
+	private function returnToTitle():Void
+	{
+		FlxG.sound.play("assets/sounds/stateBackSFX.mp3", 0.5);
+		FlxG.sound.music.stop();
+		StateTransitioner.slideToBlackTransition();
+		new FlxTimer().start(1, function(_)
+		{
+			FlxG.sound.playMusic("assets/music/titleIntro.mp3", 0.6);
+			FlxG.sound.music.onComplete = function()
+			{
+				FlxG.sound.playMusic(AssetPaths.titleLoop__mp3, 0.6, true);
+			};
+			FlxG.switchState(TitleState.new);
+		});
     }
 }

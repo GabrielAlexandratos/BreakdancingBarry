@@ -100,6 +100,11 @@ class OpeningState extends FlxState {
 	{
         super.update(elapsed);
 
+		if (FlxG.keys.justPressed.ENTER)
+		{
+			FlxG.switchState(TitleState.new);
+		}
+
 		if (playingOpening)
 		{
 			if (currentFrame < 43)
@@ -188,10 +193,10 @@ class OpeningState extends FlxState {
 				startClicked = true;
 				new FlxTimer().start(0.5, function(_)
 				{
-					FlxG.sound.playMusic(AssetPaths.titleIntro__mp3, 0.8, false);
+					FlxG.sound.playMusic(AssetPaths.titleIntro__mp3, 0.6, false);
 					FlxG.sound.music.onComplete = function()
 					{
-						FlxG.sound.playMusic(AssetPaths.titleLoop__mp3, 0.8, true);
+						FlxG.sound.playMusic(AssetPaths.titleLoop__mp3, 0.6, true);
 					};
 
 					clickToStartImage.visible = false;

@@ -21,6 +21,7 @@ class TitleState extends FlxState {
 
 		super.create();
 
+
         BackgroundColor = new FlxSprite(0, 0);
         BackgroundColor.makeGraphic(FlxG.width, FlxG.height, 0xFF4B4B4B);
         add(BackgroundColor);
@@ -65,6 +66,10 @@ class TitleState extends FlxState {
 		add(exitOption);
 		menuOptions.push(exitOption);
 
+		StateTransitioner.init(this);
+
+		StateTransitioner.slideFromBlackTransition();
+		
 		positionMenu();
 	}
 
@@ -75,11 +80,13 @@ class TitleState extends FlxState {
 		{
 			if (FlxG.keys.justPressed.W)
 			{
+				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
 				selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
 				positionMenu();
 			}
 			else if (FlxG.keys.justPressed.S)
 			{
+				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
 				selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
 				positionMenu();
 			}
@@ -98,8 +105,8 @@ class TitleState extends FlxState {
 		{
 			var option = menuOptions[i];
 			option.y = (FlxG.height / 2 - option.height / 2) + (i - middleIndex) * spacing;
-			var targetX = (i == selectedIndex) ? 100 : 25;
-			FlxTween.tween(option, {x: targetX}, 0.1, {ease: FlxEase.quadOut});
+			var targetX = (i == selectedIndex) ? 115 : 30;
+			FlxTween.tween(option, {x: targetX}, 0.2, {ease: FlxEase.expoOut});
 
 			// Swap sprite based on selection
 			if (i == selectedIndex)
@@ -129,9 +136,13 @@ class TitleState extends FlxState {
 	private function onSelect():Void
 	{
 		isSelecting = true;
+		FlxG.sound.music.stop();
+		FlxG.sound.play("assets/sounds/fightSFX.mp3", 5.0);
+
 		var option = menuOptions[selectedIndex];
 		var blinkTimer = new FlxTimer();
 		var blinkCount = 0;
+
 		blinkTimer.start(0.1, function(tmr:FlxTimer)
 		{
 			option.visible = !option.visible;
@@ -139,8 +150,20 @@ class TitleState extends FlxState {
 			if (blinkCount >= 20)
 			{
 				option.visible = true;
+				// choose transition depending on selected option
+				switch (selectedIndex)
+				{
+					case 0: // story mode
+						StateTransitioner.fadeToBlackTransition();
+					default:
+						StateTransitioner.slideToBlackTransition();
+				}
+
+				new FlxTimer().start(1, function(_)
+				{
 				executeOption(selectedIndex);
 				isSelecting = false;
+				});
 			}
 		}, 20);
 	}
@@ -150,7 +173,7 @@ class TitleState extends FlxState {
 		switch (index)
 		{
 			case 0: // story mode
-				FlxG.switchState(StoryModeState.new);
+				FlxG.switchState(OpeningMonologueState.new);
 			case 1: // track select
 				FlxG.switchState(TrackSelectState.new);
 			case 2: // exit
