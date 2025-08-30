@@ -14,7 +14,7 @@ class StoryModeState extends FlxState {
 	{
 		super.create();
 		player = new FlxSprite(FlxG.width / 2, FlxG.height / 2);
-		player.makeGraphic(32, 32, 0xFF00FF00);
+		player.loadGraphic("assets/images/characters/barryAnims/barryIdle/barryIdle0001.png", false);
 		add(player);
 	}
 

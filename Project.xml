@@ -105,6 +105,17 @@
 		<sound path="sounds/optionChangeSFX.mp3" />
 		<sound path="sounds/stateBackSFX.mp3" />
 		<sound path="sounds/dialogueBlipSFX.mp3" />
+
+		<!-- Character animations-->
+		<image path="images/characters/barryAnims/barryIdle/barryIdle0001.png" />
+		<image path="images/characters/barryAnims/barryIdle/barryIdle0002.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0001.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0002.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0003.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0004.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0005.png" />
+		<image path="images/characters/barryAnims/barryRun/barryRun0006.png" />
+
 		
 
 	</assets>
