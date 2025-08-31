@@ -78,4 +78,11 @@ class OpeningMonologueState extends FlxState
 			});
 		}
 	}
+	override public function update(elapsed:Float):Void
+	{
+		if (FlxG.keys.pressed.ESCAPE)
+		{
+			FlxG.switchState(StoryModeState.new);
+		}
+	}
 }

@@ -28,7 +28,7 @@ class TrackSelectState extends FlxState {
         Background = new FlxSprite(0, 0);
         Background.loadGraphic("assets/images/backgrounds/trackselectbackground.png", false);
         Background.origin.set(Background.width / 2 - 20, Background.height / 2);
-        Background.scale.set(0.205, 0.205);
+		Background.scale.set(0.305, 0.305);
         Background.screenCenter();
         add(Background);
 
@@ -76,7 +76,7 @@ class TrackSelectState extends FlxState {
             }
 			if (FlxG.keys.justPressed.ENTER && !isSelecting)
 			{
-				isSelecting = true; // lock input immediately
+				isSelecting = true;
 				FlxG.sound.music.stop();
 				FlxG.sound.play("assets/sounds/fightSFX.mp3", 5.0);
 
@@ -103,18 +103,16 @@ class TrackSelectState extends FlxState {
     }
 
     private function positionMenu():Void {
-        var spacing = 200; // vertical spacing
+		var spacing = 200;
         for (i in 0...menuOptions.length) {
             var option = menuOptions[i];
             var offset = i - selectedIndex;
 
-            // Y position -> center + offset * spacing
             var targetY = (FlxG.height / 2 - option.height / 2) + (offset * spacing);
 
-            // X position -> selected option is further to the right
             var targetX = (offset == 0) ? 300 : 200 - Math.abs(offset) * 100;
 
-			var scaleFactor = 1 - 0.3 * Math.abs(offset); // selected = 1, others smaller
+			var scaleFactor = 1 - 0.3 * Math.abs(offset);
 			FlxTween.tween(option, {x: targetX, y: targetY}, 0.3, {ease: FlxEase.expoOut});
 			FlxTween.tween(option.scale, {x: scaleFactor, y: scaleFactor}, 0.3, {ease: FlxEase.expoOut});
 		}
@@ -139,8 +137,6 @@ class TrackSelectState extends FlxState {
 	{
 		FlxG.sound.music.stop();
 
-		// optional: fade out music or do a transition here
-
-		FlxG.switchState(new SongState(track));
+		FlxG.switchState(() -> new SongState(track));
 	}
 }

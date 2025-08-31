@@ -61,6 +61,15 @@ export/html5/bin/assets/sounds/fightSFX.mp3
 export/html5/bin/assets/sounds/optionChangeSFX.mp3
 export/html5/bin/assets/sounds/stateBackSFX.mp3
 export/html5/bin/assets/sounds/dialogueBlipSFX.mp3
+export/html5/bin/assets/images/characters/barry.png
+export/html5/bin/assets/images/characters/barryAnims/barryIdle/barryIdle0001.png
+export/html5/bin/assets/images/characters/barryAnims/barryIdle/barryIdle0002.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0001.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0002.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0003.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0004.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0005.png
+export/html5/bin/assets/images/characters/barryAnims/barryRun/barryRun0006.png
 export/html5/bin/flixel/sounds/flixel.mp3
 export/html5/bin/flixel/sounds/beep.mp3
 export/html5/bin/flixel/sounds/beep.ogg

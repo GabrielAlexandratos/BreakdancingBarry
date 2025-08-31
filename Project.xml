@@ -16,7 +16,7 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="1920" height="1080" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="true" />
@@ -107,6 +107,7 @@
 		<sound path="sounds/dialogueBlipSFX.mp3" />
 
 		<!-- Character animations-->
+		<image path="images/characters/barry.png" />
 		<image path="images/characters/barryAnims/barryIdle/barryIdle0001.png" />
 		<image path="images/characters/barryAnims/barryIdle/barryIdle0002.png" />
 		<image path="images/characters/barryAnims/barryRun/barryRun0001.png" />

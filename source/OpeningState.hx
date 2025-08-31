@@ -23,7 +23,7 @@ class OpeningState extends FlxState {
 	private var showingAltNG:Bool = false;
 	private var creditsToggleTimer:FlxTimer;
 	private var showingAltCredits:Bool = false;
-    private var baseScale:Float = 0.5;
+	private var baseScale:Float = 0.7;
 	private var startClicked:Bool = false;
 	private var openingFinished:Bool = false;
 
@@ -50,7 +50,6 @@ class OpeningState extends FlxState {
 		// opening movie
 		openingMovie = new FlxSprite();
 		openingMovie.loadGraphic("assets/images/openingMovie/opening0001.png", false);
-		openingMovie.scale.set(0.75, 0.75);
 		openingMovie.origin.set(openingMovie.width / 2, openingMovie.height / 2);
 		openingMovie.screenCenter();
 		openingMovie.visible = false;
@@ -58,14 +57,12 @@ class OpeningState extends FlxState {
 		// newgrounds Credit
 		createdForNewgrounds = new FlxSprite();
 		createdForNewgrounds.loadGraphic("assets/images/createdForNewgrounds.png", false);
-		createdForNewgrounds.scale.set(0.72, 0.72);
 		createdForNewgrounds.origin.set(createdForNewgrounds.width / 2, createdForNewgrounds.height / 2);
 		createdForNewgrounds.screenCenter();
 		createdForNewgrounds.visible = false;
 		add(createdForNewgrounds);
 		createdForNewgrounds2 = new FlxSprite();
 		createdForNewgrounds2.loadGraphic("assets/images/createdForNewgrounds2.png", false);
-		createdForNewgrounds2.scale.set(0.72, 0.72);
 		createdForNewgrounds2.origin.set(createdForNewgrounds2.width / 2, createdForNewgrounds2.height / 2);
 		createdForNewgrounds2.screenCenter();
 		createdForNewgrounds2.visible = false;
@@ -73,7 +70,6 @@ class OpeningState extends FlxState {
 		// barry is breakdancing
 		barryIsBreakdancing = new FlxSprite();
 		barryIsBreakdancing.loadGraphic("assets/images/barryIsBreakdancing.png", false);
-		barryIsBreakdancing.scale.set(0.72, 0.72);
 		barryIsBreakdancing.origin.set(barryIsBreakdancing.width / 2, barryIsBreakdancing.height / 2);
 		barryIsBreakdancing.screenCenter();
 		barryIsBreakdancing.visible = false;
@@ -82,14 +78,12 @@ class OpeningState extends FlxState {
 		// made by credits
 		madeByCredits1 = new FlxSprite();
 		madeByCredits1.loadGraphic("assets/images/madeByCredits1.png", false);
-		madeByCredits1.scale.set(0.72, 0.72);
 		madeByCredits1.origin.set(madeByCredits1.width / 2, madeByCredits1.height / 2 - 50);
 		madeByCredits1.screenCenter();
 		madeByCredits1.visible = false;
 		add(madeByCredits1);
 		madeByCredits2 = new FlxSprite();
 		madeByCredits2.loadGraphic("assets/images/madeByCredits2.png", false);
-		madeByCredits2.scale.set(0.72, 0.72);
 		madeByCredits2.origin.set(madeByCredits2.width / 2, madeByCredits2.height / 2 - 50);
 		madeByCredits2.screenCenter();
 		madeByCredits2.visible = false;

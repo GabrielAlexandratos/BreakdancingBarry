@@ -28,8 +28,7 @@ class TitleState extends FlxState {
 
         Background = new FlxSprite(0, 0);
         Background.loadGraphic("assets/images/backgrounds/titlebackground.png", false);
-        Background.origin.set(Background.width / 2, Background.height / 2 - 190);
-		Background.scale.set(0.72, 0.72);
+		Background.origin.set(Background.width / 2, Background.height / 2 - 190);
 		
 		Background.screenCenter();
         add(Background);
@@ -43,7 +42,7 @@ class TitleState extends FlxState {
 		menuOptions = [];
 		selectedIndex = 0;
 
-		var menuOptionsScaleFactor = 0.85;
+		var menuOptionsScaleFactor = 1;
 
 		var startOption = new FlxSprite(0, 0);
 		startOption.loadGraphic("assets/images/mainmenu/storymode.png", false);
