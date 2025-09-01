@@ -26,7 +26,7 @@ class DialogueBox extends FlxSprite {
         this.onComplete = onComplete;
 
         dialogueText = new FlxText(x + 20, y + 20, boxWidth - 40, "");
-        dialogueText.setFormat(null, 28, 0xFFFFFFFF, "left");
+		dialogueText.setFormat(null, 30, 0xFFFFFFFF, "left");
         dialogueText.wordWrap = true;
         dialogueText.alignment = "left";
 
@@ -45,7 +45,7 @@ class DialogueBox extends FlxSprite {
 
     private function typeNextCharacter():Void {
         if (charIndex < dialogue[currentLine].length) {
-			FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.2);
+			FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.1);
 
             dialogueText.text += dialogue[currentLine].charAt(charIndex);
             charIndex++;

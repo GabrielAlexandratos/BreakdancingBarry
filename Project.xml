@@ -107,15 +107,22 @@
 		<sound path="sounds/dialogueBlipSFX.mp3" />
 
 		<!-- Character animations-->
-		<image path="images/characters/barry.png" />
-		<image path="images/characters/barryAnims/barryIdle/barryIdle0001.png" />
-		<image path="images/characters/barryAnims/barryIdle/barryIdle0002.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0001.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0002.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0003.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0004.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0005.png" />
-		<image path="images/characters/barryAnims/barryRun/barryRun0006.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0001.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0002.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0003.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0004.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0005.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0006.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0007.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0008.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0009.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0010.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0011.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0012.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0013.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0014.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0015.png" />
+		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0016.png" />
 
 		
 

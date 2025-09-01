@@ -8,9 +8,18 @@ class Player extends FlxSprite {
     public var speed:Float = 250;
     public var canMove:Bool = true;
 
+    // Animation control
+    private var idleFrame:Int = 0;
+    private var idleTimer:Float = 0;
+    private var idleFPS:Float = 16;
+    private var totalIdleFrames:Int = 16; // adjust to however many frames you have
+
     public function new(x:Float, y:Float) {
         super(x, y);
-        loadGraphic("assets/images/characters/barry.png", false);
+
+        // Load first idle frame by default
+        loadGraphic("assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png", false);
+
         scale.set(0.7, 0.7);
         origin.set(width / 2, height / 2);
     }
@@ -28,13 +37,28 @@ class Player extends FlxSprite {
             if (vel.x != 0 && vel.y != 0) vel.normalize();
             velocity.set(vel.x * speed, vel.y * speed);
 
-            if (speed != 0) {
-                // Flip sprite based on direction
-                if (vel.x < 0) flipX = false;
-                else if (vel.x > 0) flipX = true;
-            }
+            if (vel.x < 0) flipX = false;
+            else if (vel.x > 0) flipX = true;
         } else {
             velocity.set(0, 0);
         }
+
+        // Animate idle when not moving
+        if (velocity.x == 0 && velocity.y == 0) {
+            idleTimer += elapsed;
+            if (idleTimer >= 1.0 / idleFPS) {
+                idleTimer -= 1.0 / idleFPS;
+                idleFrame = (idleFrame + 1) % totalIdleFrames;
+
+                var frameNumber = idleFrame + 1;
+                var frameString = 
+                    frameNumber < 10 ? "000" + frameNumber :
+                    (frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber);
+
+                loadGraphic("assets/images/characters/barryAnims/barryIdle/Barry_Idle" + frameString + ".png", false);
+            }
+        }
+
+        vel.put();
     }
 }
