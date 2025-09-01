@@ -35,10 +35,10 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "13";
+		app.meta["build"] = "18";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "BreakdancingBarry";
-		app.meta["name"] = "BreakdancingBarry";
+		app.meta["name"] = "Breakdancing Barry";
 		app.meta["packageName"] = "com.example.myapp";
 		app.meta["version"] = "0.0.1";
 
@@ -60,7 +60,7 @@ class ApplicationMain
 			minimized: false,
 			parameters: {},
 			resizable: true,
-			title: "BreakdancingBarry",
+			title: "Breakdancing Barry",
 			width: 1920,
 			x: null,
 			y: null,
@@ -102,7 +102,7 @@ class ApplicationMain
 		app.createWindow(attributes);
 		
 		#elseif air
-		app.window.title = "BreakdancingBarry";
+		app.window.title = "Breakdancing Barry";
 		#else
 		app.window.context.attributes.background = 0;
 		app.window.frameRate = 60;

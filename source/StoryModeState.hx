@@ -11,7 +11,7 @@ class StoryModeState extends FlxState {
 
 	private var player:Player;
 	private var testInteractable:Interactable;
-	private var dialogueBox:DialogueBox;
+	public var dialogueBox:DialogueBox;
 
 	override public function create():Void
 	{
@@ -19,7 +19,7 @@ class StoryModeState extends FlxState {
 		backgroundColor = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFF4b4b4b);
 		add(backgroundColor);
 
-		player = new Player(FlxG.width / 2, FlxG.height / 2);
+		player = new Player(FlxG.width / 2, FlxG.height / 2 + 200);
 		player.screenCenter();
 		add(player);
 

@@ -112,7 +112,7 @@ class TitleState extends FlxState {
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + "_selected.png", false);
 			else
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + ".png", false);
-			// re set the origin for the new graphic
+			// re center the origin for the new graphic
 			option.origin.set(0, option.height / 2);
 		}
 	}
@@ -149,12 +149,12 @@ class TitleState extends FlxState {
 			if (blinkCount >= 20)
 			{
 				option.visible = true;
-				// choose transition depending on selected option
+				// choose transition effect to fade out if its story mode time
 				switch (selectedIndex)
 				{
 					case 0: // story mode
 						StateTransitioner.fadeToBlackTransition();
-					default:
+					default: // anything else
 						StateTransitioner.slideToBlackTransition();
 				}
 
@@ -178,7 +178,7 @@ class TitleState extends FlxState {
 			case 2: // exit
 				System.exit(0);
 			default:
-				trace("Unknown option");
+				trace("wrong");
 		}
 	}
 }

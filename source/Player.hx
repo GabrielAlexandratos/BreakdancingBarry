@@ -5,19 +5,19 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 
 class Player extends FlxSprite {
+    // Movement vars
     public var speed:Float = 250;
     public var canMove:Bool = true;
 
-    // Animation control
+    // Idle vars
     private var idleFrame:Int = 0;
     private var idleTimer:Float = 0;
     private var idleFPS:Float = 16;
-    private var totalIdleFrames:Int = 16; // adjust to however many frames you have
+    private var totalIdleFrames:Int = 16; 
 
     public function new(x:Float, y:Float) {
         super(x, y);
 
-        // Load first idle frame by default
         loadGraphic("assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png", false);
 
         scale.set(0.7, 0.7);
@@ -43,7 +43,7 @@ class Player extends FlxSprite {
             velocity.set(0, 0);
         }
 
-        // Animate idle when not moving
+        // speed is 0 (idle)
         if (velocity.x == 0 && velocity.y == 0) {
             idleTimer += elapsed;
             if (idleTimer >= 1.0 / idleFPS) {

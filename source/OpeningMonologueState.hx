@@ -37,7 +37,10 @@ class OpeningMonologueState extends FlxState
 		dialogueText.alignment = "center";
 		dialogueText.fieldWidth = FlxG.width - 40;
 		add(dialogueText);
-		typeNextCharacter();
+		new FlxTimer().start(1, function(_)
+		{
+			typeNextCharacter();
+		});
 	}
 
 	private function typeNextCharacter():Void
