@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "13";
+	app.meta.h["build"] = "14";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "BreakdancingBarry";
@@ -8804,7 +8804,7 @@ StoryModeState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 		this.add(this.player);
 		this.testInteractable = new Interactable(300,400,60,60,-1,function() {
-			_gthis.dialogueBox = new DialogueBox(["Yoooo what's good Barry!","These 3 sicko jawns came on by eariler stackin' some cans of beans or somethin'","You wanna come by my place after school today? My mum let me spend our child support check on the new Fortnite bundle!","Anyway, I'll see ya around Barry!"],function() {
+			_gthis.dialogueBox = new DialogueBox(["Yoooo what's good Barry!","These 3 sicko jawns came on by eariler stackin' some cans of beans or somethin'","You wanna come by my place after school today? My mum let me spend this month's child support check on the new Fortnite bundle!","Anyway, I'll see ya around Barry!"],function() {
 				_gthis.player.canMove = true;
 				_gthis.dialogueBox = null;
 			});
@@ -87304,7 +87304,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 404908;
+	this.version = 726081;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
