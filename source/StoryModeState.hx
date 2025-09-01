@@ -3,12 +3,10 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 
 class StoryModeState extends FlxState {
 
-	private var speed:Float = 250;
 	private var backgroundColor:FlxSprite;
 
 	private var player:Player;
@@ -24,14 +22,10 @@ class StoryModeState extends FlxState {
 		player = new Player(FlxG.width / 2, FlxG.height / 2);
 		player.screenCenter();
 		add(player);
+
 		testInteractable = new Interactable(300, 400, 60, 60, FlxColor.WHITE, function()
 		{
-			dialogueBox = new DialogueBox([
-				"Yoooo what's good Barry!",
-				"These 3 sicko jawns came on by eariler stackin' some cans of beans or somethin'",
-				"You wanna come by my place after school today? My mum let me spend this month's child support check on the new Fortnite bundle!",
-				"Anyway, I'll see ya around Barry!"
-			], function()
+			dialogueBox = new DialogueBox(DialogueReference.D_test, function()
 			{
 				player.canMove = true;
 				dialogueBox = null;

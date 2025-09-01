@@ -3551,7 +3551,7 @@ openfl_display_Sprite.prototype = $extend(openfl_display_DisplayObjectContainer.
 });
 var Main = function() {
 	openfl_display_Sprite.call(this);
-	this.addChild(new flixel_FlxGame(0,0,flixel_util_typeLimit_InitialState.fromType(OpeningState),60,60,true));
+	this.addChild(new flixel_FlxGame(0,0,flixel_util_typeLimit_InitialState.fromType(OpeningState),30,30,true));
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = "Main";
@@ -6674,12 +6674,21 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.typing = false;
 		}
 	}
+	,typeWholeLine: function() {
+		this.charIndex += this.dialogue[this.currentLine].length;
+		this.dialogueText.set_text(this.dialogue[this.currentLine]);
+		this.typing = false;
+	}
 	,updateBox: function() {
 		var mousePos = flixel_FlxG.mouse.getWorldPosition();
 		if(this.overlapsPoint(mousePos)) {
 			lime_app_Application.current.__window.set_cursor(lime_ui_MouseCursor.POINTER);
-			if(!this.typing && flixel_FlxG.mouse._leftButton.current == 2) {
-				this.nextLine();
+			if(flixel_FlxG.mouse._leftButton.current == 2) {
+				if(this.typing) {
+					this.typeWholeLine();
+				} else {
+					this.nextLine();
+				}
 			}
 		}
 	}
@@ -6697,6 +6706,9 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 	}
 	,__class__: DialogueBox
 });
+var DialogueReference = function() { };
+$hxClasses["DialogueReference"] = DialogueReference;
+DialogueReference.__name__ = "DialogueReference";
 var EReg = function(r,opt) {
 	this.r = new RegExp(r,opt.split("u").join(""));
 };
@@ -8777,15 +8789,13 @@ Std.parseInt = function(x) {
 	return v;
 };
 var StoryModeState = function() {
-	this.speed = 250;
 	flixel_FlxState.call(this);
 };
 $hxClasses["StoryModeState"] = StoryModeState;
 StoryModeState.__name__ = "StoryModeState";
 StoryModeState.__super__ = flixel_FlxState;
 StoryModeState.prototype = $extend(flixel_FlxState.prototype,{
-	speed: null
-	,backgroundColor: null
+	backgroundColor: null
 	,player: null
 	,testInteractable: null
 	,dialogueBox: null
@@ -8804,7 +8814,11 @@ StoryModeState.prototype = $extend(flixel_FlxState.prototype,{
 		}
 		this.add(this.player);
 		this.testInteractable = new Interactable(300,400,60,60,-1,function() {
+<<<<<<< Updated upstream
 			_gthis.dialogueBox = new DialogueBox(["Yoooo what's good Barry!","These 3 sicko jawns came on by eariler stackin' some cans of beans or somethin'","You wanna come by my place after school today? My mum let me spend this month's child support check on the new Fortnite bundle!","Anyway, I'll see ya around Barry!"],function() {
+=======
+			_gthis.dialogueBox = new DialogueBox(DialogueReference.D_test,function() {
+>>>>>>> Stashed changes
 				_gthis.player.canMove = true;
 				_gthis.dialogueBox = null;
 			});
@@ -87304,7 +87318,11 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
+<<<<<<< Updated upstream
 	this.version = 726081;
+=======
+	this.version = 316871;
+>>>>>>> Stashed changes
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -136426,6 +136444,7 @@ flixel_FlxObject.defaultPixelPerfectPosition = false;
 flixel_FlxObject.SEPARATE_BIAS = 4;
 flixel_FlxObject.defaultMoves = true;
 flixel_FlxSprite.defaultAntialiasing = false;
+DialogueReference.D_test = ["Yoooo what's good Barry!","These 3 sicko jawns came on by eariler stackin' some cans of beans or somethin'","You wanna come by my place after school today? My mum let me spend this month's child support check on the new Garfield Cart game!","Anyway, I'll see ya around Barry!"];
 openfl_text_Font.__fontByName = new haxe_ds_StringMap();
 openfl_text_Font.__registeredFonts = [];
 Xml.Element = 0;

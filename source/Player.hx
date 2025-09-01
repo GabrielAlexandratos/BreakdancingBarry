@@ -1,4 +1,3 @@
-// Player.hx
 package;
 
 import flixel.FlxG;

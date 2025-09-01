@@ -45,7 +45,8 @@ class DialogueBox extends FlxSprite {
 
     private function typeNextCharacter():Void {
         if (charIndex < dialogue[currentLine].length) {
-            FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.2);
+			FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.2);
+
             dialogueText.text += dialogue[currentLine].charAt(charIndex);
             charIndex++;
             new FlxTimer().start(0.03, function(_) { typeNextCharacter(); });
@@ -54,12 +55,28 @@ class DialogueBox extends FlxSprite {
         }
     }
 
+	private function typeWholeLine():Void
+	{
+		charIndex += dialogue[currentLine].length;
+		dialogueText.text = dialogue[currentLine];
+		typing = false;
+	}
+
     public function updateBox():Void {
         var mousePos = FlxG.mouse.getWorldPosition();
         if (this.overlapsPoint(mousePos)) {
             Application.current.window.cursor = MouseCursor.POINTER;
-            if (!typing && FlxG.mouse.justPressed){
-                nextLine();
+			if (FlxG.mouse.justPressed)
+			{
+				if (typing)
+				{
+					typeWholeLine();
+				}
+				else
+				{
+					nextLine();
+				}
+
             }
         }
     }
