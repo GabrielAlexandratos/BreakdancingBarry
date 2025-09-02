@@ -43,8 +43,9 @@ class OpeningMonologueState extends FlxState
 		dialogueText.fieldWidth = FlxG.width - 40;
 		add(dialogueText);
 		//
-		skipImage = new FlxSprite(0, 0);
-		skipImage.loadGraphic("assets/images/mainmenu/exitoption.png");
+		skipImage = new FlxSprite(FlxG.width - 710, FlxG.height - 120);
+		skipImage.loadGraphic("assets/images/pressESCtoskip.png");
+		skipImage.scale.set(0.8, 0.8);
 		skipImage.alpha = 0;
 		add(skipImage);
 		//
@@ -52,9 +53,9 @@ class OpeningMonologueState extends FlxState
 		{
 			typeNextCharacter();
 		});
-		new FlxTimer().start(2, function(_)
+		new FlxTimer().start(3, function(_)
 		{
-			FlxTween.tween(skipImage, {alpha: 1}, 2, {ease: FlxEase.linear});
+			FlxTween.tween(skipImage, {alpha: 0.7}, 2, {ease: FlxEase.linear});
 		});
 	}
 

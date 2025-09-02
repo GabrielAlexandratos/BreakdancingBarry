@@ -26,6 +26,7 @@ class OpeningState extends FlxState {
 	private var baseScale:Float = 0.7;
 	private var startClicked:Bool = false;
 	private var openingFinished:Bool = false;
+	private var canSkip = false;
 
 	private var currentFrame:Int = 0;
 	private var frameTimer:Float = 0;
@@ -94,7 +95,7 @@ class OpeningState extends FlxState {
 	{
         super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ENTER)
+		if (FlxG.keys.justPressed.ENTER && canSkip)
 		{
 			FlxG.switchState(TitleState.new);
 		}
@@ -196,6 +197,7 @@ class OpeningState extends FlxState {
 					clickToStartImage.visible = false;
 					openingMovie.visible = true;
 					playingOpening = true;
+					canSkip = true;
 				});
 			}
 

@@ -12,7 +12,7 @@ class Player extends FlxSprite {
     // Idle vars
     private var idleFrame:Int = 0;
     private var idleTimer:Float = 0;
-    private var idleFPS:Float = 16;
+	private var idleFPS:Float = 14;
     private var totalIdleFrames:Int = 16; 
 
     public function new(x:Float, y:Float) {

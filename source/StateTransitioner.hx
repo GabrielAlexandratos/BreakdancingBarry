@@ -44,7 +44,7 @@ class StateTransitioner {
             FlxG.state.remove(screenBox, true);
             FlxG.state.add(screenBox);
 
-            FlxTween.tween(screenBox, { alpha: 1 }, 3, { ease: FlxEase.expoOut });
+			FlxTween.tween(screenBox, {alpha: 1}, 2, {ease: FlxEase.linear});
         }
     }
 
@@ -56,7 +56,7 @@ class StateTransitioner {
             FlxG.state.remove(screenBox, true);
             FlxG.state.add(screenBox);
 
-            FlxTween.tween(screenBox, { alpha: 0 }, 3, { ease: FlxEase.expoOut });
+			FlxTween.tween(screenBox, {alpha: 0}, 2, {ease: FlxEase.linear});
         }
     }
 }

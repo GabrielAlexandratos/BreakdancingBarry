@@ -154,15 +154,21 @@ class TitleState extends FlxState {
 				{
 					case 0: // story mode
 						StateTransitioner.fadeToBlackTransition();
+						new FlxTimer().start(2, function(_)
+						{
+							executeOption(selectedIndex);
+							isSelecting = false;
+						});
 					default: // anything else
+
 						StateTransitioner.slideToBlackTransition();
+						new FlxTimer().start(1, function(_)
+						{
+							executeOption(selectedIndex);
+							isSelecting = false;
+						});	
 				}
 
-				new FlxTimer().start(1, function(_)
-				{
-				executeOption(selectedIndex);
-				isSelecting = false;
-				});
 			}
 		}, 20);
 	}
