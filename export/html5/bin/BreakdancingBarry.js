@@ -917,13 +917,13 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "17";
+	app.meta.h["build"] = "19";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
-	app.meta.h["name"] = "BreakdancingBarry";
+	app.meta.h["name"] = "Breakdancing Barry";
 	app.meta.h["packageName"] = "com.example.myapp";
 	app.meta.h["version"] = "0.0.1";
-	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 1080, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "BreakdancingBarry", width : 1920, x : null, y : null};
+	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 1080, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "Breakdancing Barry", width : 1920, x : null, y : null};
 	attributes.context = { antialiasing : 0, background : 0, colorDepth : 32, depth : true, hardware : true, stencil : true, type : null, vsync : false};
 	if(app.__window == null) {
 		if(config != null) {
@@ -6952,7 +6952,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy39:assets%2Fimages%2FclickToStartImage.pngy4:sizei81222y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0001.pngR2i9609R3R4R5R7R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0002.pngR2i9609R3R4R5R8R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0003.pngR2i9609R3R4R5R9R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0004.pngR2i9609R3R4R5R10R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0005.pngR2i9609R3R4R5R11R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0006.pngR2i9609R3R4R5R12R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0007.pngR2i9609R3R4R5R13R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0008.pngR2i9609R3R4R5R14R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0009.pngR2i9609R3R4R5R15R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0010.pngR2i9609R3R4R5R16R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0011.pngR2i9609R3R4R5R17R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0012.pngR2i9609R3R4R5R18R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0013.pngR2i9609R3R4R5R19R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0014.pngR2i10107R3R4R5R20R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0015.pngR2i12780R3R4R5R21R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0016.pngR2i14334R3R4R5R22R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0017.pngR2i14856R3R4R5R23R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0018.pngR2i11058R3R4R5R24R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0019.pngR2i10872R3R4R5R25R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0020.pngR2i11142R3R4R5R26R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0021.pngR2i11440R3R4R5R27R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0022.pngR2i11491R3R4R5R28R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0023.pngR2i11510R3R4R5R29R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0024.pngR2i11605R3R4R5R30R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0025.pngR2i11629R3R4R5R31R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0026.pngR2i11629R3R4R5R32R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0027.pngR2i11548R3R4R5R33R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0028.pngR2i11548R3R4R5R34R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0029.pngR2i11362R3R4R5R35R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0030.pngR2i11362R3R4R5R36R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0031.pngR2i11499R3R4R5R37R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0032.pngR2i11413R3R4R5R38R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0033.pngR2i11431R3R4R5R39R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0034.pngR2i14555R3R4R5R40R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0035.pngR2i15165R3R4R5R41R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0036.pngR2i39272R3R4R5R42R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0037.pngR2i42346R3R4R5R43R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0038.pngR2i78921R3R4R5R44R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0039.pngR2i77459R3R4R5R45R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0040.pngR2i63679R3R4R5R46R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0041.pngR2i63679R3R4R5R47R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0042.pngR2i63679R3R4R5R48R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0043.pngR2i63679R3R4R5R49R6tgoR0y31:assets%2Fimages%2FBarryLogo.pngR2i115304R3R4R5R50R6tgoR0y51:assets%2Fimages%2Fbackgrounds%2Ftitlebackground.pngR2i247036R3R4R5R51R6tgoR0y57:assets%2Fimages%2Fbackgrounds%2Ftrackselectbackground.pngR2i570944R3R4R5R52R6tgoR0y53:assets%2Fimages%2Fbackgrounds%2Foptionsbackground.pngR2i721773R3R4R5R53R6tgoR0y42:assets%2Fimages%2FcreatedForNewgrounds.pngR2i26923R3R4R5R54R6tgoR0y43:assets%2Fimages%2FcreatedForNewgrounds2.pngR2i26795R3R4R5R55R6tgoR0y41:assets%2Fimages%2FbarryIsBreakdancing.pngR2i27103R3R4R5R56R6tgoR0y36:assets%2Fimages%2FmadeByCredits1.pngR2i27531R3R4R5R57R6tgoR0y36:assets%2Fimages%2FmadeByCredits2.pngR2i27251R3R4R5R58R6tgoR0y42:assets%2Fimages%2Fmainmenu%2Fstorymode.pngR2i11049R3R4R5R59R6tgoR0y44:assets%2Fimages%2Fmainmenu%2Ftrackselect.pngR2i11214R3R4R5R60R6tgoR0y43:assets%2Fimages%2Fmainmenu%2Fexitoption.pngR2i4429R3R4R5R61R6tgoR2i1916887R3y5:MUSICR5y31:assets%2Fmusic%2FtitleIntro.mp3y9:pathGroupaR63hR6tgoR2i1089954R3R62R5y30:assets%2Fmusic%2FtitleLoop.mp3R64aR65hR6tgoR2i102735R3R62R5y36:assets%2Fmusic%2FtrackSelectLoop.mp3R64aR66hR6tgoR2i26666R3y5:SOUNDR5y30:assets%2Fsounds%2FfightSFX.mp3R64aR68hR6tgoR2i7858R3R67R5y37:assets%2Fsounds%2FoptionChangeSFX.mp3R64aR69hR6tgoR2i15381R3R67R5y34:assets%2Fsounds%2FstateBackSFX.mp3R64aR70hR6tgoR2i13501R3R67R5y37:assets%2Fsounds%2FdialogueBlipSFX.mp3R64aR71hR6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0001.pngR2i31011R3R4R5R72R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0002.pngR2i31343R3R4R5R73R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0003.pngR2i31338R3R4R5R74R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0004.pngR2i31794R3R4R5R75R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0005.pngR2i31696R3R4R5R76R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0006.pngR2i31746R3R4R5R77R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0007.pngR2i31746R3R4R5R78R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0008.pngR2i31746R3R4R5R79R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0009.pngR2i31794R3R4R5R80R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0010.pngR2i31471R3R4R5R81R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0011.pngR2i31016R3R4R5R82R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0012.pngR2i30897R3R4R5R83R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0013.pngR2i30927R3R4R5R84R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0014.pngR2i31007R3R4R5R85R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0015.pngR2i31007R3R4R5R86R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0016.pngR2i31007R3R4R5R87R6tgoR2i39706R3R62R5y28:flixel%2Fsounds%2Fflixel.mp3R64aR88y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i8220R3R62R5y26:flixel%2Fsounds%2Fbeep.mp3R64aR90y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i6840R3R67R5R91R64aR90R91hgoR2i33629R3R67R5R89R64aR88R89hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R92R93y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i222R3R4R5R98R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i484R3R4R5R99R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy39:assets%2Fimages%2FclickToStartImage.pngy4:sizei81222y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0001.pngR2i9609R3R4R5R7R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0002.pngR2i9609R3R4R5R8R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0003.pngR2i9609R3R4R5R9R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0004.pngR2i9609R3R4R5R10R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0005.pngR2i9609R3R4R5R11R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0006.pngR2i9609R3R4R5R12R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0007.pngR2i9609R3R4R5R13R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0008.pngR2i9609R3R4R5R14R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0009.pngR2i9609R3R4R5R15R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0010.pngR2i9609R3R4R5R16R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0011.pngR2i9609R3R4R5R17R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0012.pngR2i9609R3R4R5R18R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0013.pngR2i9609R3R4R5R19R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0014.pngR2i10107R3R4R5R20R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0015.pngR2i12780R3R4R5R21R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0016.pngR2i14334R3R4R5R22R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0017.pngR2i14856R3R4R5R23R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0018.pngR2i11058R3R4R5R24R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0019.pngR2i10872R3R4R5R25R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0020.pngR2i11142R3R4R5R26R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0021.pngR2i11440R3R4R5R27R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0022.pngR2i11491R3R4R5R28R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0023.pngR2i11510R3R4R5R29R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0024.pngR2i11605R3R4R5R30R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0025.pngR2i11629R3R4R5R31R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0026.pngR2i11629R3R4R5R32R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0027.pngR2i11548R3R4R5R33R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0028.pngR2i11548R3R4R5R34R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0029.pngR2i11362R3R4R5R35R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0030.pngR2i11362R3R4R5R36R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0031.pngR2i11499R3R4R5R37R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0032.pngR2i11413R3R4R5R38R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0033.pngR2i11431R3R4R5R39R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0034.pngR2i14555R3R4R5R40R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0035.pngR2i15165R3R4R5R41R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0036.pngR2i39272R3R4R5R42R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0037.pngR2i42346R3R4R5R43R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0038.pngR2i78921R3R4R5R44R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0039.pngR2i77459R3R4R5R45R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0040.pngR2i63679R3R4R5R46R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0041.pngR2i63679R3R4R5R47R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0042.pngR2i63679R3R4R5R48R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0043.pngR2i63679R3R4R5R49R6tgoR0y31:assets%2Fimages%2FBarryLogo.pngR2i115304R3R4R5R50R6tgoR0y51:assets%2Fimages%2Fbackgrounds%2Ftitlebackground.pngR2i247036R3R4R5R51R6tgoR0y57:assets%2Fimages%2Fbackgrounds%2Ftrackselectbackground.pngR2i570944R3R4R5R52R6tgoR0y53:assets%2Fimages%2Fbackgrounds%2Foptionsbackground.pngR2i721773R3R4R5R53R6tgoR0y42:assets%2Fimages%2FcreatedForNewgrounds.pngR2i26923R3R4R5R54R6tgoR0y43:assets%2Fimages%2FcreatedForNewgrounds2.pngR2i26795R3R4R5R55R6tgoR0y41:assets%2Fimages%2FbarryIsBreakdancing.pngR2i27103R3R4R5R56R6tgoR0y36:assets%2Fimages%2FmadeByCredits1.pngR2i27531R3R4R5R57R6tgoR0y36:assets%2Fimages%2FmadeByCredits2.pngR2i27251R3R4R5R58R6tgoR0y42:assets%2Fimages%2Fmainmenu%2Fstorymode.pngR2i11049R3R4R5R59R6tgoR0y44:assets%2Fimages%2Fmainmenu%2Ftrackselect.pngR2i11214R3R4R5R60R6tgoR0y43:assets%2Fimages%2Fmainmenu%2Fexitoption.pngR2i4429R3R4R5R61R6tgoR2i1916887R3y5:MUSICR5y31:assets%2Fmusic%2FtitleIntro.mp3y9:pathGroupaR63hR6tgoR2i1089954R3R62R5y30:assets%2Fmusic%2FtitleLoop.mp3R64aR65hR6tgoR2i102735R3R62R5y36:assets%2Fmusic%2FtrackSelectLoop.mp3R64aR66hR6tgoR2i26666R3y5:SOUNDR5y30:assets%2Fsounds%2FfightSFX.mp3R64aR68hR6tgoR2i7858R3R67R5y37:assets%2Fsounds%2FoptionChangeSFX.mp3R64aR69hR6tgoR2i15381R3R67R5y34:assets%2Fsounds%2FstateBackSFX.mp3R64aR70hR6tgoR2i13501R3R67R5y37:assets%2Fsounds%2FdialogueBlipSFX.mp3R64aR71hR6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0001.pngR2i31011R3R4R5R72R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0002.pngR2i31422R3R4R5R73R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0003.pngR2i31338R3R4R5R74R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0004.pngR2i31794R3R4R5R75R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0005.pngR2i31696R3R4R5R76R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0006.pngR2i31723R3R4R5R77R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0007.pngR2i31723R3R4R5R78R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0008.pngR2i31723R3R4R5R79R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0009.pngR2i31794R3R4R5R80R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0010.pngR2i31471R3R4R5R81R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0011.pngR2i31016R3R4R5R82R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0012.pngR2i30906R3R4R5R83R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0013.pngR2i31024R3R4R5R84R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0014.pngR2i31007R3R4R5R85R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0015.pngR2i31007R3R4R5R86R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0016.pngR2i31007R3R4R5R87R6tgoR2i39706R3R62R5y28:flixel%2Fsounds%2Fflixel.mp3R64aR88y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i8220R3R62R5y26:flixel%2Fsounds%2Fbeep.mp3R64aR90y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i6840R3R67R5R91R64aR90R91hgoR2i33629R3R67R5R89R64aR88R89hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R92R93y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i222R3R4R5R98R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i484R3R4R5R99R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -8051,10 +8051,12 @@ OpeningMonologueState.__name__ = "OpeningMonologueState";
 OpeningMonologueState.__super__ = flixel_FlxState;
 OpeningMonologueState.prototype = $extend(flixel_FlxState.prototype,{
 	dialogueText: null
+	,skipImage: null
 	,dialogue: null
 	,currentLine: null
 	,charIndex: null
 	,create: function() {
+		var _gthis = this;
 		flixel_FlxState.prototype.create.call(this);
 		this.dialogue = ["We're wired in...","You ... chosen to save the school...","We need you Barry... To...\nSave us all...","... activation word...\nIs...","(You feel your eyes getting heavy...)","...\n...","Lets transport this jawn!","Barry... You... are our last hope...","Don't let us down."];
 		this.currentLine = 0;
@@ -8065,7 +8067,16 @@ OpeningMonologueState.prototype = $extend(flixel_FlxState.prototype,{
 		this.dialogueText.set_alignment("center");
 		this.dialogueText.set_fieldWidth(flixel_FlxG.width - 40);
 		this.add(this.dialogueText);
-		this.typeNextCharacter();
+		this.skipImage = new flixel_FlxSprite(0,0);
+		this.skipImage.loadGraphic("assets/images/mainmenu/exitoption.png");
+		this.skipImage.set_alpha(0);
+		this.add(this.skipImage);
+		new flixel_util_FlxTimer().start(1,function(_) {
+			_gthis.typeNextCharacter();
+		});
+		new flixel_util_FlxTimer().start(2,function(_) {
+			flixel_tweens_FlxTween.tween(_gthis.skipImage,{ alpha : 1},2,{ ease : flixel_tweens_FlxEase.linear});
+		});
 	}
 	,typeNextCharacter: function() {
 		var _gthis = this;
@@ -8090,17 +8101,20 @@ OpeningMonologueState.prototype = $extend(flixel_FlxState.prototype,{
 			this.dialogueText.set_text("");
 			this.typeNextCharacter();
 		} else {
-			new flixel_util_FlxTimer().start(2.5,function(_) {
-				var nextState = flixel_util_typeLimit_NextState.fromMaker(function() {
-					return new StoryModeState();
-				});
-				var stateOnCall = flixel_FlxG.game._state;
-				flixel_FlxG.game._state.startOutro(function() {
-					if(flixel_FlxG.game._state == stateOnCall) {
-						flixel_FlxG.game._nextState = nextState;
-					} else {
-						flixel_FlxG.log.advanced("`onOutroComplete` was called after the state was switched. This will be ignored",flixel_system_debug_log_LogStyle.WARNING,true,{ fileName : "flixel/FlxG.hx", lineNumber : 385, className : "flixel.FlxG", methodName : "switchState"});
-					}
+			new flixel_util_FlxTimer().start(1.8,function(_) {
+				StateTransitioner.fadeToBlackTransition();
+				new flixel_util_FlxTimer().start(1,function(_) {
+					var nextState = flixel_util_typeLimit_NextState.fromMaker(function() {
+						return new StoryModeState();
+					});
+					var stateOnCall = flixel_FlxG.game._state;
+					flixel_FlxG.game._state.startOutro(function() {
+						if(flixel_FlxG.game._state == stateOnCall) {
+							flixel_FlxG.game._nextState = nextState;
+						} else {
+							flixel_FlxG.log.advanced("`onOutroComplete` was called after the state was switched. This will be ignored",flixel_system_debug_log_LogStyle.WARNING,true,{ fileName : "flixel/FlxG.hx", lineNumber : 385, className : "flixel.FlxG", methodName : "switchState"});
+						}
+					});
 				});
 			});
 		}
@@ -8822,7 +8836,7 @@ StoryModeState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxState.prototype.create.call(this);
 		this.backgroundColor = new flixel_FlxSprite(0,0).makeGraphic(flixel_FlxG.width,flixel_FlxG.height,-11842741);
 		this.add(this.backgroundColor);
-		this.player = new Player(flixel_FlxG.width / 2,flixel_FlxG.height / 2);
+		this.player = new Player(flixel_FlxG.width / 2,flixel_FlxG.height / 2 + 200);
 		var _this = this.player;
 		if(17 == 1 || 17 == 17) {
 			_this.set_x((flixel_FlxG.width - _this.get_width()) / 2);
@@ -9257,7 +9271,7 @@ TitleState.prototype = $extend(flixel_FlxState.prototype,{
 			openfl_system_System.exit(0);
 			break;
 		default:
-			haxe_Log.trace("Unknown option",{ fileName : "source/TitleState.hx", lineNumber : 181, className : "TitleState", methodName : "executeOption"});
+			haxe_Log.trace("wrong",{ fileName : "source/TitleState.hx", lineNumber : 181, className : "TitleState", methodName : "executeOption"});
 		}
 	}
 	,__class__: TitleState
@@ -87332,7 +87346,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 959271;
+	this.version = 86448;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

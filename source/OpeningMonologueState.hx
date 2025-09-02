@@ -1,13 +1,17 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 
 class OpeningMonologueState extends FlxState
 {
 	private var dialogueText:FlxText;
+	private var skipImage:FlxSprite;
 	private var dialogue:Array<String>;
 	private var currentLine:Int;
 	private var charIndex:Int;
@@ -31,15 +35,26 @@ class OpeningMonologueState extends FlxState
 		];
 		currentLine = 0;
 		charIndex = 0;
+		//
 		dialogueText = new FlxText(20, FlxG.height / 2, FlxG.width - 40, "");
 		dialogueText.setFormat(null, 28, 0xFFFFFFFF, "center");
 		dialogueText.wordWrap = true;
 		dialogueText.alignment = "center";
 		dialogueText.fieldWidth = FlxG.width - 40;
 		add(dialogueText);
+		//
+		skipImage = new FlxSprite(0, 0);
+		skipImage.loadGraphic("assets/images/mainmenu/exitoption.png");
+		skipImage.alpha = 0;
+		add(skipImage);
+		//
 		new FlxTimer().start(1, function(_)
 		{
 			typeNextCharacter();
+		});
+		new FlxTimer().start(2, function(_)
+		{
+			FlxTween.tween(skipImage, {alpha: 1}, 2, {ease: FlxEase.linear});
 		});
 	}
 
@@ -75,9 +90,13 @@ class OpeningMonologueState extends FlxState
 		}
 		else 
 		{
-			new FlxTimer().start(2.5, function(_)
+			new FlxTimer().start(1.8, function(_)
 			{
-				FlxG.switchState(StoryModeState.new);		
+				StateTransitioner.fadeToBlackTransition();
+				new FlxTimer().start(1, function(_)
+				{
+					FlxG.switchState(StoryModeState.new);		
+				});
 			});
 		}
 	}

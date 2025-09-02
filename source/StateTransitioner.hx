@@ -24,14 +24,14 @@ class StateTransitioner {
     public static function slideToBlackTransition() {
         if (screenBox != null) {
             screenBox.y = -FlxG.height;
-            FlxTween.tween(screenBox, { y: 0 }, 1, { ease: FlxEase.expoOut });
+			FlxTween.tween(screenBox, {y: 0}, 1, {ease: FlxEase.expoOut});
         }
     }
 
     public static function slideFromBlackTransition() {
         if (screenBox != null) {
             screenBox.y = 0;
-            FlxTween.tween(screenBox, { y: -FlxG.height-30 }, 1, { ease: FlxEase.expoOut });
+			FlxTween.tween(screenBox, {y: -FlxG.height - 30}, 1, {ease: FlxEase.expoOut});
         }
     }
 
