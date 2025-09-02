@@ -89,7 +89,11 @@
 		<image path="images/madeByCredits1.png" />
 		<image path="images/madeByCredits2.png" />
 		<image path="images/pressESCtoskip.png" />
-
+		<image path="images/dialogueBox0001.png" />
+		<image path="images/dialogueBox0002.png" />
+		<image path="images/dialogueBox0003.png" />
+		<image path="images/dialogueBox0004.png" />
+		
 		<!-- Main Menu Images -->
 		<image path="images/mainmenu/storymode.png" />
 		<image path="images/mainmenu/trackselect.png" />

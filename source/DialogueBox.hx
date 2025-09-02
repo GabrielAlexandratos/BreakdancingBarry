@@ -18,14 +18,15 @@ class DialogueBox extends FlxSprite {
 
     public function new(dialogue:Array<String>, ?onComplete:Void->Void) {
         super(0, FlxG.height - 250);
-        var boxWidth = 1250;
+		var boxWidth = 1221;
         x = (FlxG.width - boxWidth) / 2;
-        makeGraphic(boxWidth, 200, 0xAA000000);
+		y = (FlxG.height - 250);
+		loadGraphic("assets/images/dialogueBox0004.png");
 
         this.dialogue = dialogue;
         this.onComplete = onComplete;
 
-        dialogueText = new FlxText(x + 20, y + 20, boxWidth - 40, "");
+		dialogueText = new FlxText(x + 40, y + 50, boxWidth - 100, "");
 		dialogueText.setFormat(null, 30, 0xFFFFFFFF, "left");
         dialogueText.wordWrap = true;
         dialogueText.alignment = "left";
