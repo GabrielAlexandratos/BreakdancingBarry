@@ -53,7 +53,7 @@ class OpeningMonologueState extends FlxState
 		{
 			typeNextCharacter();
 		});
-		new FlxTimer().start(3, function(_)
+		new FlxTimer().start(1.5, function(_)
 		{
 			FlxTween.tween(skipImage, {alpha: 0.7}, 2, {ease: FlxEase.linear});
 		});

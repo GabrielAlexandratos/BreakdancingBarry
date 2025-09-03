@@ -75,8 +75,23 @@ class TitleState extends FlxState {
 	override public function update(elapsed:Float) {
 
 		super.update(elapsed);
+		var mousePos = FlxG.mouse.getWorldPosition();
 		if (!isSelecting)
 		{
+			for (i in 0...menuOptions.length)
+			{
+				var option = menuOptions[i];
+				if (option.overlapsPoint(mousePos))
+				{
+					if (selectedIndex != i)
+					{
+						selectedIndex = i;
+						FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+						positionMenu();
+					}
+				}
+			}
+			
 			if (FlxG.keys.justPressed.W)
 			{
 				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);

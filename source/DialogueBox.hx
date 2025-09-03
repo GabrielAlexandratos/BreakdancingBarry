@@ -16,26 +16,27 @@ class DialogueBox extends FlxSprite {
     private var typing:Bool = false;
     private var onComplete:Void->Void;
 
-    public function new(dialogue:Array<String>, ?onComplete:Void->Void) {
-        super(0, FlxG.height - 250);
+	public function new(dialogue:Array<String>, ?onComplete:Void->Void)
+	{
+		super(0, FlxG.height - 250);
 		var boxWidth = 1221;
-        x = (FlxG.width - boxWidth) / 2;
-		y = (FlxG.height - 250);
-		loadGraphic("assets/images/dialogueBox0004.png");
+		x = (FlxG.width - boxWidth) / 2;
+		y = (FlxG.height - 300);
+		loadGraphic("assets/images/dialogueBox0001.png");
 
-        this.dialogue = dialogue;
-        this.onComplete = onComplete;
+		this.dialogue = dialogue;
+		this.onComplete = onComplete;
 
-		dialogueText = new FlxText(x + 40, y + 50, boxWidth - 100, "");
+		dialogueText = new FlxText(x + 60, y + 35, boxWidth - 100, "");
 		dialogueText.setFormat(null, 30, 0xFFFFFFFF, "left");
-        dialogueText.wordWrap = true;
-        dialogueText.alignment = "left";
+		dialogueText.wordWrap = true;
+		dialogueText.alignment = "left";
 
-        FlxG.state.add(this);
-        FlxG.state.add(dialogueText);
+		FlxG.state.add(this);
+		FlxG.state.add(dialogueText);
 
-        startTyping();
-    }
+		playOpenAnimation();
+	}
 
     private function startTyping():Void {
         dialogueText.text = "";
@@ -94,4 +95,28 @@ class DialogueBox extends FlxSprite {
             }
         }
     }
+	private function playOpenAnimation():Void
+	{
+		var frames = [
+			"assets/images/dialogueBox0002.png",
+			"assets/images/dialogueBox0003.png",
+			"assets/images/dialogueBox0004.png"
+		];
+
+		var frameIndex = 0;
+		new FlxTimer().start(0.03, function(timer:FlxTimer)
+		{
+			loadGraphic(frames[frameIndex]);
+			scale.set(1, 0.8);
+			origin.set();
+
+			frameIndex++;
+			if (frameIndex >= frames.length)
+			{
+				// stop animation and start typing
+				timer.destroy();
+				startTyping();
+			}
+		}, frames.length);
+	}
 }
