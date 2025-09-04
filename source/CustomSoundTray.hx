@@ -1,45 +1,41 @@
 package;
 
-import flixel.FlxBasic;
 import flixel.FlxG;
+import openfl.Assets;
+import openfl.display.Bitmap;
+import openfl.display.Sprite;
 
-class CustomSoundTray extends FlxBasic {
-    public var tray:CustomSoundTray;
+class CustomSoundTray extends Sprite
+{
+	private var bitmap:Bitmap;
 
-    public function new() {
+	public function new(x:Float, y:Float)
+	{
         super();
-    }
+		this.x = x;
+		this.y = y;
 
-    override public function update(elapsed:Float):Void {
-        super.update(elapsed);
+		bitmap = new Bitmap();
+		addChild(bitmap);
 
-        if (tray == null) {
-            tray = new CustomSoundTray(20, 20);
-        }
+		updateVolumeDisplay();
+	}
 
-        // check for volume changes
-        if (FlxG.keys.justPressed.PLUS 
-            || FlxG.keys.justPressed.MINUS 
-            || FlxG.keys.justPressed.ZERO) {
-            tray.updateVolumeDisplay();
-            _timer = 2; // show for 2 seconds (optional fade timer)
-        }
-    }
+	public function updateVolumeDisplay():Void
+	{
+		var vol = FlxG.sound.volume;
+		if (vol < 0)
+			vol = 0;
+		if (vol > 1)
+			vol = 1;
 
-    override public function draw():Void {
-        if (tray != null) {
-            tray.draw(); // draw AFTER state, always on top
-        }
-    }
+		var level:Int = Math.round(vol * 10);
+		if (level < 0)
+			level = 0;
+		if (level > 10)
+			level = 10;
 
-    private var _timer:Float = 0;
-
-    override public function postUpdate(elapsed:Float):Void {
-        if (_timer > 0) {
-            _timer -= elapsed;
-            tray.visible = true;
-        } else {
-            tray.visible = false;
-        }
-    }
+		// Load bitmap asset
+		bitmap.bitmapData = Assets.getBitmapData("assets/images/soundtray/soundtray_" + (10 - level) + ".png");
+	}
 }
