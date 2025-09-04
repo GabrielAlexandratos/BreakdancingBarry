@@ -2,42 +2,59 @@ package;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
-import openfl.display.Stage;
 
-class CustomSoundTrayPlugin extends FlxBasic {
+class CustomSoundTrayPlugin extends FlxBasic
+{
     public var tray:CustomSoundTray;
     private var _timer:Float = 0;
 
-    public function new() {
+	public function new()
+	{
         super();
-        tray = new CustomSoundTray(20, 20); // position it
+		// create the tray at bottom-right
+		tray = new CustomSoundTray(FlxG.width - 72, FlxG.height - 520);
         if (FlxG.stage != null) {
             FlxG.stage.addChild(tray);
         }
     }
 
-    override public function update(elapsed:Float):Void {
-
+	override public function update(elapsed:Float):Void
+	{
         super.update(elapsed);
 
-        // Update volume display every frame
+		// always update the volume icon
         tray.updateVolumeDisplay();
 
-        // Check for volume key presses
+		// detect volume key presses
         if (FlxG.keys.justPressed.PLUS 
             || FlxG.keys.justPressed.MINUS 
-            || FlxG.keys.justPressed.ZERO) {
-            _timer = 2; // show for 2 seconds
+		|| FlxG.keys.justPressed.ZERO)
+		{
+			FlxG.sound.play("assets/sounds/volumeBlipSFX.mp3", 0.6);
+			_timer = 1.5;
+			if (tray.x > tray.targetX + 1)
+			{
+				tray.showTray();
+			}
         }
 
-        // If ZERO pressed, set volume to 0 and update tray immediately
+		// mute if 0 pressed
         if (FlxG.keys.justPressed.ZERO) {
-            FlxG.sound.volume = (0);
+			FlxG.sound.volume = 0;
             tray.updateVolumeDisplay();
         }
 
-        // Visibility timer
-        tray.visible = (_timer > 0);
-        if (_timer > 0) _timer -= elapsed;
+		// hide tray when timer runs out
+		if (_timer > 0)
+		{
+			_timer -= elapsed;
+		}
+		else
+		{
+			if (tray.x <= tray.targetX + 1)
+			{
+				tray.hideTray();
+			}
+		}
     }
 }

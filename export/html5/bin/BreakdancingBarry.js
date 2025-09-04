@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "26";
+	app.meta.h["build"] = "29";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Breakdancing Barry";
@@ -3578,15 +3578,41 @@ var CustomSoundTray = function(x,y) {
 	openfl_display_Sprite.call(this);
 	this.set_x(x);
 	this.set_y(y);
+	this.targetX = x;
 	this.bitmap = new openfl_display_Bitmap();
+	this.bitmap.set_scaleX(0.6);
+	this.bitmap.set_scaleY(0.6);
 	this.addChild(this.bitmap);
 	this.updateVolumeDisplay();
+	this.set_x(this.get_x() + 200);
 };
 $hxClasses["CustomSoundTray"] = CustomSoundTray;
 CustomSoundTray.__name__ = "CustomSoundTray";
 CustomSoundTray.__super__ = openfl_display_Sprite;
 CustomSoundTray.prototype = $extend(openfl_display_Sprite.prototype,{
 	bitmap: null
+	,targetX: null
+	,currentTween: null
+	,showTray: function() {
+		var _gthis = this;
+		if(this.currentTween != null) {
+			this.currentTween.cancel();
+			this.currentTween = null;
+		}
+		this.currentTween = flixel_tweens_FlxTween.tween(this,{ x : this.targetX},1,{ ease : flixel_tweens_FlxEase.expoOut, onComplete : function(t) {
+			_gthis.currentTween = null;
+		}});
+	}
+	,hideTray: function() {
+		var _gthis = this;
+		if(this.currentTween != null) {
+			this.currentTween.cancel();
+			this.currentTween = null;
+		}
+		this.currentTween = flixel_tweens_FlxTween.tween(this,{ x : this.targetX + 125},1,{ ease : flixel_tweens_FlxEase.expoOut, onComplete : function(t) {
+			_gthis.currentTween = null;
+		}});
+	}
 	,updateVolumeDisplay: function() {
 		var vol = flixel_FlxG.sound.volume;
 		if(vol < 0) {
@@ -3602,7 +3628,7 @@ CustomSoundTray.prototype = $extend(openfl_display_Sprite.prototype,{
 		if(level > 10) {
 			level = 10;
 		}
-		this.bitmap.set_bitmapData(openfl_utils_Assets.getBitmapData("assets/images/soundtray/soundtray_" + (10 - level) + ".png"));
+		this.bitmap.set_bitmapData(openfl_utils_Assets.getBitmapData("assets/images/soundtray/soundtray_" + level + ".png"));
 	}
 	,__class__: CustomSoundTray
 });
@@ -3739,7 +3765,7 @@ flixel_FlxBasic.prototype = {
 var CustomSoundTrayPlugin = function() {
 	this._timer = 0;
 	flixel_FlxBasic.call(this);
-	this.tray = new CustomSoundTray(20,20);
+	this.tray = new CustomSoundTray(flixel_FlxG.width - 72,flixel_FlxG.height - 520);
 	if(openfl_Lib.get_current().stage != null) {
 		openfl_Lib.get_current().stage.addChild(this.tray);
 	}
@@ -3769,16 +3795,21 @@ CustomSoundTrayPlugin.prototype = $extend(flixel_FlxBasic.prototype,{
 			tmp = true;
 		}
 		if(tmp) {
-			this._timer = 2;
+			flixel_FlxG.sound.play("assets/sounds/volumeBlipSFX.mp3",0.6);
+			this._timer = 1.5;
+			if(this.tray.get_x() > this.tray.targetX + 1) {
+				this.tray.showTray();
+			}
 		}
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatusUnsafe(48,_this.status)) {
 			flixel_FlxG.sound.set_volume(0);
 			this.tray.updateVolumeDisplay();
 		}
-		this.tray.set_visible(this._timer > 0);
 		if(this._timer > 0) {
 			this._timer -= elapsed;
+		} else if(this.tray.get_x() <= this.tray.targetX + 1) {
+			this.tray.hideTray();
 		}
 	}
 	,__class__: CustomSoundTrayPlugin
@@ -6707,6 +6738,7 @@ flixel_FlxSprite.prototype = $extend(flixel_FlxObject.prototype,{
 	,__properties__: $extend(flixel_FlxObject.prototype.__properties__,{set_clipRect:"set_clipRect",set_color:"set_color",set_blend:"set_blend",set_flipY:"set_flipY",set_flipX:"set_flipX",set_facing:"set_facing",set_alpha:"set_alpha",set_graphic:"set_graphic",set_frames:"set_frames",get_numFrames:"get_numFrames",set_frame:"set_frame",set_pixels:"set_pixels",get_pixels:"get_pixels",set_antialiasing:"set_antialiasing",set_useFramePixels:"set_useFramePixels"})
 });
 var DialogueBox = function(dialogue,onComplete) {
+	this.canAdvance = false;
 	this.typing = false;
 	this.charIndex = 0;
 	this.currentLine = 0;
@@ -6735,6 +6767,31 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 	,dialogueText: null
 	,typing: null
 	,onComplete: null
+	,canAdvance: null
+	,updateBox: function() {
+		if(!this.canAdvance) {
+			return;
+		}
+		var mousePos = flixel_FlxG.mouse.getWorldPosition();
+		if(this.overlapsPoint(mousePos)) {
+			lime_app_Application.current.__window.set_cursor(lime_ui_MouseCursor.POINTER);
+			if(flixel_FlxG.mouse._leftButton.current == 2) {
+				if(this.typing) {
+					this.typeWholeLine();
+				} else {
+					this.nextLine();
+				}
+			}
+		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatusUnsafe(69,_this.status)) {
+			if(this.typing) {
+				this.typeWholeLine();
+			} else {
+				this.nextLine();
+			}
+		}
+	}
 	,startTyping: function() {
 		this.dialogueText.set_text("");
 		this.charIndex = 0;
@@ -6759,27 +6816,6 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 		this.charIndex += this.dialogue[this.currentLine].length;
 		this.dialogueText.set_text(this.dialogue[this.currentLine]);
 		this.typing = false;
-	}
-	,updateBox: function() {
-		var mousePos = flixel_FlxG.mouse.getWorldPosition();
-		if(this.overlapsPoint(mousePos)) {
-			lime_app_Application.current.__window.set_cursor(lime_ui_MouseCursor.POINTER);
-			if(flixel_FlxG.mouse._leftButton.current == 2) {
-				if(this.typing) {
-					this.typeWholeLine();
-				} else {
-					this.nextLine();
-				}
-			}
-		}
-		var _this = flixel_FlxG.keys.justPressed;
-		if(_this.keyManager.checkStatusUnsafe(69,_this.status)) {
-			if(this.typing) {
-				this.typeWholeLine();
-			} else {
-				this.nextLine();
-			}
-		}
 	}
 	,nextLine: function() {
 		this.currentLine++;
@@ -6817,6 +6853,7 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 			if(frameIndex >= frames.length) {
 				timer.destroy();
 				_gthis.startTyping();
+				_gthis.canAdvance = true;
 			}
 		},frames.length);
 	}
@@ -7077,7 +7114,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy39:assets%2Fimages%2FclickToStartImage.pngy4:sizei81222y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0001.pngR2i9609R3R4R5R7R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0002.pngR2i9609R3R4R5R8R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0003.pngR2i9609R3R4R5R9R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0004.pngR2i9609R3R4R5R10R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0005.pngR2i9609R3R4R5R11R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0006.pngR2i9609R3R4R5R12R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0007.pngR2i9609R3R4R5R13R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0008.pngR2i9609R3R4R5R14R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0009.pngR2i9609R3R4R5R15R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0010.pngR2i9609R3R4R5R16R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0011.pngR2i9609R3R4R5R17R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0012.pngR2i9609R3R4R5R18R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0013.pngR2i9609R3R4R5R19R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0014.pngR2i10107R3R4R5R20R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0015.pngR2i12780R3R4R5R21R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0016.pngR2i14334R3R4R5R22R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0017.pngR2i14856R3R4R5R23R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0018.pngR2i11058R3R4R5R24R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0019.pngR2i10872R3R4R5R25R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0020.pngR2i11142R3R4R5R26R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0021.pngR2i11440R3R4R5R27R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0022.pngR2i11491R3R4R5R28R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0023.pngR2i11510R3R4R5R29R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0024.pngR2i11605R3R4R5R30R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0025.pngR2i11629R3R4R5R31R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0026.pngR2i11629R3R4R5R32R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0027.pngR2i11548R3R4R5R33R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0028.pngR2i11548R3R4R5R34R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0029.pngR2i11362R3R4R5R35R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0030.pngR2i11362R3R4R5R36R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0031.pngR2i11499R3R4R5R37R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0032.pngR2i11413R3R4R5R38R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0033.pngR2i11431R3R4R5R39R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0034.pngR2i14555R3R4R5R40R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0035.pngR2i15165R3R4R5R41R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0036.pngR2i39272R3R4R5R42R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0037.pngR2i42346R3R4R5R43R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0038.pngR2i78921R3R4R5R44R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0039.pngR2i77459R3R4R5R45R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0040.pngR2i63679R3R4R5R46R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0041.pngR2i63679R3R4R5R47R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0042.pngR2i63679R3R4R5R48R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0043.pngR2i63679R3R4R5R49R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_0.pngR2i1638R3R4R5R50R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_1.pngR2i1658R3R4R5R51R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_2.pngR2i1592R3R4R5R52R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_3.pngR2i1648R3R4R5R53R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_4.pngR2i1569R3R4R5R54R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_5.pngR2i1554R3R4R5R55R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_6.pngR2i1538R3R4R5R56R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_7.pngR2i1545R3R4R5R57R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_8.pngR2i1519R3R4R5R58R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_9.pngR2i1520R3R4R5R59R6tgoR0y46:assets%2Fimages%2Fsoundtray%2Fsoundtray_10.pngR2i1504R3R4R5R60R6tgoR0y31:assets%2Fimages%2FBarryLogo.pngR2i115304R3R4R5R61R6tgoR0y51:assets%2Fimages%2Fbackgrounds%2Ftitlebackground.pngR2i247036R3R4R5R62R6tgoR0y57:assets%2Fimages%2Fbackgrounds%2Ftrackselectbackground.pngR2i570944R3R4R5R63R6tgoR0y53:assets%2Fimages%2Fbackgrounds%2Foptionsbackground.pngR2i721773R3R4R5R64R6tgoR0y42:assets%2Fimages%2FcreatedForNewgrounds.pngR2i26923R3R4R5R65R6tgoR0y43:assets%2Fimages%2FcreatedForNewgrounds2.pngR2i26795R3R4R5R66R6tgoR0y41:assets%2Fimages%2FbarryIsBreakdancing.pngR2i27103R3R4R5R67R6tgoR0y36:assets%2Fimages%2FmadeByCredits1.pngR2i27531R3R4R5R68R6tgoR0y36:assets%2Fimages%2FmadeByCredits2.pngR2i27251R3R4R5R69R6tgoR0y36:assets%2Fimages%2FpressESCtoskip.pngR2i2841R3R4R5R70R6tgoR0y37:assets%2Fimages%2FdialogueBox0001.pngR2i1784R3R4R5R71R6tgoR0y37:assets%2Fimages%2FdialogueBox0002.pngR2i1987R3R4R5R72R6tgoR0y37:assets%2Fimages%2FdialogueBox0003.pngR2i2483R3R4R5R73R6tgoR0y37:assets%2Fimages%2FdialogueBox0004.pngR2i3066R3R4R5R74R6tgoR0y42:assets%2Fimages%2Fmainmenu%2Fstorymode.pngR2i11049R3R4R5R75R6tgoR0y44:assets%2Fimages%2Fmainmenu%2Ftrackselect.pngR2i11214R3R4R5R76R6tgoR0y43:assets%2Fimages%2Fmainmenu%2Fexitoption.pngR2i4429R3R4R5R77R6tgoR2i1916887R3y5:MUSICR5y31:assets%2Fmusic%2FtitleIntro.mp3y9:pathGroupaR79hR6tgoR2i1089954R3R78R5y30:assets%2Fmusic%2FtitleLoop.mp3R80aR81hR6tgoR2i102735R3R78R5y36:assets%2Fmusic%2FtrackSelectLoop.mp3R80aR82hR6tgoR2i26666R3y5:SOUNDR5y30:assets%2Fsounds%2FfightSFX.mp3R80aR84hR6tgoR2i7858R3R83R5y37:assets%2Fsounds%2FoptionChangeSFX.mp3R80aR85hR6tgoR2i15381R3R83R5y34:assets%2Fsounds%2FstateBackSFX.mp3R80aR86hR6tgoR2i13501R3R83R5y37:assets%2Fsounds%2FdialogueBlipSFX.mp3R80aR87hR6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0001.pngR2i31011R3R4R5R88R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0002.pngR2i31422R3R4R5R89R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0003.pngR2i31338R3R4R5R90R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0004.pngR2i31794R3R4R5R91R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0005.pngR2i31696R3R4R5R92R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0006.pngR2i31723R3R4R5R93R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0007.pngR2i31723R3R4R5R94R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0008.pngR2i31723R3R4R5R95R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0009.pngR2i31794R3R4R5R96R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0010.pngR2i31471R3R4R5R97R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0011.pngR2i31016R3R4R5R98R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0012.pngR2i30906R3R4R5R99R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0013.pngR2i31024R3R4R5R100R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0014.pngR2i31007R3R4R5R101R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0015.pngR2i31007R3R4R5R102R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0016.pngR2i31007R3R4R5R103R6tgoR2i39706R3R78R5y28:flixel%2Fsounds%2Fflixel.mp3R80aR104y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i8220R3R78R5y26:flixel%2Fsounds%2Fbeep.mp3R80aR106y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i6840R3R83R5R107R80aR106R107hgoR2i33629R3R83R5R105R80aR104R105hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R108R109y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i222R3R4R5R114R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i484R3R4R5R115R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy39:assets%2Fimages%2FclickToStartImage.pngy4:sizei81222y4:typey5:IMAGEy2:idR1y7:preloadtgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0001.pngR2i9609R3R4R5R7R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0002.pngR2i9609R3R4R5R8R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0003.pngR2i9609R3R4R5R9R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0004.pngR2i9609R3R4R5R10R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0005.pngR2i9609R3R4R5R11R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0006.pngR2i9609R3R4R5R12R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0007.pngR2i9609R3R4R5R13R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0008.pngR2i9609R3R4R5R14R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0009.pngR2i9609R3R4R5R15R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0010.pngR2i9609R3R4R5R16R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0011.pngR2i9609R3R4R5R17R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0012.pngR2i9609R3R4R5R18R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0013.pngR2i9609R3R4R5R19R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0014.pngR2i10107R3R4R5R20R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0015.pngR2i12780R3R4R5R21R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0016.pngR2i14334R3R4R5R22R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0017.pngR2i14856R3R4R5R23R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0018.pngR2i11058R3R4R5R24R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0019.pngR2i10872R3R4R5R25R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0020.pngR2i11142R3R4R5R26R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0021.pngR2i11440R3R4R5R27R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0022.pngR2i11491R3R4R5R28R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0023.pngR2i11510R3R4R5R29R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0024.pngR2i11605R3R4R5R30R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0025.pngR2i11629R3R4R5R31R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0026.pngR2i11629R3R4R5R32R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0027.pngR2i11548R3R4R5R33R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0028.pngR2i11548R3R4R5R34R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0029.pngR2i11362R3R4R5R35R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0030.pngR2i11362R3R4R5R36R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0031.pngR2i11499R3R4R5R37R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0032.pngR2i11413R3R4R5R38R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0033.pngR2i11431R3R4R5R39R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0034.pngR2i14555R3R4R5R40R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0035.pngR2i15165R3R4R5R41R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0036.pngR2i39272R3R4R5R42R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0037.pngR2i42346R3R4R5R43R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0038.pngR2i78921R3R4R5R44R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0039.pngR2i77459R3R4R5R45R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0040.pngR2i63679R3R4R5R46R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0041.pngR2i63679R3R4R5R47R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0042.pngR2i63679R3R4R5R48R6tgoR0y48:assets%2Fimages%2FopeningMovie%2Fopening0043.pngR2i63679R3R4R5R49R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_0.pngR2i5581R3R4R5R50R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_1.pngR2i5620R3R4R5R51R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_2.pngR2i5543R3R4R5R52R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_3.pngR2i5555R3R4R5R53R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_4.pngR2i5571R3R4R5R54R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_5.pngR2i5610R3R4R5R55R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_6.pngR2i5606R3R4R5R56R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_7.pngR2i5830R3R4R5R57R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_8.pngR2i5719R3R4R5R58R6tgoR0y45:assets%2Fimages%2Fsoundtray%2Fsoundtray_9.pngR2i5939R3R4R5R59R6tgoR0y46:assets%2Fimages%2Fsoundtray%2Fsoundtray_10.pngR2i5839R3R4R5R60R6tgoR0y31:assets%2Fimages%2FBarryLogo.pngR2i115304R3R4R5R61R6tgoR0y51:assets%2Fimages%2Fbackgrounds%2Ftitlebackground.pngR2i247036R3R4R5R62R6tgoR0y57:assets%2Fimages%2Fbackgrounds%2Ftrackselectbackground.pngR2i570944R3R4R5R63R6tgoR0y53:assets%2Fimages%2Fbackgrounds%2Foptionsbackground.pngR2i721773R3R4R5R64R6tgoR0y42:assets%2Fimages%2FcreatedForNewgrounds.pngR2i26923R3R4R5R65R6tgoR0y43:assets%2Fimages%2FcreatedForNewgrounds2.pngR2i26795R3R4R5R66R6tgoR0y41:assets%2Fimages%2FbarryIsBreakdancing.pngR2i27103R3R4R5R67R6tgoR0y36:assets%2Fimages%2FmadeByCredits1.pngR2i27531R3R4R5R68R6tgoR0y36:assets%2Fimages%2FmadeByCredits2.pngR2i27251R3R4R5R69R6tgoR0y36:assets%2Fimages%2FpressESCtoskip.pngR2i2841R3R4R5R70R6tgoR0y37:assets%2Fimages%2FdialogueBox0001.pngR2i1784R3R4R5R71R6tgoR0y37:assets%2Fimages%2FdialogueBox0002.pngR2i1987R3R4R5R72R6tgoR0y37:assets%2Fimages%2FdialogueBox0003.pngR2i2483R3R4R5R73R6tgoR0y37:assets%2Fimages%2FdialogueBox0004.pngR2i3066R3R4R5R74R6tgoR0y42:assets%2Fimages%2Fmainmenu%2Fstorymode.pngR2i11049R3R4R5R75R6tgoR0y44:assets%2Fimages%2Fmainmenu%2Ftrackselect.pngR2i11214R3R4R5R76R6tgoR0y43:assets%2Fimages%2Fmainmenu%2Fexitoption.pngR2i4429R3R4R5R77R6tgoR2i1916887R3y5:MUSICR5y31:assets%2Fmusic%2FtitleIntro.mp3y9:pathGroupaR79hR6tgoR2i1089954R3R78R5y30:assets%2Fmusic%2FtitleLoop.mp3R80aR81hR6tgoR2i102735R3R78R5y36:assets%2Fmusic%2FtrackSelectLoop.mp3R80aR82hR6tgoR2i26666R3y5:SOUNDR5y30:assets%2Fsounds%2FfightSFX.mp3R80aR84hR6tgoR2i7858R3R83R5y37:assets%2Fsounds%2FoptionChangeSFX.mp3R80aR85hR6tgoR2i15381R3R83R5y34:assets%2Fsounds%2FstateBackSFX.mp3R80aR86hR6tgoR2i12247R3R83R5y37:assets%2Fsounds%2FdialogueBlipSFX.mp3R80aR87hR6tgoR2i10366R3R83R5y35:assets%2Fsounds%2FvolumeBlipSFX.mp3R80aR88hR6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0001.pngR2i31011R3R4R5R89R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0002.pngR2i31422R3R4R5R90R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0003.pngR2i31338R3R4R5R91R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0004.pngR2i31794R3R4R5R92R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0005.pngR2i31696R3R4R5R93R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0006.pngR2i31723R3R4R5R94R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0007.pngR2i31723R3R4R5R95R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0008.pngR2i31723R3R4R5R96R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0009.pngR2i31794R3R4R5R97R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0010.pngR2i31471R3R4R5R98R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0011.pngR2i31016R3R4R5R99R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0012.pngR2i30906R3R4R5R100R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0013.pngR2i31024R3R4R5R101R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0014.pngR2i31007R3R4R5R102R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0015.pngR2i31007R3R4R5R103R6tgoR0y74:assets%2Fimages%2Fcharacters%2FbarryAnims%2FbarryIdle%2FBarry_Idle0016.pngR2i31007R3R4R5R104R6tgoR2i39706R3R78R5y28:flixel%2Fsounds%2Fflixel.mp3R80aR105y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i8220R3R78R5y26:flixel%2Fsounds%2Fbeep.mp3R80aR107y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i6840R3R83R5R108R80aR107R108hgoR2i33629R3R83R5R106R80aR105R106hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R109R110y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i222R3R4R5R115R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i484R3R4R5R116R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -87480,7 +87517,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 852778;
+	this.version = 508943;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -136626,8 +136663,9 @@ AssetPaths.fightSFX__mp3 = "assets/sounds/fightSFX.mp3";
 AssetPaths.stateBackSFX__mp3 = "assets/sounds/stateBackSFX.mp3";
 AssetPaths.dialogueBlipSFX__mp3 = "assets/sounds/dialogueBlipSFX.mp3";
 AssetPaths.optionChangeSFX__mp3 = "assets/sounds/optionChangeSFX.mp3";
+AssetPaths.volumeBlipSFX__mp3 = "assets/sounds/volumeBlipSFX.mp3";
 AssetPaths.data_goes_here__txt = "assets/data/data-goes-here.txt";
-AssetPaths.allFiles = ["assets/music/titleLoop.mp3","assets/music/music-goes-here.txt","assets/music/titleIntro.ogg","assets/music/trackSelectLoop.mp3","assets/music/titleIntro.mp3","assets/music/titleLoop.ogg","assets/images/testImage.png","assets/images/dialogueBox0004.png","assets/images/dialogueBox0001.png","assets/images/dialogueBox0003.png","assets/images/dialogueBox0002.png","assets/images/soundtray/soundtray_9.png","assets/images/soundtray/soundtray_8.png","assets/images/soundtray/soundtray_5.png","assets/images/soundtray/soundtray_4.png","assets/images/soundtray/soundtray_6.png","assets/images/soundtray/soundtray_7.png","assets/images/soundtray/soundtray_3.png","assets/images/soundtray/soundtray_2.png","assets/images/soundtray/soundtray_0.png","assets/images/soundtray/soundtray_10.png","assets/images/soundtray/soundtray_1.png","assets/images/createdfornewgrounds.png","assets/images/madeByCredits2.png","assets/images/backgrounds/titlebackground.png","assets/images/backgrounds/optionsbackground.png","assets/images/backgrounds/trackselectbackground.png","assets/images/clickToStartImage.png","assets/images/madeByCredits1.png","assets/images/pressESCtoskip.png","assets/images/createdForNewgrounds2.png","assets/images/mainmenu/track.png","assets/images/mainmenu/storymode.png","assets/images/mainmenu/exit.png","assets/images/mainmenu/exitoption.png","assets/images/mainmenu/trackselect.png","assets/images/mainmenu/story.png","assets/images/Symbol.png","assets/images/characters/barryAnims/barryRun/barryRun0006.png","assets/images/characters/barryAnims/barryRun/barryRun0005.png","assets/images/characters/barryAnims/barryRun/barryRun0004.png","assets/images/characters/barryAnims/barryRun/barryRun0001.png","assets/images/characters/barryAnims/barryRun/barryRun0003.png","assets/images/characters/barryAnims/barryRun/barryRun0002.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0014.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0015.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0003.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0002.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0016.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0012.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0006.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0007.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0013.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0005.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0011.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0010.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0004.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0009.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0008.png","assets/images/characters/barry.png","assets/images/barryIsBreakDancing2.png","assets/images/openingMovie/opening0037.png","assets/images/openingMovie/opening0023.png","assets/images/openingMovie/opening0022.png","assets/images/openingMovie/opening0036.png","assets/images/openingMovie/opening0020.png","assets/images/openingMovie/opening0034.png","assets/images/openingMovie/opening0008.png","assets/images/openingMovie/opening0009.png","assets/images/openingMovie/opening0035.png","assets/images/openingMovie/opening0021.png","assets/images/openingMovie/opening0019.png","assets/images/openingMovie/opening0025.png","assets/images/openingMovie/opening0031.png","assets/images/openingMovie/opening0030.png","assets/images/openingMovie/opening0024.png","assets/images/openingMovie/opening0018.png","assets/images/openingMovie/opening0032.png","assets/images/openingMovie/opening0026.png","assets/images/openingMovie/opening0027.png","assets/images/openingMovie/opening0033.png","assets/images/openingMovie/opening0040.png","assets/images/openingMovie/opening0041.png","assets/images/openingMovie/opening0043.png","assets/images/openingMovie/opening0042.png","assets/images/openingMovie/opening0016.png","assets/images/openingMovie/opening0002.png","assets/images/openingMovie/opening0003.png","assets/images/openingMovie/opening0017.png","assets/images/openingMovie/opening0001.png","assets/images/openingMovie/opening0015.png","assets/images/openingMovie/opening0029.png","assets/images/openingMovie/opening0028.png","assets/images/openingMovie/opening0014.png","assets/images/openingMovie/opening0038.png","assets/images/openingMovie/opening0004.png","assets/images/openingMovie/opening0010.png","assets/images/openingMovie/opening0011.png","assets/images/openingMovie/opening0005.png","assets/images/openingMovie/opening0039.png","assets/images/openingMovie/opening0013.png","assets/images/openingMovie/opening0007.png","assets/images/openingMovie/opening0006.png","assets/images/openingMovie/opening0012.png","assets/images/BarryLogo.png","assets/images/images-go-here.txt","assets/images/barryIsBreakdancing.png","assets/images/boxtest.png","assets/sounds/fightSFX.mp3","assets/sounds/stateBackSFX.mp3","assets/sounds/dialogueBlipSFX.mp3","assets/sounds/optionChangeSFX.mp3","assets/data/data-goes-here.txt"];
+AssetPaths.allFiles = ["assets/music/titleLoop.mp3","assets/music/music-goes-here.txt","assets/music/titleIntro.ogg","assets/music/trackSelectLoop.mp3","assets/music/titleIntro.mp3","assets/music/titleLoop.ogg","assets/images/testImage.png","assets/images/dialogueBox0004.png","assets/images/dialogueBox0001.png","assets/images/dialogueBox0003.png","assets/images/dialogueBox0002.png","assets/images/soundtray/soundtray_9.png","assets/images/soundtray/soundtray_8.png","assets/images/soundtray/soundtray_5.png","assets/images/soundtray/soundtray_4.png","assets/images/soundtray/soundtray_6.png","assets/images/soundtray/soundtray_7.png","assets/images/soundtray/soundtray_3.png","assets/images/soundtray/soundtray_2.png","assets/images/soundtray/soundtray_0.png","assets/images/soundtray/soundtray_10.png","assets/images/soundtray/soundtray_1.png","assets/images/createdfornewgrounds.png","assets/images/madeByCredits2.png","assets/images/backgrounds/titlebackground.png","assets/images/backgrounds/optionsbackground.png","assets/images/backgrounds/trackselectbackground.png","assets/images/clickToStartImage.png","assets/images/madeByCredits1.png","assets/images/pressESCtoskip.png","assets/images/createdForNewgrounds2.png","assets/images/mainmenu/track.png","assets/images/mainmenu/storymode.png","assets/images/mainmenu/exit.png","assets/images/mainmenu/exitoption.png","assets/images/mainmenu/trackselect.png","assets/images/mainmenu/story.png","assets/images/Symbol.png","assets/images/characters/barryAnims/barryRun/barryRun0006.png","assets/images/characters/barryAnims/barryRun/barryRun0005.png","assets/images/characters/barryAnims/barryRun/barryRun0004.png","assets/images/characters/barryAnims/barryRun/barryRun0001.png","assets/images/characters/barryAnims/barryRun/barryRun0003.png","assets/images/characters/barryAnims/barryRun/barryRun0002.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0014.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0015.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0003.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0002.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0016.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0012.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0006.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0007.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0013.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0005.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0011.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0010.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0004.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0009.png","assets/images/characters/barryAnims/barryIdle/Barry_Idle0008.png","assets/images/characters/barry.png","assets/images/barryIsBreakDancing2.png","assets/images/openingMovie/opening0037.png","assets/images/openingMovie/opening0023.png","assets/images/openingMovie/opening0022.png","assets/images/openingMovie/opening0036.png","assets/images/openingMovie/opening0020.png","assets/images/openingMovie/opening0034.png","assets/images/openingMovie/opening0008.png","assets/images/openingMovie/opening0009.png","assets/images/openingMovie/opening0035.png","assets/images/openingMovie/opening0021.png","assets/images/openingMovie/opening0019.png","assets/images/openingMovie/opening0025.png","assets/images/openingMovie/opening0031.png","assets/images/openingMovie/opening0030.png","assets/images/openingMovie/opening0024.png","assets/images/openingMovie/opening0018.png","assets/images/openingMovie/opening0032.png","assets/images/openingMovie/opening0026.png","assets/images/openingMovie/opening0027.png","assets/images/openingMovie/opening0033.png","assets/images/openingMovie/opening0040.png","assets/images/openingMovie/opening0041.png","assets/images/openingMovie/opening0043.png","assets/images/openingMovie/opening0042.png","assets/images/openingMovie/opening0016.png","assets/images/openingMovie/opening0002.png","assets/images/openingMovie/opening0003.png","assets/images/openingMovie/opening0017.png","assets/images/openingMovie/opening0001.png","assets/images/openingMovie/opening0015.png","assets/images/openingMovie/opening0029.png","assets/images/openingMovie/opening0028.png","assets/images/openingMovie/opening0014.png","assets/images/openingMovie/opening0038.png","assets/images/openingMovie/opening0004.png","assets/images/openingMovie/opening0010.png","assets/images/openingMovie/opening0011.png","assets/images/openingMovie/opening0005.png","assets/images/openingMovie/opening0039.png","assets/images/openingMovie/opening0013.png","assets/images/openingMovie/opening0007.png","assets/images/openingMovie/opening0006.png","assets/images/openingMovie/opening0012.png","assets/images/BarryLogo.png","assets/images/images-go-here.txt","assets/images/barryIsBreakdancing.png","assets/images/boxtest.png","assets/sounds/fightSFX.mp3","assets/sounds/stateBackSFX.mp3","assets/sounds/dialogueBlipSFX.mp3","assets/sounds/optionChangeSFX.mp3","assets/sounds/volumeBlipSFX.mp3","assets/data/data-goes-here.txt"];
 flixel_FlxBasic.idEnumerator = 0;
 flixel_FlxObject.defaultPixelPerfectPosition = false;
 flixel_FlxObject.SEPARATE_BIAS = 4;

@@ -77,6 +77,7 @@ export/flash/bin/assets/sounds/fightSFX.mp3
 export/flash/bin/assets/sounds/optionChangeSFX.mp3
 export/flash/bin/assets/sounds/stateBackSFX.mp3
 export/flash/bin/assets/sounds/dialogueBlipSFX.mp3
+export/flash/bin/assets/sounds/volumeBlipSFX.mp3
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0002.png
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0003.png

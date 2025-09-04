@@ -1,4 +1,4 @@
-// DialogueBox.hx
+//
 package;
 
 import flixel.FlxG;
@@ -15,6 +15,7 @@ class DialogueBox extends FlxSprite {
     private var dialogueText:FlxText;
     private var typing:Bool = false;
     private var onComplete:Void->Void;
+	private var canAdvance:Bool = false;
 
 	public function new(dialogue:Array<String>, ?onComplete:Void->Void)
 	{
@@ -38,33 +39,9 @@ class DialogueBox extends FlxSprite {
 		playOpenAnimation();
 	}
 
-    private function startTyping():Void {
-        dialogueText.text = "";
-        charIndex = 0;
-        typing = true;
-        typeNextCharacter();
-    }
-
-    private function typeNextCharacter():Void {
-        if (charIndex < dialogue[currentLine].length) {
-			FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.1);
-
-            dialogueText.text += dialogue[currentLine].charAt(charIndex);
-            charIndex++;
-            new FlxTimer().start(0.03, function(_) { typeNextCharacter(); });
-        } else {
-            typing = false;
-        }
-    }
-
-	private function typeWholeLine():Void
-	{
-		charIndex += dialogue[currentLine].length;
-		dialogueText.text = dialogue[currentLine];
-		typing = false;
-	}
-
     public function updateBox():Void {
+		if (!canAdvance)
+			return;
         var mousePos = FlxG.mouse.getWorldPosition();
         if (this.overlapsPoint(mousePos)) {
             Application.current.window.cursor = MouseCursor.POINTER;
@@ -94,6 +71,40 @@ class DialogueBox extends FlxSprite {
 			}
 		}
     }
+
+	private function startTyping():Void
+	{
+		dialogueText.text = "";
+		charIndex = 0;
+		typing = true;
+		typeNextCharacter();
+	}
+
+	private function typeNextCharacter():Void
+	{
+		if (charIndex < dialogue[currentLine].length)
+		{
+			FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.1);
+
+			dialogueText.text += dialogue[currentLine].charAt(charIndex);
+			charIndex++;
+			new FlxTimer().start(0.03, function(_)
+			{
+				typeNextCharacter();
+			});
+		}
+		else
+		{
+			typing = false;
+		}
+	}
+
+	private function typeWholeLine():Void
+	{
+		charIndex += dialogue[currentLine].length;
+		dialogueText.text = dialogue[currentLine];
+		typing = false;
+	}
 
     private function nextLine():Void {
         currentLine++;
@@ -128,6 +139,7 @@ class DialogueBox extends FlxSprite {
 				// stop animation and start typing
 				timer.destroy();
 				startTyping();
+				canAdvance = true;
 			}
 		}, frames.length);
 	}

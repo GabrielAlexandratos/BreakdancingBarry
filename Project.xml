@@ -124,6 +124,7 @@
 		<sound path="sounds/optionChangeSFX.mp3" />
 		<sound path="sounds/stateBackSFX.mp3" />
 		<sound path="sounds/dialogueBlipSFX.mp3" />
+		<sound path="sounds/volumeBlipSFX.mp3" />
 
 		<!-- Character animations-->
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0001.png" />
