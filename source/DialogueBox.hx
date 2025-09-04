@@ -79,8 +79,20 @@ class DialogueBox extends FlxSprite {
 					nextLine();
 				}
 
-            }
-        }
+			}
+		}
+
+		if (FlxG.keys.justPressed.E)
+		{
+			if (typing)
+			{
+				typeWholeLine();
+			}
+			else
+			{
+				nextLine();
+			}
+		}
     }
 
     private function nextLine():Void {
@@ -98,8 +110,7 @@ class DialogueBox extends FlxSprite {
 	private function playOpenAnimation():Void
 	{
 		var frames = [
-			"assets/images/dialogueBox0002.png",
-			"assets/images/dialogueBox0003.png",
+		"assets/images/dialogueBox0002.png",
 			"assets/images/dialogueBox0004.png"
 		];
 

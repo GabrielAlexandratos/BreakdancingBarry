@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "22";
+	app.meta.h["build"] = "23";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Breakdancing Barry";
@@ -6692,6 +6692,14 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 				}
 			}
 		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatusUnsafe(69,_this.status)) {
+			if(this.typing) {
+				this.typeWholeLine();
+			} else {
+				this.nextLine();
+			}
+		}
 	}
 	,nextLine: function() {
 		this.currentLine++;
@@ -6707,7 +6715,7 @@ DialogueBox.prototype = $extend(flixel_FlxSprite.prototype,{
 	}
 	,playOpenAnimation: function() {
 		var _gthis = this;
-		var frames = ["assets/images/dialogueBox0002.png","assets/images/dialogueBox0003.png","assets/images/dialogueBox0004.png"];
+		var frames = ["assets/images/dialogueBox0002.png","assets/images/dialogueBox0004.png"];
 		var frameIndex = 0;
 		new flixel_util_FlxTimer().start(0.03,function(timer) {
 			_gthis.loadGraphic(frames[frameIndex]);
@@ -6913,12 +6921,21 @@ Interactable.prototype = $extend(flixel_FlxSprite.prototype,{
 		var dy = player.y + player.get_height() / 2 - (this.y + this.get_height() / 2);
 		var dist = Math.sqrt(dx * dx + dy * dy);
 		var mousePos = flixel_FlxG.mouse.getWorldPosition();
-		if(dist <= this.interactRange && this.overlapsPoint(mousePos)) {
-			lime_app_Application.current.__window.set_cursor(lime_ui_MouseCursor.POINTER);
-			if(flixel_FlxG.mouse._leftButton.current == 2) {
+		if(dist <= this.interactRange) {
+			var _this = flixel_FlxG.keys.justPressed;
+			if(_this.keyManager.checkStatusUnsafe(69,_this.status)) {
 				var state = js_Boot.__cast(flixel_FlxG.game._state , StoryModeState);
 				if(state.dialogueBox == null && this.onInteract != null) {
 					this.onInteract();
+				}
+			}
+			if(this.overlapsPoint(mousePos)) {
+				lime_app_Application.current.__window.set_cursor(lime_ui_MouseCursor.POINTER);
+				if(flixel_FlxG.mouse._leftButton.current == 2) {
+					var state = js_Boot.__cast(flixel_FlxG.game._state , StoryModeState);
+					if(state.dialogueBox == null && this.onInteract != null) {
+						this.onInteract();
+					}
 				}
 			}
 		} else {
@@ -8086,7 +8103,7 @@ OpeningMonologueState.prototype = $extend(flixel_FlxState.prototype,{
 	,create: function() {
 		var _gthis = this;
 		flixel_FlxState.prototype.create.call(this);
-		this.dialogue = ["We're wired in...","You ... chosen to save the school...","We need you Barry... To...\nSave us all...","... activation word...\nIs...","(You feel your eyes getting heavy...)","...\n...","Lets transport this jawn!","Barry... You... are our last hope...","Don't let us down."];
+		this.dialogue = ["We're wired in. w","You ... chosen to save the school...","We need you Barry...","... activation word...\nIs...","(You feel your eyes getting heavy...)","...\n...","Lets transport this jawn!","Barry... You... are our last hope...","Don't let us down."];
 		this.currentLine = 0;
 		this.charIndex = 0;
 		this.dialogueText = new flixel_text_FlxText(20,flixel_FlxG.height / 2,flixel_FlxG.width - 40,"");
@@ -9196,19 +9213,6 @@ TitleState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxState.prototype.update.call(this,elapsed);
 		var mousePos = flixel_FlxG.mouse.getWorldPosition();
 		if(!this.isSelecting) {
-			var _g = 0;
-			var _g1 = this.menuOptions.length;
-			while(_g < _g1) {
-				var i = _g++;
-				var option = this.menuOptions[i];
-				if(option.overlapsPoint(mousePos)) {
-					if(this.selectedIndex != i) {
-						this.selectedIndex = i;
-						flixel_FlxG.sound.play("assets/sounds/optionChangeSFX.mp3",0.2);
-						this.positionMenu();
-					}
-				}
-			}
 			var _this = flixel_FlxG.keys.justPressed;
 			if(_this.keyManager.checkStatusUnsafe(87,_this.status)) {
 				flixel_FlxG.sound.play("assets/sounds/optionChangeSFX.mp3",0.2);
@@ -9331,7 +9335,7 @@ TitleState.prototype = $extend(flixel_FlxState.prototype,{
 			openfl_system_System.exit(0);
 			break;
 		default:
-			haxe_Log.trace("wrong",{ fileName : "source/TitleState.hx", lineNumber : 202, className : "TitleState", methodName : "executeOption"});
+			haxe_Log.trace("wrong",{ fileName : "source/TitleState.hx", lineNumber : 203, className : "TitleState", methodName : "executeOption"});
 		}
 	}
 	,__class__: TitleState
@@ -87406,7 +87410,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 425562;
+	this.version = 150495;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

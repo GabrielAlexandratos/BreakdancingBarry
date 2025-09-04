@@ -78,7 +78,8 @@ class TitleState extends FlxState {
 		var mousePos = FlxG.mouse.getWorldPosition();
 		if (!isSelecting)
 		{
-			for (i in 0...menuOptions.length)
+			// MOUSE SELECTING IN TITLE MENU
+			/*for (i in 0...menuOptions.length)
 			{
 				var option = menuOptions[i];
 				if (option.overlapsPoint(mousePos))
@@ -90,7 +91,7 @@ class TitleState extends FlxState {
 						positionMenu();
 					}
 				}
-			}
+			}*/
 			
 			if (FlxG.keys.justPressed.W)
 			{

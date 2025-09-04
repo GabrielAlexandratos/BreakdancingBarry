@@ -20,12 +20,12 @@ class OpeningMonologueState extends FlxState
 	{
 		super.create();
 		dialogue = [
-			"We're wired in...",
+			"We're wired in. w",
 			"You ... chosen to save the school...",
 			// "For us... For...",
 			// "... ready?",
 			// "Too much ... makes ... dance break...",
-			"We need you Barry... To...\nSave us all...",
+			"We need you Barry...",
 			"... activation word...\nIs...",
 			"(You feel your eyes getting heavy...)",
 			"...\n...",

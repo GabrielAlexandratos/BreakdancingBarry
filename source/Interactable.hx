@@ -24,16 +24,27 @@ class Interactable extends FlxSprite {
 
 		var mousePos = FlxG.mouse.getWorldPosition();
 
-		if (dist <= interactRange && this.overlapsPoint(mousePos))
+		if (dist <= interactRange)
 		{
-			Application.current.window.cursor = MouseCursor.POINTER;
-
-			if (FlxG.mouse.justPressed)
+			if (FlxG.keys.justPressed.E)
 			{
 				var state = cast(FlxG.state, StoryModeState);
 				if (state.dialogueBox == null && onInteract != null)
 				{
 					onInteract();
+				}
+			}
+			if (this.overlapsPoint(mousePos))
+			{
+				Application.current.window.cursor = MouseCursor.POINTER;
+
+				if (FlxG.mouse.justPressed)
+				{
+					var state = cast(FlxG.state, StoryModeState);
+					if (state.dialogueBox == null && onInteract != null)
+					{
+						onInteract();
+					}
 				}
 			}
 		}
