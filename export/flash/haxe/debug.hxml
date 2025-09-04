@@ -22,6 +22,7 @@
 -D no-compilation
 -D NAPE_RELEASE_BUILD
 -D openfl-flash
+-D FLX_NO_SOUND_TRAY
 -D FLX_NO_HEALTH
 -D web
 --macro flixel.system.macros.FlxDefines.run()

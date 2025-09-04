@@ -78,6 +78,20 @@
 		<image path="images/openingMovie/opening0042.png" />
 		<image path="images/openingMovie/opening0043.png" />
 
+		<!-- SOUND TRAY -->
+		<image path="images/soundtray/soundtray_0.png" />
+		<image path="images/soundtray/soundtray_1.png" />
+		<image path="images/soundtray/soundtray_2.png" />
+		<image path="images/soundtray/soundtray_3.png" />
+		<image path="images/soundtray/soundtray_4.png" />
+		<image path="images/soundtray/soundtray_5.png" />
+		<image path="images/soundtray/soundtray_6.png" />
+		<image path="images/soundtray/soundtray_7.png" />
+		<image path="images/soundtray/soundtray_8.png" />
+		<image path="images/soundtray/soundtray_9.png" />
+		<image path="images/soundtray/soundtray_10.png" />
+
+
 		<!-- UI Images -->
 		<image path="images/BarryLogo.png" />
 		<image path="images/backgrounds/titlebackground.png" />
