@@ -21,6 +21,7 @@ class OpeningState extends FlxState {
 	private var madeByCredits2:FlxSprite;
 	private var ngToggleTimer:FlxTimer;
 	private var showingAltNG:Bool = false;
+
 	private var creditsToggleTimer:FlxTimer;
 	private var showingAltCredits:Bool = false;
 	private var baseScale:Float = 0.7;
@@ -81,7 +82,9 @@ class OpeningState extends FlxState {
 		madeByCredits1.loadGraphic("assets/images/madeByCredits1.png", false);
 		madeByCredits1.origin.set(madeByCredits1.width / 2, madeByCredits1.height / 2 - 50);
 		madeByCredits1.screenCenter();
+
 		madeByCredits1.visible = false;
+
 		add(madeByCredits1);
 		madeByCredits2 = new FlxSprite();
 		madeByCredits2.loadGraphic("assets/images/madeByCredits2.png", false);
@@ -95,9 +98,12 @@ class OpeningState extends FlxState {
 	{
         super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ENTER && canSkip)
+		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE)
 		{
-			FlxG.switchState(TitleState.new);
+			if (canSkip)
+			{
+				FlxG.switchState(TitleState.new);
+			}
 		}
 
 		if (playingOpening)
@@ -153,6 +159,7 @@ class OpeningState extends FlxState {
 										// Start alternating between the two credits
 										creditsToggleTimer = new FlxTimer().start(0.5, function(timer:FlxTimer)
 										{
+
 											showingAltCredits = !showingAltCredits;
 											madeByCredits1.visible = !showingAltCredits;
 											madeByCredits2.visible = showingAltCredits;
@@ -185,8 +192,12 @@ class OpeningState extends FlxState {
         if (clickToStartImage.overlapsPoint(mousePoint)) {
 			if (FlxG.mouse.justPressed && !startClicked)
 			{
-				startClicked = true;
-				new FlxTimer().start(0.5, function(_)
+				new FlxTimer().start(0.3, function(_)
+				{
+					startClicked = true;
+					clickToStartImage.visible = false;
+				});
+				new FlxTimer().start(1.5, function(_)
 				{
 					FlxG.sound.playMusic(AssetPaths.titleIntro__mp3, 0.6, false);
 					FlxG.sound.music.onComplete = function()
@@ -194,7 +205,6 @@ class OpeningState extends FlxState {
 						FlxG.sound.playMusic(AssetPaths.titleLoop__mp3, 0.6, true);
 					};
 
-					clickToStartImage.visible = false;
 					openingMovie.visible = true;
 					playingOpening = true;
 					canSkip = true;
@@ -225,8 +235,6 @@ class OpeningState extends FlxState {
 			clickToStartImage.screenCenter();
 			clickToStartImage.alpha = 0.5;
 		}
-
-
         mousePoint.put();
 	}
 

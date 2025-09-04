@@ -27,6 +27,7 @@
 -D no-compilation
 -D openfl-html5
 -D NAPE_RELEASE_BUILD
+-D FLX_NO_SOUND_TRAY
 -D html5
 -D web
 --remap flash:openfl

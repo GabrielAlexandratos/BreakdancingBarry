@@ -110,12 +110,13 @@ class DialogueBox extends FlxSprite {
 	private function playOpenAnimation():Void
 	{
 		var frames = [
-		"assets/images/dialogueBox0002.png",
+			"assets/images/dialogueBox0002.png",
+			"assets/images/dialogueBox0003.png",
 			"assets/images/dialogueBox0004.png"
 		];
 
 		var frameIndex = 0;
-		new FlxTimer().start(0.03, function(timer:FlxTimer)
+		new FlxTimer().start(0.02, function(timer:FlxTimer)
 		{
 			loadGraphic(frames[frameIndex]);
 			scale.set(1, 0.8);
