@@ -10,7 +10,7 @@ import openfl.display.Sprite;
 class CustomSoundTray extends Sprite
 {
 	private var bitmap:Bitmap;
-	public var targetX:Float; // the X position when visible
+	public var targetX:Float; 
 
 	private var currentTween:FlxTween;
 
@@ -20,7 +20,7 @@ class CustomSoundTray extends Sprite
 		this.x = x;
 		this.y = y;
 
-		targetX = x; // store the visible position
+		targetX = x; 
 
 		bitmap = new Bitmap();
 		bitmap.scaleX = 0.6;
@@ -29,7 +29,7 @@ class CustomSoundTray extends Sprite
 
 		updateVolumeDisplay();
 		// Start offscreen
-		this.x += 200; // move it right offscreen
+		this.x += 200; 
 	}
 
 	public function showTray():Void
@@ -78,6 +78,6 @@ class CustomSoundTray extends Sprite
 		if (level > 10)
 			level = 10;
 
-		bitmap.bitmapData = Assets.getBitmapData("assets/images/soundtray/soundtray_" + level + ".png");
+		bitmap.bitmapData = Assets.getBitmapData("assets/images/soundtray/soundtray_" + (10 - level) + ".png");
 	}
 }
