@@ -16,6 +16,7 @@ class DialogueBox extends FlxSprite {
     private var typing:Bool = false;
     private var onComplete:Void->Void;
 	private var canAdvance:Bool = false;
+	private var continueSprite:FlxSprite;
 
 	public function new(dialogue:Array<String>, ?onComplete:Void->Void)
 	{
@@ -25,6 +26,10 @@ class DialogueBox extends FlxSprite {
 		y = (FlxG.height - 300);
 		loadGraphic("assets/images/dialogueBox0001.png");
 
+		continueSprite = new FlxSprite(FlxG.width - 930, FlxG.height - 115);
+		continueSprite.loadGraphic("assets/images/pressEtoContinue.png");
+		continueSprite.scale.set(0.6, 0.6);
+		
 		this.dialogue = dialogue;
 		this.onComplete = onComplete;
 
@@ -35,6 +40,7 @@ class DialogueBox extends FlxSprite {
 
 		FlxG.state.add(this);
 		FlxG.state.add(dialogueText);
+		FlxG.state.add(continueSprite);
 
 		playOpenAnimation();
 	}
