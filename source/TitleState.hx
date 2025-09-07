@@ -93,13 +93,13 @@ class TitleState extends FlxState {
 				}
 			}*/
 			
-			if (FlxG.keys.justPressed.W)
+			if (FlxG.keys.justPressed.W && FlxG.keys.justPressed.UP)
 			{
 				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
 				selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
 				positionMenu();
 			}
-			else if (FlxG.keys.justPressed.S)
+			else if (FlxG.keys.justPressed.S && FlxG.keys.justPressed.DOWN)
 			{
 				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
 				selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
