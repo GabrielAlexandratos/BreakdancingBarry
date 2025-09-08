@@ -40,7 +40,10 @@ class DialogueBox extends FlxSprite {
 
 		FlxG.state.add(this);
 		FlxG.state.add(dialogueText);
-		FlxG.state.add(continueSprite);
+		new FlxTimer().start(0.06, function(timer:FlxTimer){
+
+			FlxG.state.add(continueSprite);
+		});
 
 		playOpenAnimation();
 	}
