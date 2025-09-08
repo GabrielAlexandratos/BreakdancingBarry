@@ -107,6 +107,7 @@
 		<image path="images/dialogueBox0002.png" />
 		<image path="images/dialogueBox0003.png" />
 		<image path="images/dialogueBox0004.png" />
+		<image path="images/pressEtoContinue.png" />
 		
 		<!-- Main Menu Images -->
 		<image path="images/mainmenu/storymode.png" />
@@ -144,7 +145,41 @@
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0015.png" />
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0016.png" />
 
-		
+		<image path="images/characters/dusterAnims/idle/dusterIdle0001.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0002.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0003.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0004.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0005.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0006.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0007.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0008.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0009.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0010.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0011.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0012.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0013.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0014.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0015.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0016.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0017.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0018.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0019.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0020.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0021.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0022.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0023.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0024.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0025.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0026.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0027.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0028.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0029.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0030.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0031.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0032.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0033.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0034.png" />
+		<image path="images/characters/dusterAnims/idle/dusterIdle0035.png" />
 
 	</assets>
 

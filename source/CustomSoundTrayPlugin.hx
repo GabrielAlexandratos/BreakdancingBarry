@@ -12,7 +12,7 @@ class CustomSoundTrayPlugin extends FlxBasic
 	{
         super();
 		// create the tray at bottom-right
-		tray = new CustomSoundTray(FlxG.width - 72, FlxG.height - 520);
+		tray = new CustomSoundTray(FlxG.width - 80, FlxG.height - 620);
         if (FlxG.stage != null) {
             FlxG.stage.addChild(tray);
         }

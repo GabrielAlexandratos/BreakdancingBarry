@@ -9,10 +9,18 @@ import lime.ui.MouseCursor;
 class Interactable extends FlxSprite {
 	public var interactRange:Float = 200;
     public var onInteract:Void->Void;
+	private var sprite:FlxSprite;
+	private var idleFrame:Int = 0;
+	private var idleTimer:Float = 0;
+	private var idleFPS:Float = 14;
+	private var totalIdleFrames:Int = 35; 
 
     public function new(x:Float, y:Float, width:Int, height:Int, color:Int, onInteract:Void->Void) {
         super(x, y);
-        makeGraphic(width, height, color);
+		loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle0001.png");
+		scale.set(0.7, 0.7);
+		flipX = true;
+		origin.set(width / 2, height / 2);
         this.onInteract = onInteract;
     }
 
@@ -51,6 +59,18 @@ class Interactable extends FlxSprite {
 		else
 		{
 			Application.current.window.cursor = MouseCursor.ARROW;
+		}
+	}
+	override public function update(elapsed:Float):Void
+	{
+		idleTimer += elapsed;
+		if (idleTimer >= 1.0 / idleFPS)
+		{
+			idleTimer -= 1.0 / idleFPS;
+			idleFrame = (idleFrame + 1) % totalIdleFrames;
+			var frameNumber = idleFrame + 1;
+			var frameString = frameNumber < 10 ? "000" + frameNumber : (frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber);
+			loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle" + frameString + ".png", false);
 		}
 	}
 }
