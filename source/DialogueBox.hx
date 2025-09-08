@@ -126,6 +126,7 @@ class DialogueBox extends FlxSprite {
     }
 	private function playOpenAnimation():Void
 	{
+		FlxG.sound.play("assets/sounds/openDialogueBoxSFX.mp3");
 		var frames = [
 			"assets/images/dialogueBox0002.png",
 			"assets/images/dialogueBox0003.png",
