@@ -1,6 +1,7 @@
 //
 package;
 
+import openfl.display3D.Context3DTextureFormat;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -27,7 +28,7 @@ class DialogueBox extends FlxSprite {
 		loadGraphic("assets/images/dialogueBox0001.png");
 
 		continueSprite = new FlxSprite(FlxG.width - 930, FlxG.height - 115);
-		continueSprite.loadGraphic("assets/images/pressEtoContinue.png");
+		continueSprite.loadGraphic("assets/images/pressEtoContinue0001.png");
 		continueSprite.scale.set(0.6, 0.6);
 		
 		this.dialogue = dialogue;
@@ -40,7 +41,7 @@ class DialogueBox extends FlxSprite {
 
 		FlxG.state.add(this);
 		FlxG.state.add(dialogueText);
-		new FlxTimer().start(0.06, function(timer:FlxTimer){
+		new FlxTimer().start(0.09, function(timer:FlxTimer){
 
 			FlxG.state.add(continueSprite);
 		});
@@ -137,9 +138,17 @@ class DialogueBox extends FlxSprite {
 			"assets/images/dialogueBox0003.png",
 			"assets/images/dialogueBox0004.png"
 		];
+		var continueFrames = [
+			"assets/images/pressEtoContinue0001.png",
+			"assets/images/pressEtoContinue0002.png",
+			"assets/images/pressEtoContinue0003.png",
+			"assets/images/pressEtoContinue0004.png",
+			"assets/images/pressEtoContinue0005.png",
+			"assets/images/pressEtoContinue0006.png"
+		];
 
 		var frameIndex = 0;
-		new FlxTimer().start(0.02, function(timer:FlxTimer)
+		new FlxTimer().start(0.03, function(timer:FlxTimer)
 		{
 			loadGraphic(frames[frameIndex]);
 			scale.set(1, 0.8);
@@ -148,28 +157,30 @@ class DialogueBox extends FlxSprite {
 			frameIndex++;
 			if (frameIndex >= frames.length)
 			{
-				// start typing
 				timer.destroy();
 				startTyping();
 				canAdvance = true;
-				// start flickering between two images
+
+				// dialogue animation
 				var boxToggle:Bool = false;
-				new FlxTimer().start(0.2, function(swapTimer:FlxTimer){
+				new FlxTimer().start(0.2, function(swapTimer:FlxTimer) {
 					boxToggle = !boxToggle;
-
 					makeGraphic(1, 1, 0x00000000);
-
-					if (boxToggle) {
-						loadGraphic("assets/images/dialogueBox0004.png");
-					} else {
-						loadGraphic("assets/images/dialogueBox0005.png");
-					}
+					loadGraphic(boxToggle ? "assets/images/dialogueBox0004.png" : "assets/images/dialogueBox0005.png");
 					scale.set(1, 0.8);
 					origin.set(0, 0);
 					x = (FlxG.width - width) / 2;
 					y = FlxG.height - 300;
 				}, 0);
+				
+				var cFrameIndex = 0;
+				new FlxTimer().start(0.15, function(cTimer:FlxTimer) {
+					continueSprite.loadGraphic(continueFrames[cFrameIndex]);
+					continueSprite.scale.set(0.6, 0.6);
+					cFrameIndex = (cFrameIndex + 1) % continueFrames.length;
+				}, 0);
 			}
 		}, frames.length);
 	}
+
 }

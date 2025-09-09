@@ -108,7 +108,12 @@
 		<image path="images/dialogueBox0003.png" />
 		<image path="images/dialogueBox0004.png" />
 		<image path="images/dialogueBox0005.png" />
-		<image path="images/pressEtoContinue.png" />
+		<image path="images/pressEtoContinue0001.png" />
+		<image path="images/pressEtoContinue0002.png" />
+		<image path="images/pressEtoContinue0003.png" />
+		<image path="images/pressEtoContinue0004.png" />
+		<image path="images/pressEtoContinue0005.png" />
+		<image path="images/pressEtoContinue0006.png" />
 		<image path="images/pressE.png" />
 
 		<!-- Main Menu Images -->
