@@ -98,7 +98,7 @@ class OpeningState extends FlxState {
 	{
         super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.SPACE)
 		{
 			if (canSkip)
 			{

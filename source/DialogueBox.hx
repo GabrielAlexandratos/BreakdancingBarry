@@ -117,6 +117,7 @@ class DialogueBox extends FlxSprite {
 
     private function nextLine():Void {
         currentLine++;
+		FlxG.sound.play("assets/sounds/dialogueNewLine.mp3",0.2);
         if (currentLine < dialogue.length) {
             startTyping();
         } else {
@@ -130,7 +131,7 @@ class DialogueBox extends FlxSprite {
     }
 	private function playOpenAnimation():Void
 	{
-		FlxG.sound.play("assets/sounds/openDialogueBoxSFX.mp3", 0.5);
+		FlxG.sound.play("assets/sounds/openDialogueBoxSFX.mp3", 0.25);
 		var frames = [
 			"assets/images/dialogueBox0002.png",
 			"assets/images/dialogueBox0003.png",
@@ -147,10 +148,27 @@ class DialogueBox extends FlxSprite {
 			frameIndex++;
 			if (frameIndex >= frames.length)
 			{
-				// stop animation and start typing
+				// start typing
 				timer.destroy();
 				startTyping();
 				canAdvance = true;
+				// start flickering between two images
+				var boxToggle:Bool = false;
+				new FlxTimer().start(0.2, function(swapTimer:FlxTimer){
+					boxToggle = !boxToggle;
+
+					makeGraphic(1, 1, 0x00000000);
+
+					if (boxToggle) {
+						loadGraphic("assets/images/dialogueBox0004.png");
+					} else {
+						loadGraphic("assets/images/dialogueBox0005.png");
+					}
+					scale.set(1, 0.8);
+					origin.set(0, 0);
+					x = (FlxG.width - width) / 2;
+					y = FlxG.height - 300;
+				}, 0);
 			}
 		}, frames.length);
 	}

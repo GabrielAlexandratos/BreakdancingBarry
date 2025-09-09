@@ -107,6 +107,7 @@
 		<image path="images/dialogueBox0002.png" />
 		<image path="images/dialogueBox0003.png" />
 		<image path="images/dialogueBox0004.png" />
+		<image path="images/dialogueBox0005.png" />
 		<image path="images/pressEtoContinue.png" />
 		<image path="images/pressE.png" />
 
@@ -128,6 +129,7 @@
 		<sound path="sounds/dialogueBlipSFX.mp3" />
 		<sound path="sounds/volumeBlipSFX.mp3" />
 		<sound path="sounds/openDialogueBoxSFX.mp3" />
+		<sound path="sounds/dialogueNewLine.mp3" />
 
 		<!-- Character animations-->
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0001.png" />
