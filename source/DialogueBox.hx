@@ -144,7 +144,13 @@ class DialogueBox extends FlxSprite {
 			"assets/images/pressEtoContinue0003.png",
 			"assets/images/pressEtoContinue0004.png",
 			"assets/images/pressEtoContinue0005.png",
-			"assets/images/pressEtoContinue0006.png"
+			"assets/images/pressEtoContinue0006.png",
+			"assets/images/pressEtoContinue0007.png",
+			"assets/images/pressEtoContinue0008.png",
+			"assets/images/pressEtoContinue0009.png",
+			"assets/images/pressEtoContinue0010.png",
+			"assets/images/pressEtoContinue0011.png",
+			"assets/images/pressEtoContinue0012.png"
 		];
 
 		var frameIndex = 0;

@@ -32,6 +32,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets">
+		
 		<!-- Opening Movie -->
 		<image path="images/clickToStartImage.png" />
 		<image path="images/openingMovie/opening0001.png" />
@@ -91,9 +92,7 @@
 		<image path="images/soundtray/soundtray_9.png" />
 		<image path="images/soundtray/soundtray_10.png" />
 
-
 		<!-- UI Images -->
-		<image path="images/BarryLogo.png" />
 		<image path="images/backgrounds/titlebackground.png" />
 		<image path="images/backgrounds/trackselectbackground.png" />
 		<image path="images/backgrounds/optionsbackground.png" />
@@ -114,14 +113,23 @@
 		<image path="images/pressEtoContinue0004.png" />
 		<image path="images/pressEtoContinue0005.png" />
 		<image path="images/pressEtoContinue0006.png" />
+		<image path="images/pressEtoContinue0007.png" />
+		<image path="images/pressEtoContinue0008.png" />
+		<image path="images/pressEtoContinue0009.png" />
+		<image path="images/pressEtoContinue0010.png" />
+		<image path="images/pressEtoContinue0011.png" />
+		<image path="images/pressEtoContinue0012.png" />
 		<image path="images/pressE0001.png" />
 		<image path="images/pressE0002.png" />
+
+		<!-- Custom Cursor Images -->
+		<image path="images/cursors/pointer_cursor.png" />
+		<image path="images/cursors/talk_cursor.png" />
 
 		<!-- Main Menu Images -->
 		<image path="images/mainmenu/storymode.png" />
 		<image path="images/mainmenu/trackselect.png" />
 		<image path="images/mainmenu/exitoption.png" />
-
 
 		<!-- Music -->
 		<music path="music/titleIntro.mp3" />

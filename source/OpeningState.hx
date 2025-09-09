@@ -9,6 +9,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import lime.ui.MouseCursor;
+import openfl.display.BitmapData;
+import openfl.Assets;
 
 class OpeningState extends FlxState {
 
@@ -32,7 +34,6 @@ class OpeningState extends FlxState {
 	private var currentFrame:Int = 0;
 	private var frameTimer:Float = 0;
 	private var playingOpening:Bool = false;
-
 
 	override public function create()
 	{
@@ -97,6 +98,7 @@ class OpeningState extends FlxState {
 	override public function update(elapsed:Float)
 	{
         super.update(elapsed);
+
 
 		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.SPACE)
 		{
