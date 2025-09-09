@@ -3,6 +3,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.util.FlxTimer;
 import lime.app.Application;
 import lime.ui.MouseCursor;
 
@@ -15,6 +16,7 @@ class Interactable extends FlxSprite {
 	private var idleFPS:Float = 14;
 	private var totalIdleFrames:Int = 35; 
 	private var interactSprite:FlxSprite;
+	private var flickerTimer:FlxTimer;
 
     public function new(x:Float, y:Float, width:Int, height:Int, color:Int, onInteract:Void->Void) {
         super(x, y);
@@ -26,14 +28,27 @@ class Interactable extends FlxSprite {
 
 		interactSprite = new FlxSprite();
 		interactSprite.loadGraphic("assets/images/pressE0001.png");
-		interactSprite.scale.set(0.7, 0.7);
+		interactSprite.scale.set(0.75, 0.75);
 
 		interactSprite.x = this.x + (this.width-interactSprite.width) / 2;
-		interactSprite.y = this.y - interactSprite.height + 75;
+		interactSprite.y = this.y - interactSprite.height + 50;
 
 		FlxG.state.add(interactSprite);
 
 		interactSprite.visible = false;
+
+		flickerTimer = new FlxTimer();
+		var frames = [
+			"assets/images/pressE0001.png",
+			"assets/images/pressE0002.png"
+		];
+		var frameIndex = 0;
+		flickerTimer.start(0.2, function(timer:FlxTimer) {
+			if (interactSprite.visible) {
+				interactSprite.loadGraphic(frames[frameIndex]);
+				frameIndex = (frameIndex + 1) % frames.length;
+			}
+		}, 0);
     }
 
 	public function checkInteraction(player:Player):Void

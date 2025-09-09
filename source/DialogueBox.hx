@@ -161,7 +161,7 @@ class DialogueBox extends FlxSprite {
 				startTyping();
 				canAdvance = true;
 
-				// dialogue animation
+				// dialogue box flicker
 				var boxToggle:Bool = false;
 				new FlxTimer().start(0.2, function(swapTimer:FlxTimer) {
 					boxToggle = !boxToggle;
