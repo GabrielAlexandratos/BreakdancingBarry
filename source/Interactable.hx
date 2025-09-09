@@ -25,8 +25,8 @@ class Interactable extends FlxSprite {
         this.onInteract = onInteract;
 
 		interactSprite = new FlxSprite();
-		interactSprite.loadGraphic("assets/images/pressE.png");
-		interactSprite.scale.set(0.45, 0.45);
+		interactSprite.loadGraphic("assets/images/pressE0001.png");
+		interactSprite.scale.set(0.7, 0.7);
 
 		interactSprite.x = this.x + (this.width-interactSprite.width) / 2;
 		interactSprite.y = this.y - interactSprite.height + 75;
