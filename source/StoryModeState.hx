@@ -4,49 +4,67 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
+import flixel.input.keyboard.FlxKey;
 
 class StoryModeState extends FlxState {
 
-	private var backgroundColor:FlxSprite;
+    private var backgroundColor:FlxSprite;
+    private var player:Player;
+    private var testInteractable:Interactable;
+    public var dialogueBox:DialogueBox;
 
-	private var player:Player;
-	private var testInteractable:Interactable;
-	public var dialogueBox:DialogueBox;
+    // Add the pause menu variable
+    private var pauseMenu:PauseMenu;
+    private var isPaused:Bool = false;
 
-	override public function create():Void
-	{
-		super.create();
-		backgroundColor = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFF4b4b4b);
-		add(backgroundColor);
+    override public function create():Void {
+        super.create();
 
-		player = new Player(FlxG.width / 2, FlxG.height / 2 + 200);
-		player.screenCenter();
-		add(player);
+        backgroundColor = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFF4b4b4b);
+        add(backgroundColor);
 
-		testInteractable = new Interactable(300, 400, 60, 60, FlxColor.WHITE, function()
-		{
-			dialogueBox = new DialogueBox(DialogueReference.D_test, function()
-			{
-				player.canMove = true;
-				dialogueBox = null;
-			});
-		});
-		add(testInteractable);
-	}
+        player = new Player(FlxG.width / 2, FlxG.height / 2 + 200);
+        player.screenCenter();
+        add(player);
 
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-		testInteractable.checkInteraction(player);
+        testInteractable = new Interactable(300, 400, 60, 60, FlxColor.WHITE, function() {
+            dialogueBox = new DialogueBox(DialogueReference.D_test, function() {
+                player.canMove = true;
+                dialogueBox = null;
+            });
+        });
+        add(testInteractable);
 
-		if (dialogueBox != null)
-		{
-			dialogueBox.updateBox();
-			player.canMove = false;
-		}
-		else
-		{
-			player.canMove = true;
-		}
-	}
+        pauseMenu = new PauseMenu();
+    }
+
+    override public function update(elapsed:Float):Void {
+        super.update(elapsed);
+
+        if (FlxG.keys.justPressed.TAB) { 
+            if (!isPaused) {
+                add(pauseMenu);
+                pauseMenu.slideIn();
+                isPaused = true;
+            } else {
+                remove(pauseMenu);
+                pauseMenu.disable();
+                isPaused = false;
+            }
+        }
+
+        // Only update the game if not paused
+        if (!isPaused) {
+            testInteractable.checkInteraction(player);
+
+            if (dialogueBox != null) {
+                dialogueBox.updateBox();
+                player.canMove = false;
+            } else {
+                player.canMove = true;
+            }
+        } else {
+            player.canMove = false;
+        }
+    }
 }

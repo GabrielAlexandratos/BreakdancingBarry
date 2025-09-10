@@ -53,7 +53,6 @@ export/html5/bin/assets/images/soundtray/soundtray_7.png
 export/html5/bin/assets/images/soundtray/soundtray_8.png
 export/html5/bin/assets/images/soundtray/soundtray_9.png
 export/html5/bin/assets/images/soundtray/soundtray_10.png
-export/html5/bin/assets/images/BarryLogo.png
 export/html5/bin/assets/images/backgrounds/titlebackground.png
 export/html5/bin/assets/images/backgrounds/trackselectbackground.png
 export/html5/bin/assets/images/backgrounds/optionsbackground.png
@@ -74,8 +73,16 @@ export/html5/bin/assets/images/pressEtoContinue0003.png
 export/html5/bin/assets/images/pressEtoContinue0004.png
 export/html5/bin/assets/images/pressEtoContinue0005.png
 export/html5/bin/assets/images/pressEtoContinue0006.png
+export/html5/bin/assets/images/pressEtoContinue0007.png
+export/html5/bin/assets/images/pressEtoContinue0008.png
+export/html5/bin/assets/images/pressEtoContinue0009.png
+export/html5/bin/assets/images/pressEtoContinue0010.png
+export/html5/bin/assets/images/pressEtoContinue0011.png
+export/html5/bin/assets/images/pressEtoContinue0012.png
 export/html5/bin/assets/images/pressE0001.png
 export/html5/bin/assets/images/pressE0002.png
+export/html5/bin/assets/images/cursors/pointer_cursor.png
+export/html5/bin/assets/images/cursors/talk_cursor.png
 export/html5/bin/assets/images/mainmenu/storymode.png
 export/html5/bin/assets/images/mainmenu/trackselect.png
 export/html5/bin/assets/images/mainmenu/exitoption.png
