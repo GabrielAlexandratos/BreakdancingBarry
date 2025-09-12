@@ -121,6 +121,7 @@
 		<image path="images/pressEtoContinue0012.png" />
 		<image path="images/pressE0001.png" />
 		<image path="images/pressE0002.png" />
+		<image path="images/paused.png" />
 
 		<!-- Custom Cursor Images -->
 		<image path="images/cursors/pointer_cursor.png" />

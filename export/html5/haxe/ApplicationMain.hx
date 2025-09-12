@@ -19,7 +19,7 @@ class ApplicationMain
 		lime.system.System.__registerEntryPoint("BreakdancingBarry", create);
 
 		#if (js && html5)
-		#if (munit || (utest && openfl_enable_utest_legacy_mode))
+		#if (munit || utest)
 		lime.system.System.embed("BreakdancingBarry", null, 1920, 1080);
 		#end
 		#else
@@ -35,7 +35,7 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "44";
+		app.meta["build"] = "45";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "BreakdancingBarry";
 		app.meta["name"] = "Breakdancing Barry";

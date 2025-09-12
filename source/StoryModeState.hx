@@ -44,12 +44,13 @@ class StoryModeState extends FlxState {
         if (FlxG.keys.justPressed.TAB) { 
             if (!isPaused) {
                 add(pauseMenu);
+                pauseMenu.disable();
                 pauseMenu.slideIn();
                 isPaused = true;
             } else {
-                remove(pauseMenu);
                 pauseMenu.disable();
                 isPaused = false;
+                remove(pauseMenu);
             }
         }
 
