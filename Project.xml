@@ -146,6 +146,9 @@
 		<sound path="sounds/openDialogueBoxSFX.mp3" />
 		<sound path="sounds/dialogueNewLine.mp3" />
 
+		<!-- Maps -->
+		<image path="images/maps/map001.png" />
+
 		<!-- Character animations-->
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0001.png" />
 		<image path="images/characters/barryAnims/barryIdle/Barry_Idle0002.png" />

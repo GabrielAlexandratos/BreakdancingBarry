@@ -17,17 +17,22 @@ class StoryModeState extends FlxState {
     private var pauseMenu:PauseMenu;
     private var isPaused:Bool = false;
 
+    private var background:FlxSprite;
+
     override public function create():Void {
         super.create();
 
         backgroundColor = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFF4b4b4b);
         add(backgroundColor);
 
-        player = new Player(FlxG.width / 2, FlxG.height / 2 + 200);
-        player.screenCenter();
+        background = new FlxSprite(0, 0);
+        background.loadGraphic("assets/images/maps/map001.png");
+        add(background);
+
+        player = new Player(FlxG.width / 2 + 300, FlxG.height - 350);
         add(player);
 
-        testInteractable = new Interactable(300, 400, 60, 60, FlxColor.WHITE, function() {
+        testInteractable = new Interactable(40, 600, 60, 60, FlxColor.WHITE, function() {
             dialogueBox = new DialogueBox(DialogueReference.D_test, function() {
                 player.canMove = true;
                 dialogueBox = null;

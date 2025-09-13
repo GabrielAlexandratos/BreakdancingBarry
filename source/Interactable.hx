@@ -8,7 +8,7 @@ import lime.app.Application;
 import lime.ui.MouseCursor;
 
 class Interactable extends FlxSprite {
-	public var interactRange:Float = 200;
+	public var interactRange:Float = 300;
     public var onInteract:Void->Void;
 	private var sprite:FlxSprite;
 	private var idleFrame:Int = 0;

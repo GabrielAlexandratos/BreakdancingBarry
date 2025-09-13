@@ -20,7 +20,7 @@ class Player extends FlxSprite {
 
         loadGraphic("assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png", false);
 
-        scale.set(0.7, 0.7);
+        scale.set(0.75, 0.75);
         origin.set(width / 2, height / 2);
     }
 
@@ -29,8 +29,8 @@ class Player extends FlxSprite {
 
         var vel = FlxPoint.get();
         if (canMove) {
-            if (FlxG.keys.pressed.W || FlxG.keys.pressed.UP) vel.y -= 1;
-            if (FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN) vel.y += 1;
+            if (FlxG.keys.pressed.W || FlxG.keys.pressed.UP) vel.y -= 0.75;
+            if (FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN) vel.y += 0.75;
             if (FlxG.keys.pressed.A || FlxG.keys.pressed.LEFT) vel.x -= 1;
             if (FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT) vel.x += 1;
 
@@ -42,6 +42,15 @@ class Player extends FlxSprite {
         } else {
             velocity.set(0, 0);
         }
+
+        // distance scaling
+        var minScale = 0.3;  
+        var maxScale = 1.0;   
+        var screenHeight = FlxG.height;
+
+        // Map y position to [minScale, maxScale]
+        var scaleFactor = minScale + (y / screenHeight) * (maxScale - minScale);
+        scale.set(scaleFactor, scaleFactor);
 
         // speed is 0 (idle)
         if (velocity.x == 0 && velocity.y == 0) {

@@ -81,6 +81,7 @@ export/flash/bin/assets/images/pressEtoContinue0011.png
 export/flash/bin/assets/images/pressEtoContinue0012.png
 export/flash/bin/assets/images/pressE0001.png
 export/flash/bin/assets/images/pressE0002.png
+export/flash/bin/assets/images/paused.png
 export/flash/bin/assets/images/cursors/pointer_cursor.png
 export/flash/bin/assets/images/cursors/talk_cursor.png
 export/flash/bin/assets/images/mainmenu/storymode.png
@@ -96,6 +97,7 @@ export/flash/bin/assets/sounds/dialogueBlipSFX.mp3
 export/flash/bin/assets/sounds/volumeBlipSFX.mp3
 export/flash/bin/assets/sounds/openDialogueBoxSFX.mp3
 export/flash/bin/assets/sounds/dialogueNewLine.mp3
+export/flash/bin/assets/images/maps/map001.png
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0002.png
 export/flash/bin/assets/images/characters/barryAnims/barryIdle/Barry_Idle0003.png
