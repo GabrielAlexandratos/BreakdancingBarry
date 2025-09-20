@@ -1,6 +1,7 @@
 // Interactable.hx
 package;
 
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
@@ -17,11 +18,11 @@ class Interactable extends FlxSprite {
 	private var totalIdleFrames:Int = 35; 
 	private var interactSprite:FlxSprite;
 	private var flickerTimer:FlxTimer;
+	public var collisionBox:CollisionBox;
 
     public function new(x:Float, y:Float, width:Int, height:Int, color:Int, onInteract:Void->Void) {
         super(x, y);
 		loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle0001.png");
-		scale.set(0.7, 0.7);
 		flipX = true;
 		origin.set(width / 2, height / 2);
         this.onInteract = onInteract;
@@ -49,6 +50,9 @@ class Interactable extends FlxSprite {
 				frameIndex = (frameIndex + 1) % frames.length;
 			}
 		}, 0);
+
+		collisionBox = new CollisionBox(x, y, width * 0.5, height * 0.75, true, FlxColor.GREEN);
+		FlxG.state.add(collisionBox);
     }
 
 	public function checkInteraction(player:Player):Void
@@ -101,5 +105,7 @@ class Interactable extends FlxSprite {
 			var frameString = frameNumber < 10 ? "000" + frameNumber : (frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber);
 			loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle" + frameString + ".png", false);
 		}
+		collisionBox.x = x + (width - collisionBox.width) / 2;
+		collisionBox.y = y + (height - collisionBox.height);
 	}
 }

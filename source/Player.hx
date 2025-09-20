@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -15,13 +16,17 @@ class Player extends FlxSprite {
 	private var idleFPS:Float = 14;
     private var totalIdleFrames:Int = 16; 
 
+    public var collisionBox:CollisionBox;
+
     public function new(x:Float, y:Float) {
         super(x, y);
 
         loadGraphic("assets/images/characters/barryAnims/barryIdle/Barry_Idle0001.png", false);
 
-        scale.set(0.75, 0.75);
         origin.set(width / 2, height / 2);
+
+        collisionBox = new CollisionBox(x, y, width * 0.5, height * 0.75, true, FlxColor.BLUE);
+        FlxG.state.add(collisionBox);
     }
 
     override public function update(elapsed:Float):Void {
@@ -35,22 +40,71 @@ class Player extends FlxSprite {
             if (FlxG.keys.pressed.D || FlxG.keys.pressed.RIGHT) vel.x += 1;
 
             if (vel.x != 0 && vel.y != 0) vel.normalize();
-            velocity.set(vel.x * speed, vel.y * speed);
+            
+            // Store current position
+            var oldX = x;
+            var oldY = y;
+            
+            // Try to move X first
+            if (vel.x != 0) {
+                var desiredX = x + vel.x * speed * elapsed;
+                var testX = desiredX + (width - collisionBox.width) / 2;
+                
+                collisionBox.x = testX;
+                
+                // Check if new position would cause collision
+                var hasCollision = false;
+                var state = cast(FlxG.state, StoryModeState);
+                for (box in state.collisionBoxes) {
+                    if (collisionBox.overlaps(box)) {
+                        hasCollision = true;
+                        break;
+                    }
+                }
+                
+                // Only move if no collision
+                if (!hasCollision) {
+                    x = desiredX;
+                }
+                
+                // Reset collision box position
+                collisionBox.x = x + (width - collisionBox.width) / 2;
+            }
+            
+            // Then try to move Y
+            if (vel.y != 0) {
+                var desiredY = y + vel.y * speed * elapsed;
+                var testY = desiredY + (height - collisionBox.height);
+                
+                // Update collision box position for testing
+                collisionBox.y = testY;
+                
+                // Check if new position would cause collision
+                var hasCollision = false;
+                var state = cast(FlxG.state, StoryModeState);
+                for (box in state.collisionBoxes) {
+                    if (collisionBox.overlaps(box)) {
+                        hasCollision = true;
+                        break;
+                    }
+                }
+                
+                // Only move if no collision
+                if (!hasCollision) {
+                    y = desiredY;
+                }
+                
+                // Reset collision box position
+                collisionBox.y = y + (height - collisionBox.height);
+            }
 
             if (vel.x < 0) flipX = false;
             else if (vel.x > 0) flipX = true;
-        } else {
-            velocity.set(0, 0);
         }
 
-        // distance scaling
-        var minScale = 0.3;  
-        var maxScale = 1.0;   
-        var screenHeight = FlxG.height;
-
-        // Map y position to [minScale, maxScale]
-        var scaleFactor = minScale + (y / screenHeight) * (maxScale - minScale);
-        scale.set(scaleFactor, scaleFactor);
+        // Keep collision box aligned with player
+        collisionBox.x = x + (width - collisionBox.width) / 2;
+        collisionBox.y = y + (height - collisionBox.height);
 
         // speed is 0 (idle)
         if (velocity.x == 0 && velocity.y == 0) {

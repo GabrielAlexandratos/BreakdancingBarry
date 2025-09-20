@@ -13,11 +13,12 @@ class StoryModeState extends FlxState {
     private var testInteractable:Interactable;
     public var dialogueBox:DialogueBox;
 
-    // Add the pause menu variable
     private var pauseMenu:PauseMenu;
     private var isPaused:Bool = false;
 
     private var background:FlxSprite;
+
+    public var collisionBoxes:Array<CollisionBox>;
 
     override public function create():Void {
         super.create();
@@ -41,6 +42,17 @@ class StoryModeState extends FlxState {
         add(testInteractable);
 
         pauseMenu = new PauseMenu();
+
+        collisionBoxes = [];
+
+        //test collisions in map
+        var wall = new CollisionBox(0, 0, 20, FlxG.height);
+        collisionBoxes.push(wall);
+        add(wall);
+
+        var platform = new CollisionBox(100, 500, 200, 20);
+        collisionBoxes.push(platform);
+        add(platform);
     }
 
     override public function update(elapsed:Float):Void {
