@@ -32,13 +32,7 @@ class StoryModeState extends FlxState {
         player = new Player(FlxG.width / 2 + 300, FlxG.height - 350);
         add(player);
 
-        var dusterFrames:Array<String> = [];
-        for (i in 1...35) {
-            var frameNum = StringTools.lpad(Std.string(i), "0", 4);
-            dusterFrames.push("assets/images/characters/dusterAnims/idle/dusterIdle" + frameNum + ".png");
-        }
-
-        testInteractable = new Interactable(40, 600, 60, 60, dusterFrames, function() {
+        testInteractable = new Interactable(40, 600, 60, 60, FlxColor.WHITE, function() {
             dialogueBox = new DialogueBox(DialogueReference.D_test, function() {
                 player.canMove = true;
                 dialogueBox = null;

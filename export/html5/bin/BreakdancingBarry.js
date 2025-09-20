@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "47";
+	app.meta.h["build"] = "46";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Breakdancing Barry";
@@ -7086,22 +7086,15 @@ IntIterator.prototype = {
 	}
 	,__class__: IntIterator
 };
-var Interactable = function(x,y,width,height,frames,range,fps,onInteract) {
-	if(fps == null) {
-		fps = 14;
-	}
-	if(range == null) {
-		range = 300;
-	}
+var Interactable = function(x,y,width,height,color,onInteract) {
+	this.totalIdleFrames = 35;
+	this.idleFPS = 14;
 	this.idleTimer = 0;
 	this.idleFrame = 0;
+	this.interactRange = 300;
 	var _gthis = this;
 	flixel_FlxSprite.call(this,x,y);
-	this.idleFrames = frames;
-	this.idleFPS = fps;
-	this.interactRange = range;
-	this.onInteract = onInteract;
-	this.loadGraphic(frames[0]);
+	this.loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle0001.png");
 	var this1 = this.scale;
 	var x = 0.7;
 	var y = 0.7;
@@ -7125,6 +7118,7 @@ var Interactable = function(x,y,width,height,frames,range,fps,onInteract) {
 	}
 	this1.set_x(x);
 	this1.set_y(y);
+	this.onInteract = onInteract;
 	this.interactSprite = new flixel_FlxSprite();
 	this.interactSprite.loadGraphic("assets/images/pressE0001.png");
 	var this1 = this.interactSprite.scale;
@@ -7143,12 +7137,12 @@ var Interactable = function(x,y,width,height,frames,range,fps,onInteract) {
 	flixel_FlxG.game._state.add(this.interactSprite);
 	this.interactSprite.set_visible(false);
 	this.flickerTimer = new flixel_util_FlxTimer();
-	var framesPrompt = ["assets/images/pressE0001.png","assets/images/pressE0002.png"];
+	var frames = ["assets/images/pressE0001.png","assets/images/pressE0002.png"];
 	var frameIndex = 0;
 	this.flickerTimer.start(0.2,function(timer) {
 		if(_gthis.interactSprite.visible) {
-			_gthis.interactSprite.loadGraphic(framesPrompt[frameIndex]);
-			frameIndex = (frameIndex + 1) % framesPrompt.length;
+			_gthis.interactSprite.loadGraphic(frames[frameIndex]);
+			frameIndex = (frameIndex + 1) % frames.length;
 		}
 	},0);
 };
@@ -7158,12 +7152,13 @@ Interactable.__super__ = flixel_FlxSprite;
 Interactable.prototype = $extend(flixel_FlxSprite.prototype,{
 	interactRange: null
 	,onInteract: null
-	,interactSprite: null
-	,flickerTimer: null
-	,idleFrames: null
+	,sprite: null
 	,idleFrame: null
 	,idleTimer: null
 	,idleFPS: null
+	,totalIdleFrames: null
+	,interactSprite: null
+	,flickerTimer: null
 	,checkInteraction: function(player) {
 		var dx = player.x + player.get_width() / 2 - (this.x + this.get_width() / 2);
 		var dy = player.y + player.get_height() / 2 - (this.y + this.get_height() / 2);
@@ -7196,8 +7191,10 @@ Interactable.prototype = $extend(flixel_FlxSprite.prototype,{
 		this.idleTimer += elapsed;
 		if(this.idleTimer >= 1.0 / this.idleFPS) {
 			this.idleTimer -= 1.0 / this.idleFPS;
-			this.idleFrame = (this.idleFrame + 1) % this.idleFrames.length;
-			this.loadGraphic(this.idleFrames[this.idleFrame],false);
+			this.idleFrame = (this.idleFrame + 1) % this.totalIdleFrames;
+			var frameNumber = this.idleFrame + 1;
+			var frameString = frameNumber < 10 ? "000" + frameNumber : frameNumber < 100 ? "00" + frameNumber : "0" + frameNumber;
+			this.loadGraphic("assets/images/characters/dusterAnims/idle/dusterIdle" + frameString + ".png",false);
 		}
 	}
 	,__class__: Interactable
@@ -9776,14 +9773,7 @@ StoryModeState.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.background);
 		this.player = new Player(flixel_FlxG.width / 2 + 300,flixel_FlxG.height - 350);
 		this.add(this.player);
-		var dusterFrames = [];
-		var _g = 1;
-		while(_g < 35) {
-			var i = _g++;
-			var frameNum = StringTools.lpad(i == null ? "null" : "" + i,"0",4);
-			dusterFrames.push("assets/images/characters/dusterAnims/idle/dusterIdle" + frameNum + ".png");
-		}
-		this.testInteractable = new Interactable(40,600,60,60,dusterFrames,null,null,function() {
+		this.testInteractable = new Interactable(40,600,60,60,-1,function() {
 			_gthis.dialogueBox = new DialogueBox(DialogueReference.D_test,function() {
 				_gthis.player.canMove = true;
 				_gthis.dialogueBox = null;
@@ -9934,16 +9924,6 @@ StringTools.rtrim = function(s) {
 };
 StringTools.trim = function(s) {
 	return StringTools.ltrim(StringTools.rtrim(s));
-};
-StringTools.lpad = function(s,c,l) {
-	if(c.length <= 0) {
-		return s;
-	}
-	var buf_b = "";
-	l -= s.length;
-	while(buf_b.length < l) buf_b += c == null ? "null" : "" + c;
-	buf_b += s == null ? "null" : "" + s;
-	return buf_b;
 };
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
@@ -86706,7 +86686,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 927951;
+	this.version = 693529;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
