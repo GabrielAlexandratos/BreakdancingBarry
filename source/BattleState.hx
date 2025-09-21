@@ -71,11 +71,11 @@ class BattleState extends FlxState {
         super.update(elapsed);
 
         // Play sound on each beat
-        var currentSongPosition = FlxG.sound.music.time / 1000; // Convert to seconds
+        var currentSongPosition = FlxG.sound.music.time / 1000; // in seconds
         var currentBeat = Math.floor(currentSongPosition / secondsPerBeat);
         
         if (currentBeat > lastBeat) {
-            //FlxG.sound.play("assets/sounds/volumeBlipSFX.mp3");
+            //FlxG.sound.play("assets/sounds/volumeBlipSFX.mp3"); // <-- music track (need to be passed through from track select)
             lastBeat = currentBeat;
         }
 
@@ -85,15 +85,15 @@ class BattleState extends FlxState {
             var nextBeatTime = (currentBeat + 1) * secondsPerBeat;
             var currentBeatTime = currentBeat * secondsPerBeat;
             
-            // Find distance to nearest beat
+            // Find prox to nearest beat
             var distanceToBeat = currentSongPosition - currentBeatTime;
             var perfectWindow = 0.1; // 100ms
             
-            // Check if we're within the perfect window
+            // Check if punch is perfect
             var isPerfect = distanceToBeat > (secondsPerBeat - perfectWindow) || 
                            distanceToBeat < perfectWindow;
             
-            // Calculate score based on timing
+            // find score based on timing
             var pointsAwarded = 0;
             if (isPerfect) {
                 pointsAwarded = 100;
