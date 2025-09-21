@@ -19,7 +19,7 @@ class ApplicationMain
 		lime.system.System.__registerEntryPoint("BreakdancingBarry", create);
 
 		#if (js && html5)
-		#if (munit || (utest && openfl_enable_utest_legacy_mode))
+		#if (munit || utest)
 		lime.system.System.embed("BreakdancingBarry", null, 1920, 1080);
 		#end
 		#else
@@ -35,10 +35,10 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "49";
+		app.meta["build"] = "50";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "BreakdancingBarry";
-		app.meta["name"] = "Breakdancing Barry";
+		app.meta["name"] = "Beat Boxing Barry";
 		app.meta["packageName"] = "com.example.myapp";
 		app.meta["version"] = "0.0.1";
 
@@ -60,7 +60,7 @@ class ApplicationMain
 			minimized: false,
 			parameters: {},
 			resizable: true,
-			title: "Breakdancing Barry",
+			title: "Beat Boxing Barry",
 			width: 1920,
 			x: null,
 			y: null,
@@ -102,7 +102,7 @@ class ApplicationMain
 		app.createWindow(attributes);
 		
 		#elseif air
-		app.window.title = "Breakdancing Barry";
+		app.window.title = "Beat Boxing Barry";
 		#else
 		app.window.context.attributes.background = 0;
 		app.window.frameRate = 60;

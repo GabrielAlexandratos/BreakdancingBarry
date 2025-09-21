@@ -35,7 +35,7 @@ class TrackSelectState extends FlxState {
 		FlxG.sound.playMusic("assets/music/trackSelectLoop.mp3", 0.65, true);
 
 		var songs = [
-			new TrackData("track1", "artist1", 120, 3, "assets/music/titleLoop.mp3", "assets/images/backgrounds/optionsBackground.png", "assets",
+			new TrackData("track1", "artist1", 90, 3, "assets/music/titleLoop.mp3", "assets/images/backgrounds/optionsBackground.png", "assets",
 				"images/mainmenu/exit.png")
 		];
 
@@ -137,6 +137,6 @@ class TrackSelectState extends FlxState {
 	{
 		FlxG.sound.music.stop();
 
-		FlxG.switchState(() -> new SongState(track));
+		FlxG.switchState(() -> new BattleState(track));
 	}
 }

@@ -4,7 +4,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Breakdancing Barry" file="BreakdancingBarry" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Beat Boxing Barry" file="BreakdancingBarry" main="Main" version="0.0.1" company="HaxeFlixel" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -136,6 +136,7 @@
 		<music path="music/titleIntro.mp3" />
 		<music path="music/titleLoop.mp3" />
 		<music path="music/trackSelectLoop.mp3" />
+		<music path="music/TestClick.mp3" />
 
 		<!-- Sound Effects -->
 		<sound path="sounds/fightSFX.mp3" />
@@ -202,6 +203,11 @@
 		<image path="images/characters/dusterAnims/idle/dusterIdle0033.png" />
 		<image path="images/characters/dusterAnims/idle/dusterIdle0034.png" />
 		<image path="images/characters/dusterAnims/idle/dusterIdle0035.png" />
+
+		<!-- Character Fighting Frames-->
+		<image path="images/characters/barryAnims/Fighting/sketch_anims0001.png" />
+		<image path="images/characters/barryAnims/Fighting/sketch_anims0002.png" />
+		<image path="images/characters/barryAnims/Fighting/sketch_anims0003.png" />
 
 	</assets>
 
