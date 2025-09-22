@@ -1,0 +1,6 @@
+[
+    { "beat": 1.0, "action": "punch"},
+    { "beat": 2.5, "action": "punch"},
+    { "beat": 4.0, "action": "dodge"},
+    { "beat": 5.5, "action": "punch"}
+]
