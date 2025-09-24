@@ -11,7 +11,7 @@ class Main extends Sprite {
 	{
 		super();
 		
-		addChild(new FlxGame(0, 0, OpeningState, 60, 60, true));
+		addChild(new FlxGame(0, 0, ChartEditor, 60, 60, true));
 		// add custom sound tray plugin
 		FlxG.plugins.addPlugin(new CustomSoundTrayPlugin());
 	}
