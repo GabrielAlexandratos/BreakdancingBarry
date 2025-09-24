@@ -16,9 +16,11 @@ class ChartEditor extends FlxState
     var notes:FlxGroup;
     var noteData:Array<{time:Float, lane:Int}> = [];
     var scrollOffset:Float = 0;
+    var pausedTime:Float = 0;
 
     var isPlaying:Bool = false;
     var currentSong:String = "assets/music/titleLoop.mp3";
+    var musicPaused:Bool = false;
 
     override public function create():Void
     {
@@ -38,7 +40,7 @@ class ChartEditor extends FlxState
         FlxG.sound.playMusic(currentSong, 1, false);
         FlxG.sound.music.pause();
 
-        var info = new FlxText(10, 10, 400, "Controls:\n[Click] place note\n[RightClick] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
+        var info = new FlxText(10, 10, 400, "Controls:\n[Click] place note\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
         info.setFormat(null, 16, 0xFFFFFFFF, "left");
         add(info);
     }
@@ -47,8 +49,14 @@ class ChartEditor extends FlxState
     {
         super.update(elapsed);
 
-        if (FlxG.keys.pressed.RIGHT) scrollOffset += 500 * elapsed;
-        if (FlxG.keys.pressed.LEFT)  scrollOffset -= 500 * elapsed;
+        if (FlxG.keys.pressed.RIGHT) {
+            scrollOffset += 500 * elapsed;
+            pausedTime = (scrollOffset / timeline.width) * (FlxG.sound.music.length / 1000);
+        }
+        if (FlxG.keys.pressed.LEFT) {
+            scrollOffset -= 500 * elapsed;
+            pausedTime = (scrollOffset / timeline.width) * (FlxG.sound.music.length / 1000);
+        }
 
         timeline.x = -scrollOffset;
         for (i in 0...notes.members.length) {
@@ -72,7 +80,7 @@ class ChartEditor extends FlxState
             notes.add(n);
         }
 
-        if (FlxG.mouse.justPressedRight)
+        if (FlxG.keys.justPressed.X)
         {
             var worldX = FlxG.mouse.x + scrollOffset;
             var closest = -1;
@@ -97,9 +105,17 @@ class ChartEditor extends FlxState
 
         if (FlxG.keys.justPressed.SPACE)
         {
-            if (isPlaying) {
+            if (isPlaying)
+            {
+                // Pause the song
                 FlxG.sound.music.pause();
-            } else {
+                pausedTime = FlxG.sound.music.time / 1000;
+            }
+            else
+            {
+                // Resume song from where the playhead currently is
+                var songPos = ((scrollOffset + FlxG.width / 2) / timeline.width) * (FlxG.sound.music.length / 1000);
+                FlxG.sound.music.time = songPos * 1000;
                 FlxG.sound.music.play();
             }
             isPlaying = !isPlaying;

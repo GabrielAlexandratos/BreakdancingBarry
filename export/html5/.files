@@ -153,6 +153,7 @@ export/html5/bin/assets/images/characters/dusterAnims/idle/dusterIdle0035.png
 export/html5/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0001.png
 export/html5/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0002.png
 export/html5/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0003.png
+export/html5/bin/assets/data/chart.json
 export/html5/bin/flixel/sounds/flixel.mp3
 export/html5/bin/flixel/sounds/beep.mp3
 export/html5/bin/flixel/sounds/beep.ogg

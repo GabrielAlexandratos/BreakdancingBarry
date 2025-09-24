@@ -24,6 +24,8 @@ class BattleState extends FlxState {
 	
 	// Add these variables at the top with other private vars
 	private var lastBeat:Int = -1;
+	private var pausedTime:Float = 0;
+	private var isPlaying:Bool = true;
     
     public function new(track:TrackData) {
         super();
@@ -68,8 +70,27 @@ class BattleState extends FlxState {
 	override public function update(elapsed:Float):Void {
         super.update(elapsed);
 
+        var currentSongPosition:Float;
+
+        if (isPlaying) {
+            currentSongPosition = FlxG.sound.music.time / 1000;
+        } else {
+            currentSongPosition = pausedTime;
+        }
+
+        if (FlxG.keys.justPressed.SPACE) {
+            if (isPlaying) {
+                pausedTime = FlxG.sound.music.time / 1000;
+                FlxG.sound.music.pause();
+                isPlaying = false;
+            } else {
+                FlxG.sound.music.time = pausedTime * 1000;
+                FlxG.sound.music.play();
+                isPlaying = true;
+            }
+        }
+
         // Play sound on each beat
-        var currentSongPosition = FlxG.sound.music.time / 1000; // in seconds
         var currentBeat = Math.floor(currentSongPosition / secondsPerBeat);
         
         if (currentBeat > lastBeat) {

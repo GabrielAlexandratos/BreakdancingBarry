@@ -209,6 +209,8 @@
 		<image path="images/characters/barryAnims/Fighting/sketch_anims0002.png" />
 		<image path="images/characters/barryAnims/Fighting/sketch_anims0003.png" />
 
+		<text path="data/chart.json" />
+
 	</assets>
 
 	<!-- _______________________________ Libraries ______________________________ -->

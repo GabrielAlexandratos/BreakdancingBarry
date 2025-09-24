@@ -90,6 +90,7 @@ export/flash/bin/assets/images/mainmenu/exitoption.png
 export/flash/bin/assets/music/titleIntro.mp3
 export/flash/bin/assets/music/titleLoop.mp3
 export/flash/bin/assets/music/trackSelectLoop.mp3
+export/flash/bin/assets/music/TestClick.mp3
 export/flash/bin/assets/sounds/fightSFX.mp3
 export/flash/bin/assets/sounds/optionChangeSFX.mp3
 export/flash/bin/assets/sounds/stateBackSFX.mp3
@@ -149,6 +150,10 @@ export/flash/bin/assets/images/characters/dusterAnims/idle/dusterIdle0032.png
 export/flash/bin/assets/images/characters/dusterAnims/idle/dusterIdle0033.png
 export/flash/bin/assets/images/characters/dusterAnims/idle/dusterIdle0034.png
 export/flash/bin/assets/images/characters/dusterAnims/idle/dusterIdle0035.png
+export/flash/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0001.png
+export/flash/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0002.png
+export/flash/bin/assets/images/characters/barryAnims/Fighting/sketch_anims0003.png
+export/flash/bin/assets/data/chart.json
 export/flash/bin/flixel/sounds/flixel.mp3
 export/flash/bin/flixel/sounds/beep.mp3
 export/flash/bin/flixel/fonts/nokiafc22.ttf
