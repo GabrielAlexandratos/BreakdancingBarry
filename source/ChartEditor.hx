@@ -14,13 +14,18 @@ class ChartEditor extends FlxState
     var timeline:FlxSprite;
     var playhead:FlxSprite;
     var notes:FlxGroup;
-    var noteData:Array<{time:Float, lane:Int, hit:Bool}> = [];
+    var noteData:Array<{time:Float, lane:Int, hit:Bool, selected:Bool}> = [];
     var scrollOffset:Float = 0;
     var pausedTime:Float = 0;
 
     var isPlaying:Bool = false;
     var currentSong:String = "assets/music/titleLoop.mp3";
     var lastSongPos:Float = 0;
+
+    var selecting:Bool = false;
+    var selectStartX:Float = 0;
+    var selectEndX:Float = 0;
+    var clipboard:Array<{time:Float, lane:Int}> = [];
 
     override public function create():Void
     {
@@ -68,17 +73,52 @@ class ChartEditor extends FlxState
             }
         }
 
+        // Start selection
         if (FlxG.mouse.justPressed)
+        {
+            selecting = true;
+            selectStartX = FlxG.mouse.x + scrollOffset;
+        }
+
+        // End selection
+        if (selecting && !FlxG.mouse.pressed)
+        {
+            selecting = false;
+            selectEndX = FlxG.mouse.x + scrollOffset;
+
+            // Unselect previous selection
+            for (i in 0...noteData.length)
+            {
+                noteData[i].selected = false;
+                cast(notes.members[i], FlxSprite).makeGraphic(20, 20, 0xFF00FF00); // green
+            }
+
+            var minX = Math.min(selectStartX, selectEndX);
+            var maxX = Math.max(selectStartX, selectEndX);
+
+            for (i in 0...noteData.length)
+            {
+                var noteX = (noteData[i].time / (FlxG.sound.music.length/1000)) * timeline.width;
+                if (noteX >= minX && noteX <= maxX)
+                {
+                    noteData[i].selected = true;
+                    cast(notes.members[i], FlxSprite).makeGraphic(20, 20, 0xFF0000FF); // blue
+                }
+            }
+        }
+
+        // place note at mouse pos
+/*        if (FlxG.mouse.justPressed && !selecting)
         {
             var worldX = FlxG.mouse.x + scrollOffset;
             var time = (worldX / timeline.width) * FlxG.sound.music.length / 1000;
             var lane = 0;
 
-            noteData.push({time: time, lane: lane, hit: false});
+            noteData.push({time: time, lane: lane, hit: false, selected: false});
             var n = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
             n.makeGraphic(20, 20, 0xFF00FF00);
             notes.add(n);
-        }
+        } */
 
         // Place note at playhead position
         if (FlxG.keys.justPressed.E)
@@ -86,7 +126,7 @@ class ChartEditor extends FlxState
             var songPos = ((scrollOffset + FlxG.width / 2) / timeline.width) * (FlxG.sound.music.length / 1000);
             var lane = 0;
 
-            noteData.push({time: songPos, lane: lane, hit: false});
+            noteData.push({time: songPos, lane: lane, hit: false, selected: false});
             var worldX = (songPos / (FlxG.sound.music.length / 1000)) * timeline.width;
             var n = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
             n.makeGraphic(20, 20, 0xFF00FF00);
@@ -153,6 +193,7 @@ class ChartEditor extends FlxState
 
             for (note in noteData) {
                 note.hit = false;
+                note.selected = false;
             }
 
             notes.clear();
@@ -162,6 +203,38 @@ class ChartEditor extends FlxState
                 var n = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
                 n.makeGraphic(20, 20, 0xFF00FF00);
                 notes.add(n);
+            }
+        }
+
+        // Copy selected notes
+        if (FlxG.keys.justPressed.C)
+        {
+            clipboard = [];
+            for (note in noteData)
+            {
+                if (note.selected) clipboard.push({time: note.time, lane: note.lane});
+            }
+        }
+
+        // Paste notes at playhead
+        if (FlxG.keys.justPressed.V && clipboard.length > 0)
+        {
+            var minTime:Float = clipboard[0].time;
+            for (n in clipboard)
+            {
+                if (n.time < minTime) minTime = n.time;
+            }
+            var songPos = ((scrollOffset + FlxG.width / 2) / timeline.width) * (FlxG.sound.music.length / 1000);
+            var offset = songPos - minTime;
+
+            for (n in clipboard)
+            {
+                var newTime = n.time + offset;
+                noteData.push({time: newTime, lane: n.lane, hit: false, selected: false});
+                var worldX = (newTime / (FlxG.sound.music.length / 1000)) * timeline.width;
+                var sprite = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
+                sprite.makeGraphic(20, 20, 0xFF00FF00);
+                notes.add(sprite);
             }
         }
 
