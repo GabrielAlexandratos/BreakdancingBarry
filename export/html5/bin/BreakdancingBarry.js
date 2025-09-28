@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "55";
+	app.meta.h["build"] = "56";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
@@ -4480,7 +4480,7 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.notes);
 		flixel_FlxG.sound.playMusic(this.currentSong,0.1,false);
 		flixel_FlxG.sound.music.pause();
-		var info = new flixel_text_FlxText(10,10,400,"Controls:\n[Click] place note\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
+		var info = new flixel_text_FlxText(10,10,400,"Controls:\n[Click] place note\n[E] place note at playhead\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
 		info.setFormat(null,16,-1,"left");
 		this.add(info);
 	}
@@ -4510,7 +4510,17 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 			var worldX = flixel_FlxG.mouse.x + this.scrollOffset;
 			var time = worldX / this.timeline.get_width() * flixel_FlxG.sound.music._length / 1000;
 			var lane = 0;
-			this.noteData.push({ time : time, lane : lane});
+			this.noteData.push({ time : time, lane : lane, hit : false});
+			var n = new flixel_FlxSprite(worldX - this.scrollOffset,this.timeline.y - 20);
+			n.makeGraphic(20,20,-16711936);
+			this.notes.add(n);
+		}
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatusUnsafe(69,_this.status)) {
+			var songPos = (this.scrollOffset + flixel_FlxG.width / 2) / this.timeline.get_width() * (flixel_FlxG.sound.music._length / 1000);
+			var lane = 0;
+			this.noteData.push({ time : songPos, lane : lane, hit : false});
+			var worldX = songPos / (flixel_FlxG.sound.music._length / 1000) * this.timeline.get_width();
 			var n = new flixel_FlxSprite(worldX - this.scrollOffset,this.timeline.y - 20);
 			n.makeGraphic(20,20,-16711936);
 			this.notes.add(n);
@@ -4545,6 +4555,7 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 				var songPos = (this.scrollOffset + flixel_FlxG.width / 2) / this.timeline.get_width() * (flixel_FlxG.sound.music._length / 1000);
 				flixel_FlxG.sound.music.set_time(songPos * 1000);
 				flixel_FlxG.sound.music.play();
+				this.lastSongPos = flixel_FlxG.sound.music._time / 1000;
 			}
 			this.isPlaying = !this.isPlaying;
 		}
@@ -4559,6 +4570,13 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 			var content = openfl_utils_Assets.getText("assets/data/chart.json");
 			var data = JSON.parse(content);
 			this.noteData = data.notes;
+			var _g = 0;
+			var _g1 = this.noteData;
+			while(_g < _g1.length) {
+				var note = _g1[_g];
+				++_g;
+				note.hit = false;
+			}
 			this.notes.clear();
 			var _g = 0;
 			var _g1 = this.noteData;
@@ -4582,9 +4600,13 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 				if(noteSprite == null) {
 					continue;
 				}
-				if(Math.abs(songPos - note.time) < 0.02) {
+				if(songPos < note.time && note.hit) {
+					note.hit = false;
+				}
+				if(!note.hit && this.lastSongPos < note.time && songPos >= note.time) {
 					flixel_FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3",0.25);
 					noteSprite.makeGraphic(20,20,-65536);
+					note.hit = true;
 				} else if(songPos > note.time + 0.05) {
 					noteSprite.makeGraphic(20,20,-16711936);
 				}
@@ -86526,7 +86548,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 874538;
+	this.version = 975082;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

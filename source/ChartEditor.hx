@@ -14,7 +14,7 @@ class ChartEditor extends FlxState
     var timeline:FlxSprite;
     var playhead:FlxSprite;
     var notes:FlxGroup;
-    var noteData:Array<{time:Float, lane:Int}> = []; // no hit flag needed
+    var noteData:Array<{time:Float, lane:Int, hit:Bool}> = [];
     var scrollOffset:Float = 0;
     var pausedTime:Float = 0;
 
@@ -40,7 +40,7 @@ class ChartEditor extends FlxState
         FlxG.sound.playMusic(currentSong, 0.1, false);
         FlxG.sound.music.pause();
 
-        var info = new FlxText(10, 10, 400, "Controls:\n[Click] place note\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
+        var info = new FlxText(10, 10, 400, "Controls:\n[Click] place note\n[E] place note at playhead\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
         info.setFormat(null, 16, 0xFFFFFFFF, "left");
         add(info);
     }
@@ -74,7 +74,20 @@ class ChartEditor extends FlxState
             var time = (worldX / timeline.width) * FlxG.sound.music.length / 1000;
             var lane = 0;
 
-            noteData.push({time: time, lane: lane});
+            noteData.push({time: time, lane: lane, hit: false});
+            var n = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
+            n.makeGraphic(20, 20, 0xFF00FF00);
+            notes.add(n);
+        }
+
+        // Place note at playhead position
+        if (FlxG.keys.justPressed.E)
+        {
+            var songPos = ((scrollOffset + FlxG.width / 2) / timeline.width) * (FlxG.sound.music.length / 1000);
+            var lane = 0;
+
+            noteData.push({time: songPos, lane: lane, hit: false});
+            var worldX = (songPos / (FlxG.sound.music.length / 1000)) * timeline.width;
             var n = new FlxSprite(worldX - scrollOffset, timeline.y - 20);
             n.makeGraphic(20, 20, 0xFF00FF00);
             notes.add(n);
@@ -117,6 +130,7 @@ class ChartEditor extends FlxState
                 var songPos = ((scrollOffset + FlxG.width / 2) / timeline.width) * (FlxG.sound.music.length / 1000);
                 FlxG.sound.music.time = songPos * 1000;
                 FlxG.sound.music.play();
+                lastSongPos = FlxG.sound.music.time / 1000;
             }
             isPlaying = !isPlaying;
         }
@@ -136,6 +150,10 @@ class ChartEditor extends FlxState
             var content = Assets.getText("assets/data/chart.json");
             var data:Dynamic = Json.parse(content);
             noteData = data.notes;
+
+            for (note in noteData) {
+                note.hit = false;
+            }
 
             notes.clear();
             for (note in noteData)
@@ -157,11 +175,17 @@ class ChartEditor extends FlxState
                 var noteSprite = cast(notes.members[i], FlxSprite);
                 if (noteSprite == null) continue;
 
-                // Trigger note when playhead is within 0.02s of note time
-                if (Math.abs(songPos - note.time) < 0.02)
+                // Reset note if rewinded to before it
+                if (songPos < note.time && note.hit)
+                {
+                    note.hit = false;
+                }
+
+                if (!note.hit && lastSongPos < note.time && songPos >= note.time)
                 {
                     FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3", 0.25);
                     noteSprite.makeGraphic(20, 20, 0xFFFF0000); // red
+                    note.hit = true;
                 }
                 else if (songPos > note.time + 0.05)
                 {
