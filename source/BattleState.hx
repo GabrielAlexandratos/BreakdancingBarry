@@ -17,12 +17,15 @@ class BattleState extends FlxState {
     private var lastScoreText:FlxText;
 
     private var chart:Array<{time:Float, lane:Int, hit:Bool}> = [];
-    private var hitWindow:Float = 0.15; // 150ms  window
+    private var hitWindow:Float = 0.15; // 150ms window
 
     private var currentSpriteState:Int = 1;
     private var spriteTimer:Float = 0;
     private var isAnimating:Bool = false;
     private var punchHangTime:Float = 0.435;
+
+    private var noteSprites:Array<FlxSprite> = [];
+    private var hitLineX:Float;
 
     public function new(track:TrackData) {
         super();
@@ -35,14 +38,27 @@ class BattleState extends FlxState {
         // Load chart JSON
         var content = Assets.getText(track.notesPath);
         var data:Dynamic = Json.parse(content);
-        var notes:Array<Dynamic> = cast data.notes; 
+        var notes:Array<Dynamic> = cast data.notes;
         for (note in notes) {
             chart.push({time: note.time, lane: note.lane, hit: false});
         }
 
         var bg = new FlxSprite(0, 0);
-        bg.makeGraphic(FlxG.width, FlxG.height, 0xFF4B4B4B); // gray backgroun
+        bg.makeGraphic(FlxG.width, FlxG.height, 0xFF4B4B4B); // gray
         add(bg);
+
+        hitLineX = FlxG.width / 2; // where player should hit notes
+
+        for (note in chart) {
+            var noteSprite = new FlxSprite(-50, hitLineX); // start off-screen on the left
+            noteSprite.makeGraphic(40, 40, 0xFFFF0000); // red square as placeholder
+            add(noteSprite);
+            noteSprites.push(noteSprite);
+        }
+
+        var hitLine = new FlxSprite(hitLineX, 0);
+        hitLine.makeGraphic(4, FlxG.height, 0xFF00FF00); // green vertical line
+        add(hitLine);
 
         player = new FlxSprite();
         player.loadGraphic("assets/images/characters/barryAnims/Fighting/sketch_anims0001.png");
@@ -71,6 +87,21 @@ class BattleState extends FlxState {
         super.update(elapsed);
 
         var songPos = FlxG.sound.music.time / 1000;
+
+        for (i in 0...chart.length) {
+            var note = chart[i];
+            var noteSprite = noteSprites[i];
+            if (!note.hit) {
+                // distance in seconds until hit
+                var timeUntil = note.time - songPos;
+                // pixels per second speed
+                var speed = 400; 
+                noteSprite.x = hitLineX - timeUntil * speed;
+                noteSprite.visible = true;
+            } else {
+                noteSprite.visible = false;
+            }
+        }
 
         if (FlxG.keys.justPressed.P) {
             var hitNote:Dynamic = null;

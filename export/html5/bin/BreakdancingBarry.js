@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "58";
+	app.meta.h["build"] = "59";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
@@ -4450,6 +4450,7 @@ flixel_FlxState.prototype = $extend(flixel_group_FlxTypedContainer.prototype,{
 	,__properties__: $extend(flixel_group_FlxTypedContainer.prototype.__properties__,{get_subStateClosed:"get_subStateClosed",get_subStateOpened:"get_subStateOpened",set_bgColor:"set_bgColor",get_bgColor:"get_bgColor"})
 });
 var BattleState = function(track) {
+	this.noteSprites = [];
 	this.punchHangTime = 0.435;
 	this.isAnimating = false;
 	this.spriteTimer = 0;
@@ -4476,6 +4477,8 @@ BattleState.prototype = $extend(flixel_FlxState.prototype,{
 	,spriteTimer: null
 	,isAnimating: null
 	,punchHangTime: null
+	,noteSprites: null
+	,hitLineX: null
 	,create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		var content = openfl_utils_Assets.getText(this.track.notesPath);
@@ -4490,6 +4493,20 @@ BattleState.prototype = $extend(flixel_FlxState.prototype,{
 		var bg = new flixel_FlxSprite(0,0);
 		bg.makeGraphic(flixel_FlxG.width,flixel_FlxG.height,-11842741);
 		this.add(bg);
+		this.hitLineX = flixel_FlxG.width / 2;
+		var _g = 0;
+		var _g1 = this.chart;
+		while(_g < _g1.length) {
+			var note = _g1[_g];
+			++_g;
+			var noteSprite = new flixel_FlxSprite(-50,this.hitLineX);
+			noteSprite.makeGraphic(40,40,-65536);
+			this.add(noteSprite);
+			this.noteSprites.push(noteSprite);
+		}
+		var hitLine = new flixel_FlxSprite(this.hitLineX,0);
+		hitLine.makeGraphic(4,flixel_FlxG.height,-16711936);
+		this.add(hitLine);
 		this.player = new flixel_FlxSprite();
 		this.player.loadGraphic("assets/images/characters/barryAnims/Fighting/sketch_anims0001.png");
 		this.player.setPosition(flixel_FlxG.width - 1100,flixel_FlxG.height - 700);
@@ -4508,6 +4525,21 @@ BattleState.prototype = $extend(flixel_FlxState.prototype,{
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
 		var songPos = flixel_FlxG.sound.music._time / 1000;
+		var _g = 0;
+		var _g1 = this.chart.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var note = this.chart[i];
+			var noteSprite = this.noteSprites[i];
+			if(!note.hit) {
+				var timeUntil = note.time - songPos;
+				var speed = 200;
+				noteSprite.set_x(this.hitLineX - timeUntil * speed);
+				noteSprite.set_visible(true);
+			} else {
+				noteSprite.set_visible(false);
+			}
+		}
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatusUnsafe(80,_this.status)) {
 			var hitNote = null;
@@ -87883,7 +87915,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 207649;
+	this.version = 789258;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
