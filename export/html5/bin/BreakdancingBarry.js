@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "54";
+	app.meta.h["build"] = "55";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
@@ -4447,7 +4447,7 @@ flixel_FlxState.prototype = $extend(flixel_group_FlxTypedContainer.prototype,{
 	,__properties__: $extend(flixel_group_FlxTypedContainer.prototype.__properties__,{get_subStateClosed:"get_subStateClosed",get_subStateOpened:"get_subStateOpened",set_bgColor:"set_bgColor",get_bgColor:"get_bgColor"})
 });
 var ChartEditor = function() {
-	this.musicPaused = false;
+	this.lastSongPos = 0;
 	this.currentSong = "assets/music/titleLoop.mp3";
 	this.isPlaying = false;
 	this.pausedTime = 0;
@@ -4467,7 +4467,7 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 	,pausedTime: null
 	,isPlaying: null
 	,currentSong: null
-	,musicPaused: null
+	,lastSongPos: null
 	,create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		this.timeline = new flixel_FlxSprite(0,flixel_FlxG.height / 2 - 20);
@@ -4478,9 +4478,9 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.playhead);
 		this.notes = new flixel_group_FlxTypedGroup();
 		this.add(this.notes);
-		flixel_FlxG.sound.playMusic(this.currentSong,1,false);
+		flixel_FlxG.sound.playMusic(this.currentSong,0.1,false);
 		flixel_FlxG.sound.music.pause();
-		var info = new flixel_text_FlxText(10,10,400,"Controls:\n[Click] place note\n[RightClick] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
+		var info = new flixel_text_FlxText(10,10,400,"Controls:\n[Click] place note\n[X] remove note\n[Space] play/pause\n[S] save\n[L] load\n[Arrow keys] scroll");
 		info.setFormat(null,16,-1,"left");
 		this.add(info);
 	}
@@ -4515,7 +4515,8 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 			n.makeGraphic(20,20,-16711936);
 			this.notes.add(n);
 		}
-		if(flixel_FlxG.mouse._rightButton.current == 2) {
+		var _this = flixel_FlxG.keys.justPressed;
+		if(_this.keyManager.checkStatusUnsafe(88,_this.status)) {
 			var worldX = flixel_FlxG.mouse.x + this.scrollOffset;
 			var closest = -1;
 			var minDist = 9999.0;
@@ -4572,6 +4573,23 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 		}
 		if(this.isPlaying) {
 			var songPos = flixel_FlxG.sound.music._time / 1000;
+			var _g = 0;
+			var _g1 = this.noteData.length;
+			while(_g < _g1) {
+				var i = _g++;
+				var note = this.noteData[i];
+				var noteSprite = js_Boot.__cast(this.notes.members[i] , flixel_FlxSprite);
+				if(noteSprite == null) {
+					continue;
+				}
+				if(Math.abs(songPos - note.time) < 0.02) {
+					flixel_FlxG.sound.play("assets/sounds/dialogueBlipSFX.mp3",0.25);
+					noteSprite.makeGraphic(20,20,-65536);
+				} else if(songPos > note.time + 0.05) {
+					noteSprite.makeGraphic(20,20,-16711936);
+				}
+			}
+			this.lastSongPos = songPos;
 			var targetOffset = songPos / (flixel_FlxG.sound.music._length / 1000) * this.timeline.get_width() - flixel_FlxG.width / 2;
 			this.scrollOffset += (targetOffset - this.scrollOffset) * 0.1;
 			this.timeline.set_x(-this.scrollOffset);
@@ -4580,10 +4598,10 @@ ChartEditor.prototype = $extend(flixel_FlxState.prototype,{
 			while(_g < _g1) {
 				var i = _g++;
 				if(this.notes.members[i] != null) {
-					var note = js_Boot.__cast(this.notes.members[i] , flixel_FlxSprite);
+					var n = js_Boot.__cast(this.notes.members[i] , flixel_FlxSprite);
 					var noteTime = this.noteData[i].time;
 					var noteWorldX = noteTime / (flixel_FlxG.sound.music._length / 1000) * this.timeline.get_width();
-					note.set_x(noteWorldX - this.scrollOffset);
+					n.set_x(noteWorldX - this.scrollOffset);
 				}
 			}
 			this.playhead.set_x(flixel_FlxG.width / 2);
@@ -86508,7 +86526,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 515246;
+	this.version = 874538;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
