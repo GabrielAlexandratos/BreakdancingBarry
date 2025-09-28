@@ -1,0 +1,41 @@
+{
+  "song": "assets/music/titleLoop.mp3",
+  "notes": [
+    {
+      "time": 2.8809740906406662,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    },
+    {
+      "time": 5.714501054480057,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    },
+    {
+      "time": 6.2476275187731165,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    },
+    {
+      "time": 6.747608198748228,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    },
+    {
+      "time": 8.347863736036073,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    },
+    {
+      "time": 8.531340643880714,
+      "lane": 0,
+      "hit": true,
+      "selected": false
+    }
+  ]
+}

@@ -209,7 +209,7 @@
 		<image path="images/characters/barryAnims/Fighting/sketch_anims0002.png" />
 		<image path="images/characters/barryAnims/Fighting/sketch_anims0003.png" />
 
-		<text path="data/chart.json" />
+		<text path="data/testChart.json" />
 
 	</assets>
 
