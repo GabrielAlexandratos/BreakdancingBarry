@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "60";
+	app.meta.h["build"] = "61";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
@@ -10987,6 +10987,7 @@ TrackSelectState.prototype = $extend(flixel_FlxState.prototype,{
 	,selectedIndex: null
 	,isSelecting: null
 	,trackOptions: null
+	,trackInfo: null
 	,create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		this.BackgroundColor = new flixel_FlxSprite(0,0);
@@ -11049,6 +11050,10 @@ TrackSelectState.prototype = $extend(flixel_FlxState.prototype,{
 			this.menuOptions.push(opt);
 			this.trackOptions.push(songs[i]);
 		}
+		this.trackInfo = new flixel_text_FlxText(flixel_FlxG.width - 300,20,280,"");
+		this.trackInfo.setFormat(null,32,-1,"right");
+		this.add(this.trackInfo);
+		this.updateTrackInfo();
 		StateTransitioner.init(this);
 		StateTransitioner.slideFromBlackTransition();
 		this.positionMenu();
@@ -11070,6 +11075,7 @@ TrackSelectState.prototype = $extend(flixel_FlxState.prototype,{
 					this.positionMenu();
 				}
 			}
+			this.updateTrackInfo();
 			var _this = flixel_FlxG.keys.justPressed;
 			if(_this.keyManager.checkStatusUnsafe(13,_this.status) && !this.isSelecting) {
 				this.isSelecting = true;
@@ -11147,6 +11153,12 @@ TrackSelectState.prototype = $extend(flixel_FlxState.prototype,{
 				flixel_FlxG.log.advanced("`onOutroComplete` was called after the state was switched. This will be ignored",flixel_system_debug_log_LogStyle.WARNING,true,{ fileName : "flixel/FlxG.hx", lineNumber : 385, className : "flixel.FlxG", methodName : "switchState"});
 			}
 		});
+	}
+	,updateTrackInfo: function() {
+		if(this.trackOptions.length > 0) {
+			var track = this.trackOptions[this.selectedIndex];
+			this.trackInfo.set_text("Title: " + track.name + "\n" + "Artist: " + track.artist + "\n" + "BPM: " + track.bpm + "\n" + "Difficulty: " + track.difficulty);
+		}
 	}
 	,__class__: TrackSelectState
 });
@@ -87915,7 +87927,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 40857;
+	this.version = 468119;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

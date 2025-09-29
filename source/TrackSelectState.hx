@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import flixel.text.FlxText;
 
 class TrackSelectState extends FlxState {
 
@@ -17,6 +18,7 @@ class TrackSelectState extends FlxState {
     private var isSelecting:Bool = false;
 
 	private var trackOptions:Array<TrackData>;
+	private var trackInfo:FlxText;
 
     override public function create() {
         super.create();
@@ -53,6 +55,11 @@ class TrackSelectState extends FlxState {
 			trackOptions.push(songs[i]);
         }
 
+		trackInfo = new FlxText(FlxG.width-300, 20, 280, "");
+		trackInfo.setFormat(null, 32, 0xFFFFFFFF, "right");
+		add(trackInfo);
+		updateTrackInfo();
+
 		StateTransitioner.init(this);
 
 		StateTransitioner.slideFromBlackTransition();
@@ -73,6 +80,7 @@ class TrackSelectState extends FlxState {
                 selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
                 positionMenu();
             }
+			updateTrackInfo();
 			if (FlxG.keys.justPressed.ENTER && !isSelecting)
 			{
 				isSelecting = true;
@@ -137,5 +145,15 @@ class TrackSelectState extends FlxState {
 		FlxG.sound.music.stop();
 
 		FlxG.switchState(() -> new BattleState(track));
+	}
+
+	private function updateTrackInfo():Void {
+	    if (trackOptions.length > 0) {
+	        var track = trackOptions[selectedIndex];
+	        trackInfo.text = "Title: " + track.name + "\n"
+	            + "Artist: " + track.artist + "\n"
+	            + "BPM: " + track.bpm + "\n"
+	            + "Difficulty: " + track.difficulty;
+	    }
 	}
 }
