@@ -917,7 +917,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "59";
+	app.meta.h["build"] = "60";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
@@ -4533,7 +4533,7 @@ BattleState.prototype = $extend(flixel_FlxState.prototype,{
 			var noteSprite = this.noteSprites[i];
 			if(!note.hit) {
 				var timeUntil = note.time - songPos;
-				var speed = 200;
+				var speed = 400;
 				noteSprite.set_x(this.hitLineX - timeUntil * speed);
 				noteSprite.set_visible(true);
 			} else {
@@ -4570,10 +4570,10 @@ BattleState.prototype = $extend(flixel_FlxState.prototype,{
 					this.lastScoreText.set_text("OKAY");
 				}
 				this.scoreText.set_text("Score: " + this.score);
-				this.animatePunch();
 			} else {
 				this.lastScoreText.set_text("MISS");
 			}
+			this.animatePunch();
 		}
 		if(this.isAnimating) {
 			this.spriteTimer += elapsed;
@@ -87915,7 +87915,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 789258;
+	this.version = 40857;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

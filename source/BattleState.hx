@@ -133,11 +133,12 @@ class BattleState extends FlxState {
                 }
 
                 scoreText.text = "Score: " + score;
-
-                animatePunch();
             } else {
                 lastScoreText.text = "MISS";
             }
+
+            // Always punch
+            animatePunch();
         }
 
         if (isAnimating) {
