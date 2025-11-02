@@ -23,7 +23,7 @@ class TitleState extends FlxState {
 
 
         BackgroundColor = new FlxSprite(0, 0);
-        BackgroundColor.makeGraphic(FlxG.width, FlxG.height, 0xFF4B4B4B);
+        BackgroundColor.makeGraphic(FlxG.width, FlxG.height, 0xFFCFCFCF);
         add(BackgroundColor);
 
         Background = new FlxSprite(0, 0);
