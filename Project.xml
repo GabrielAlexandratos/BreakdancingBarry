@@ -128,9 +128,12 @@
 		<image path="images/cursors/talk_cursor.png" />
 
 		<!-- Main Menu Images -->
-		<image path="images/mainmenu/storymode.png" />
-		<image path="images/mainmenu/trackselect.png" />
-		<image path="images/mainmenu/exitoption.png" />
+		<image path="images/mainmenu/startOption.png" />
+		<image path="images/mainmenu/startOption_selected.png" />
+		<image path="images/mainmenu/trackselectOption.png" />
+		<image path="images/mainmenu/trackselectOption_selected.png" />
+		<image path="images/mainmenu/exitOption.png" />
+		<image path="images/mainmenu/exitOption_selected.png" />
 
 		<!-- Music -->
 		<music path="music/titleIntro.mp3" />

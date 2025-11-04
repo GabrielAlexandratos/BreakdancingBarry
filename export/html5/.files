@@ -84,9 +84,12 @@ export/html5/bin/assets/images/pressE0002.png
 export/html5/bin/assets/images/paused.png
 export/html5/bin/assets/images/cursors/pointer_cursor.png
 export/html5/bin/assets/images/cursors/talk_cursor.png
-export/html5/bin/assets/images/mainmenu/storymode.png
-export/html5/bin/assets/images/mainmenu/trackselect.png
-export/html5/bin/assets/images/mainmenu/exitoption.png
+export/html5/bin/assets/images/mainmenu/startOption.png
+export/html5/bin/assets/images/mainmenu/startOption_selected.png
+export/html5/bin/assets/images/mainmenu/trackselectOption.png
+export/html5/bin/assets/images/mainmenu/trackselectOption_selected.png
+export/html5/bin/assets/images/mainmenu/exitOption.png
+export/html5/bin/assets/images/mainmenu/exitOption_selected.png
 export/html5/bin/assets/music/titleIntro.mp3
 export/html5/bin/assets/music/titleLoop.mp3
 export/html5/bin/assets/music/trackSelectLoop.mp3

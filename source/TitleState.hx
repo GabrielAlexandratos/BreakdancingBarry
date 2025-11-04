@@ -45,21 +45,21 @@ class TitleState extends FlxState {
 		var menuOptionsScaleFactor = 1;
 
 		var startOption = new FlxSprite(0, 0);
-		startOption.loadGraphic("assets/images/mainmenu/storymode.png", false);
+		startOption.loadGraphic("assets/images/mainmenu/startOption.png", false);
 		startOption.origin.set(0, startOption.height / 2);
 		startOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(startOption);
 		menuOptions.push(startOption);
 
 		var optionsOption = new FlxSprite(0, 0);
-		optionsOption.loadGraphic("assets/images/mainmenu/trackselect.png", false);
+		optionsOption.loadGraphic("assets/images/mainmenu/trackselectOption.png", false);
 		optionsOption.origin.set(0, optionsOption.height / 2);
 		optionsOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(optionsOption);
 		menuOptions.push(optionsOption);
 
 		var exitOption = new FlxSprite(0, 0);
-		exitOption.loadGraphic("assets/images/mainmenu/exitoption.png", false);
+		exitOption.loadGraphic("assets/images/mainmenu/exitOption.png", false);
 		exitOption.origin.set(0, exitOption.height / 2);
 		exitOption.scale.set(menuOptionsScaleFactor, menuOptionsScaleFactor);
 		add(exitOption);
@@ -95,16 +95,24 @@ class TitleState extends FlxState {
 			
 			if (FlxG.keys.justPressed.W || FlxG.keys.justPressed.UP)
 			{
-				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
-				selectedIndex = Std.int(Math.max(0, selectedIndex - 1));
-				positionMenu();
-			}
-			else if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.DOWN)
-			{
-				FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
-				selectedIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
-				positionMenu();
-			}
+				var newIndex = Std.int(Math.max(0, selectedIndex - 1));
+				if (newIndex != selectedIndex)
+				{
+					selectedIndex = newIndex;
+					FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+					positionMenu();
+				}
+            }
+            else if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.DOWN)
+            {
+				var newIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
+				if (newIndex != selectedIndex)
+				{
+					selectedIndex = newIndex;
+					FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+					positionMenu();
+				}
+            }
 			if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.SPACE)
 			{
 				onSelect();
@@ -119,17 +127,13 @@ class TitleState extends FlxState {
 		for (i in 0...menuOptions.length)
 		{
 			var option = menuOptions[i];
-			option.y = (FlxG.height / 2 - option.height / 2) + (i - middleIndex) * spacing;
-			var targetX = (i == selectedIndex) ? 115 : 30;
-			FlxTween.tween(option, {x: targetX}, 0.2, {ease: FlxEase.expoOut});
+			option.y = (FlxG.height / 2 - option.height / 2) + i * spacing;
 
 			// Swap sprite based on selection
 			if (i == selectedIndex)
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + "_selected.png", false);
 			else
 				option.loadGraphic("assets/images/mainmenu/" + getOptionName(i) + ".png", false);
-			// re center the origin for the new graphic
-			option.origin.set(0, option.height / 2);
 		}
 	}
 
@@ -138,13 +142,13 @@ class TitleState extends FlxState {
 		switch (index)
 		{
 			case 0:
-				return "start";
+				return "startOption";
 			case 1:
-				return "options";
+				return "trackselectOption";
 			case 2:
-				return "exit";
+				return "exitOption";
 			default:
-				return "start";
+				return "startOption";
 		}
 	}
 
@@ -165,7 +169,7 @@ class TitleState extends FlxState {
 			if (blinkCount >= 20)
 			{
 				option.visible = true;
-				// choose transition effect to fade out if its story mode time
+				// choose transition effect to fade out if its story mode
 				switch (selectedIndex)
 				{
 					case 0: // story mode
@@ -181,7 +185,7 @@ class TitleState extends FlxState {
 						new FlxTimer().start(1, function(_)
 						{
 							executeOption(selectedIndex);
-							isSelecting = false;
+						 isSelecting = false;
 						});	
 				}
 
