@@ -917,12 +917,12 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "64";
+	app.meta.h["build"] = "65";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "BreakdancingBarry";
 	app.meta.h["name"] = "Beat Boxing Barry";
 	app.meta.h["packageName"] = "com.example.myapp";
-	app.meta.h["version"] = "0.0.1";
+	app.meta.h["version"] = "0.0.2";
 	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 1080, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "Beat Boxing Barry", width : 1920, x : null, y : null};
 	attributes.context = { antialiasing : 0, background : 0, colorDepth : 32, depth : true, hardware : true, stencil : true, type : null, vsync : false};
 	if(app.__window == null) {
@@ -10857,7 +10857,7 @@ TitleState.prototype = $extend(flixel_FlxState.prototype,{
 			var option = this.menuOptions[i];
 			option.set_y(flixel_FlxG.height / 2 - option.get_height() / 2 + i * spacing);
 			if(i == this.selectedIndex) {
-				option.loadGraphic("assets/images/mainmenu/" + this.getOptionName(i) + ".png",false);
+				option.loadGraphic("assets/images/mainmenu/" + this.getOptionName(i) + "_selected.png",false);
 			} else {
 				option.loadGraphic("assets/images/mainmenu/" + this.getOptionName(i) + ".png",false);
 			}
@@ -87920,7 +87920,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 694656;
+	this.version = 473880;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
