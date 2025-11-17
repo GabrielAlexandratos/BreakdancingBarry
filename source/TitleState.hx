@@ -10,20 +10,23 @@ import flixel.util.FlxTimer;
 
 class TitleState extends FlxState {
 
-	private var TitleLogo:FlxSprite;
     private var Background:FlxSprite;
     private var BackgroundColor:FlxSprite;
-	private var menuOptions:Array<FlxSprite>;
-	private var selectedIndex:Int;
-	private var isSelecting:Bool = false;
+    private var menuOptions:Array<FlxSprite>;
+    private var selectedIndex:Int;
+    private var isSelecting:Bool = false;
+	private var ignoreMouseUntilMoved:Bool = false;
+	private var prevMouseX:Float = -1;
+	private var prevMouseY:Float = -1;
 
-	override public function create() {
-
-		super.create();
-
+    override public function create() {
+		ignoreMouseUntilMoved = false;
+		prevMouseX = -1;
+		prevMouseY = -1;
+        super.create();
 
         BackgroundColor = new FlxSprite(0, 0);
-        BackgroundColor.makeGraphic(FlxG.width, FlxG.height, 0xFFCFCFCF);
+        BackgroundColor.makeGraphic(FlxG.width, FlxG.height, 0xFF232323);
         add(BackgroundColor);
 
         Background = new FlxSprite(0, 0);
@@ -33,12 +36,6 @@ class TitleState extends FlxState {
 		Background.screenCenter();
         add(Background);
 
-		TitleLogo = new FlxSprite(0, 0);
-		TitleLogo.loadGraphic("assets/images/BarryLogo.png", false);
-		TitleLogo.origin.set(TitleLogo.width / 2 - 30, TitleLogo.height / 2 - 270);
-        TitleLogo.scale.set(0.3, 0.3);
-		TitleLogo.screenCenter();
-		// add(TitleLogo);
 		menuOptions = [];
 		selectedIndex = 0;
 
@@ -76,49 +73,69 @@ class TitleState extends FlxState {
 
 		super.update(elapsed);
 		var mousePos = FlxG.mouse.getWorldPosition();
-		if (!isSelecting)
+		// re enable mouse selection if the mouse is moved
+		var mouseMoved = (mousePos.x != prevMouseX) || (mousePos.y != prevMouseY);
+		if (mouseMoved)
 		{
+			prevMouseX = mousePos.x;
+			prevMouseY = mousePos.y;
+			ignoreMouseUntilMoved = false;
+		}
+
+        if (!isSelecting)
+        {
 			// MOUSE SELECTING IN TITLE MENU
-			/*for (i in 0...menuOptions.length)
+			if (!ignoreMouseUntilMoved)
 			{
-				var option = menuOptions[i];
-				if (option.overlapsPoint(mousePos))
+				for (i in 0...menuOptions.length)
 				{
-					if (selectedIndex != i)
+					var option = menuOptions[i];
+					if (option.overlapsPoint(mousePos))
 					{
-						selectedIndex = i;
-						FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
-						positionMenu();
+						if (selectedIndex != i)
+						{
+							selectedIndex = i;
+							FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+							positionMenu();
+						}
+
+						if(FlxG.mouse.justPressed)
+						{
+							onSelect();
+						}
 					}
 				}
-			}*/
-			
+			}
+            
+			//ignore mosue when keyboard is used
 			if (FlxG.keys.justPressed.W || FlxG.keys.justPressed.UP)
-			{
-				var newIndex = Std.int(Math.max(0, selectedIndex - 1));
-				if (newIndex != selectedIndex)
-				{
-					selectedIndex = newIndex;
-					FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
-					positionMenu();
-				}
+            {
+				ignoreMouseUntilMoved = true;
+                var newIndex = Std.int(Math.max(0, selectedIndex - 1));
+                if (newIndex != selectedIndex)
+                {
+                    selectedIndex = newIndex;
+                    FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+                    positionMenu();
+                }
             }
             else if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.DOWN)
             {
-				var newIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
-				if (newIndex != selectedIndex)
-				{
-					selectedIndex = newIndex;
-					FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
-					positionMenu();
-				}
+				ignoreMouseUntilMoved = true;
+                var newIndex = Std.int(Math.min(menuOptions.length - 1, selectedIndex + 1));
+                if (newIndex != selectedIndex)
+                {
+                    selectedIndex = newIndex;
+                    FlxG.sound.play("assets/sounds/optionChangeSFX.mp3", 0.2);
+                    positionMenu();
+                }
             }
-			if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.SPACE)
-			{
-				onSelect();
-			}
-		}
-	}
+            if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.SPACE)
+            {
+                onSelect();
+            }
+        }
+    }
 
 	private function positionMenu():Void
 	{
@@ -188,7 +205,6 @@ class TitleState extends FlxState {
 						 isSelecting = false;
 						});	
 				}
-
 			}
 		}, 20);
 	}
